@@ -1,14 +1,13 @@
 ---
 layout: default
-title: "Overview: Platforms"
-short-title: Platforms
-description: "You can use Dart when writing web apps, standalone apps, servers, mobile apps, and embedded apps."
+title: "Обзор: Платформы"
+short-title: Платформы
+description: "Вы можете использовать Dart, когда пишите web приложение, самостоятельное приложение, сервер, мобильное приложение и встроенное приложение."
 toc: false
 ---
 
-Dart is a scalable language that you can use to write simple scripts or full
-featured apps. Whether you're creating a mobile app, web app, command-line script,
-or server-side app, there's a Dart solution for that.
+Dart - это масштабирумый язык, который вы можете использовать для написания простых скриптов или
+полно-функциональных приложений. Будь то вы создаёте мобильное приложение, web приложение, скрипт командной строки или серверное приложение, Dart подходящее решение для этого.
 
 {:.card-grid}
 - {:.card.narrow}[![Flutter logo][]{: width="100"}][Flutter]{:.no-automatic-external}
@@ -16,21 +15,21 @@ or server-side app, there's a Dart solution for that.
 
   ### [Flutter][]
 
-  Write a mobile app that runs on both iOS and Android.
+  Напишите мобильное приложение, которое запускается на iOS и Android.
 
 - {:.card.narrow}[![Web logo][]{: width="100"}][Web]{:.no-automatic-external}
   {:.logo}
 
   ### [Web][]
 
-  Write an app that runs in any modern web browser.
+  Напишите приложение, которое запускается в современных браузерах.
 
 - {:.card.narrow}[![Dart logo representing server-side Dart][Dart logo]{: width="100"}][Server]{:.no-automatic-external}
   {:.logo}
 
-  ### [Server][]
+  ### [Сервер][]
 
-  Write a command-line app or server-side app.
+  Напишите приложение командной строки или приложение, работающее на стороне сервера.
 
 
 [Dart logo]: {% asset shared/dart/logo/default.svg @path %}

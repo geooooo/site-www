@@ -1,54 +1,48 @@
 ---
 layout: default
-title: "Dart Testing"
-description: "How to test Flutter, Web, and VM Applications."
+title: "Тестирование на Dart"
+description: "Как тестировать Flutter, Web, и VM приложения."
 ---
 
-Software testing, an important part of app development, helps verify that
-your app is working correctly before you release it.
-This Dart testing guide outlines several types of testing, and points
-you to where you can learn how to test your
-[mobile]({{site.flutter}}), [web]({{site.webdev}}),
-and [server-side apps and scripts](/dart-vm).
+Тестирование программного обеспечения - важная часть разработки приложений, помогающая проверить,
+что ваше приложение работает корректно перед тем, как вы его отправите в релиз.
+Это руководство по тестированию на Dart охватывает несколько типов тестирования и
+точек, где вы можете изучить как тестировать ваше
+[мобильное]({{site.flutter}}), [web]({{site.webdev}}),
+и [серверное приложение и скрипт](/dart-vm).
 
 <aside class="alert alert-info" markdown="1">
-**Terminology: widget vs. component**<br>
-Flutter, an SDK for building apps for iOS and Android, defines its
-GUI elements as _widgets_. AngularDart, a web app framework,
-defines its GUI elements as _components_.
-This doc uses **component** (except when explicitly discussing Flutter),
-but both terms refer to the same concept.
+**Терминология: виджеты против компонентов**<br>
+Flutter это SDK для сборки приложений под iOS и Android, определяет
+такие элементы GUI как _виджеты_. AngularDart - фреймворк для web приложений, определяет
+такие элементы GUI как  _компоненты_.
+Этот документ использует понятие **компонент** (За исключением, когда ведётся разговор конкретно про Flutter), но оба термина подразумевают одно и то же.
 </aside>
 
-## Kinds of testing
+## Виды тестирования
 
-The Dart testing docs focus on three kinds of testing, out of the
-[many kinds of testing](https://en.wikipedia.org/wiki/Software_testing)
-that you may be familiar with: unit, component, and end-to-end
-(a form of integration testing). Testing terminology varies,
-but these are the terms and concepts that you are likely to
-encounter when using Dart technologies:
+Документация по тестированию на Dart фокусируется на трёх видах тестирования,
+вне [многих видов тестирования](https://en.wikipedia.org/wiki/Software_testing)
+так что вы может быть знакомы с: модульным, компонентным и e2e тестированием (форма интеграционного тестирования).
+Терминология тестирования варьируется, но вот термины и концепции, с которыми вы скорее всего столкнётесь,
+когда будете использовать технологии на Dart:
 
-* _Unit_ tests focus on verifying the smallest piece of testable
-  software, such as a function, method, or class. Your test suites
-  should have more unit tests than other kinds of tests.
+* _Модульные_ тесты фокусируются на проверке мелких кусоков тестируемой программы, таких как функции,
+  методы или классы. Ваше наборы тестов должны иметь больше модульных тестов чем других видов тестов.
 
-* _Component_ tests verify that a component (which
-  usually consists of multiple classes) behaves as expected.
-  A component test often requires the use of mock objects
-  that can mimic user actions, events, perform layout,
-  and instantiate child components.
+* _Компонентные_ тесты проверяют, чтобы компонент (который обычно состоит из множества классов)
+  вёл себя ожидаемым образом. Компонентные тесты часто требуют использования mock объектов, чтобы
+  мочь имитировать действия пользователя, события, представлять расположение и создавать
+  дочерние компоненты.
 
-* _Integration_ and _end-to-end_ tests verify the behavior of
-  an entire app, or a large chunk of an app. An integration test
-  generally runs on a real device or OS simulator (for mobile)
-  or on a browser (for the web) and consists of two pieces:
-  the app itself, and the test app that puts
-  the app through its paces. An integration test often measures performance,
-  so the test app generally runs on a different device or OS
-  than the app being tested.
+* _Интеграционные_ и _e2e_ тесты проверяют поведение целого приложения или большой части приложения.
+  Интеграционные тесты в общем запускаются на реальных устройствах или эмуляторах ОС (для мобильных) или
+  в браузере (для web) и состоят из двух частей:
+  самого приложения и тестового приложения, чтобы пропустить приложение через несколько шагов.
+  Интеграционные тесты часто измеряют производительность, таким образом тестируемое
+  приложение в обычно запускается на отдельном устройстве или ОС, чтобы приложение могло быть протестировано.
 
-## Generally useful libraries
+## Наиболее полезные библиотеки
 
 Although your tests partly depend on the platform your code is intended
 for&mdash;Flutter, the web, or server-side, for example&mdash;the

@@ -1,6 +1,6 @@
 <aside class="alert alert-warning" markdown="1">
-**Obsolete content:**
-Most of these articles haven't been updated to reflect the latest release.
-To find newer articles, look in
-[Medium's dartlang channel.](https://medium.com/dartlang)
+**Устаревший контент:**
+Большинство этих статей не обновлялись, затрагивая последний релиз.
+Чтобы найти новые статьи, посмотрите на
+[канал Medium's dartlang.](https://medium.com/dartlang)
 </aside>

@@ -1,29 +1,29 @@
 ---
-title: Guides
-description: Read about the Dart language and libraries with this collection of guides.
+title: Руководства
+description: Прочитайте о языке Dart и его библиотеках вместе с этой коллекцией руководств.
 permalink: /guides
 toc: false
 ---
 
-Read these guides to learn about the Dart language and its libraries.
+Прочитайте о языке Dart и его библиотеках вместе с этой коллекцией руководств.
 
-Also see:
+Смотрите также:
 
-* [Flutter guides]({{site.flutter}})
-* [Web development guides]({{site.webdev}}/guides)
-* [Server-side get started tutorial](/tutorials/dart-vm/get-started)
+* [Руководства по Flutter]({{site.flutter}})
+* [Руководства по Web разработке]({{site.webdev}}/guides)
+* [Руководство об использовании на стороне сервера](/tutorials/dart-vm/get-started)
 
-The getting started guide helps you get up and running with Dart as quickly as possible.
+Начальные руководтсва помогут вам получить навыки в Dart быстро и доступно.
 
-* [Get Started](/guides/get-started)
+* [Начать](/guides/get-started)
 
-The following guides teach you about the Dart language.
+Следующие руководства раскажут вам о языке Dart.
 
-* [Language Tour](/guides/language/language-tour) (for more detail, see the [language specification](/guides/language/spec))
-* [Effective Dart](/guides/language/effective-dart)
+* [Тур по языку](/guides/language/language-tour) (за большей информацией смотрите [спецификация языка](/guides/language/spec))
+* [эффективный Dart](/guides/language/effective-dart)
 
-The following guides teach you about Dart's core libraries.
+Следующие руководства раскажут вам о стандартной библиотеке Dart.
 
-* [Library Tour](/guides/libraries/library-tour)
-* [Create Library Packages](/guides/libraries/create-library-packages)
-* [What Not to Commit](/guides/libraries/private-files)
+* [Тур по библиотеке](/guides/libraries/library-tour)
+* [Создание пакета библиотеки](/guides/libraries/create-library-packages)
+* [Что не надо коммитить](/guides/libraries/private-files)

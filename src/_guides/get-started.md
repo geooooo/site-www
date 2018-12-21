@@ -1,14 +1,13 @@
 ---
-title: Get Started
-description: A guide to getting started with Dart.
+title: Начать
+description: Руководство по начальному знакомству с Dart.
 toc: false
 ---
 
-Jump right in. Use the embedded DartPad below to play with Dart and to experience the language and core APIs.
-DartPad is a quick and easy way to
-become familiar with Dart language features
-([more info](/tools/dartpad)).
-You can also open [DartPad in a new window.]({{site.custom.dartpad.direct-link}}){:target="_blank"}
+Взгляни. Используй встроенный DartPad ниже чтобы поиграться с Dart, попробовать язык и стандартное API.
+DartPad - это быстрый и лёгкий путь для знакомства с возможностями языка.
+([Больше информации](/tools/dartpad)).
+Вы также можете открыть [DartPad в новом окне.]({{site.custom.dartpad.direct-link}}){:target="_blank"}
 
 <iframe
 src="{{site.custom.dartpad.embed-dart-prefix}}?horizontalRatio=70&verticalRatio=65"
@@ -17,27 +16,25 @@ src="{{site.custom.dartpad.embed-dart-prefix}}?horizontalRatio=70&verticalRatio=
     style="border: 1px solid #ccc;">
 </iframe>
 
-Note that DartPad supports only a few core libraries.
-If you want to use other libraries,
-such as dart:io or libraries from packages,
-you'll need to download platform-specific tools.
+Обратите внимание, что DartPad поддерживает только малую часть стандартной библиотеки.
+Если вы хотите использовать другие библиотеки, такие как dart:io или библиотеки из пакетов,
+вы должны загрузить специфичные для платформы утилиты.
 
+## Что дальше?
 
-## What next?
+Узнайте о [языке](/guides/language) Dart  и
+[стандартной библиотеке](/guides/libraries) на этом сайте.
 
-Learn about the Dart [language](/guides/language) and
-[core libraries](/guides/libraries) on this site.
-Once you have a use case in mind, go to the "get started" instructions
-for the appropriate Dart platform:
+Если у вас есть пример использования, следуйте к инструкциям "Начать" для подходящей Dart платформе:
 
-| **Platform** | | **Use case** | **Get started** |
-| **Mobile** | <i class="fab fa-android" aria-hidden="true"></i> <i class="fab fa-apple" aria-hidden="true"></i> | Create an app from a single codebase that runs on both iOS and Android. | <a href="https://flutter.io/getting-started/" class="btn btn-primary no-automatic-external">Flutter</a> |
-| **Web** | <i class="fas fa-code fa-sm" aria-hidden="true"></i> | Create an app that runs in any modern browser. | <a href="{{site.webdev}}/guides/get-started" class="btn btn-primary no-automatic-external">Dart for the web</a> |
-| **Server** | <i class="fas fa-terminal fa-sm" aria-hidden="true"></i> | Create a command-line tool or server. | <a href="/tutorials/dart-vm/get-started" class="btn btn-primary">Server-side Dart</a> |
+| **Платформа** | | **Вариант использования** | **Начать** |
+| **Mobile** | <i class="fab fa-android" aria-hidden="true"></i> <i class="fab fa-apple" aria-hidden="true"></i> | Создайте приложение из единой кодовой базы, которое будет работать на iOS и Android. | <a href="https://flutter.io/getting-started/" class="btn btn-primary no-automatic-external">Flutter</a> |
+| **Web** | <i class="fas fa-code fa-sm" aria-hidden="true"></i> | Создайте приложение, которое запускается в современных браузерах. | <a href="{{site.webdev}}/guides/get-started" class="btn btn-primary no-automatic-external">Dart для web</a> |
+| **Server** | <i class="fas fa-terminal fa-sm" aria-hidden="true"></i> | Создайте утилиту командной строки или сервер. | <a href="/tutorials/dart-vm/get-started" class="btn btn-primary">Dart на стороне сервера</a> |
 {:.get-started-table}
 
-Here are some other resources:
+Здесь некоторые другие ресурсы:
 
-* [Books](/resources/books)
-* [Sample Code](/samples)
-* [Community and Support](/community)
+* [Книги](/resources/books)
+* [Примеры кода](/samples)
+* [Сообщество и поддержка](/community)

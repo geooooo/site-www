@@ -1,6 +1,6 @@
 <aside class="alert alert-info" markdown="1">
-  **Note:** Pub used to support building apps
-  through commands like `pub build` and `pub serve`.
-  That functionality is now in other tools such as the build system.
-  For details, see [Obsolete Pub Features](/tools/pub/obsolete).
+  **Замечание:** Pub используется для сборки приложений
+  с помощью команд как `pub build` и `pub serve`.
+  Эта функциональность сейчас в других утилитах - системе сборки.
+  Подробности смотрите в [Устаревшие функционал Pub](/tools/pub/obsolete).
 </aside>

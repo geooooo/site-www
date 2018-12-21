@@ -1,5 +1,5 @@
 <aside class="alert alert-info" markdown="1">
-  **Version note:** In Dart 1.x, async functions immediately suspended
-  execution. In Dart 2, instead of immediately suspending, async functions
-  execute synchronously until the first `await` or `return`.
+  **Замечание по версии:** В Dart 1.x, асинхронные функции немедленно приостанавливают исполнение.
+  В Dart 2, вместо немедленной приостановки, асинхронные функции выполняются синхронно до первого
+  `await` или `return`.
 </aside>
