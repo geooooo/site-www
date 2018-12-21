@@ -44,108 +44,94 @@ Flutter это SDK для сборки приложений под iOS и Androi
 
 ## Наиболее полезные библиотеки
 
-Although your tests partly depend on the platform your code is intended
-for&mdash;Flutter, the web, or server-side, for example&mdash;the
-following packages are useful across Dart platforms:
+Хотя ваши тесты частично зависимы от платформы, для которой предназначен ваш код
+&mdash;Flutter, web или сервер, к примеру&mdash;следующие пакеты полезны на всех платформах:
 
 * [package:test](https://pub.dartlang.org/packages/test)<br>
-  Provides a standard way of writing tests in Dart. You can use the test
-  package to:
-    * Write single tests, or groups of tests.
-    * Use the `@TestOn` annotation to restrict tests to run on
-      specific environments.
-    * Write asynchronous tests just as you would write synchronous
-      tests.
-    * Tag tests using the `@Tag` annotation. For example, define a tag to
-      create a custom configuration for some tests, or to identify some tests
-      as needing more time to complete.
-    * Create a `dart_test.yaml` file to configure tagged tests across
-      multiple files or an entire package.
-
+  Предоставляет стандартный способ написания тестов в Dart. Вы можете использовать
+  пакет тестирования для:
+  * Написания одиночных или сгруппированных тестов.
+  * Использовать аннотацию `@TestOn` для запуска тестов на конкретных условиях.
+  * Писать асинхронные тесты также просто, как будто вы пишите синхронные тесты
+  * Пометить тесты, используя аннотацию `@Tag`. Для примера, определить тег, чтобы создать
+    собственную конфигурацию для некоторых тестов или идентифицировать некоторые тесты
+    как нуждающиеся в большем времени для завершения.
+  * Создать файл `dart_test.yaml` для конфигурирования помеченных тестов на множестве
+    файлов или целом пакете.
 
 * [package:mockito](https://pub.dartlang.org/packages/mockito)<br>
-  Provides a way to create
-  [mock objects,](https://en.wikipedia.org/wiki/Mock_object)
-  easily configured for use in fixed scenarios, and to verify
-  that the system under test interacts with the mock object in
-  expected ways.
-  For an example that uses both package:test and package:mockito,
-  see the [International Space Station API library and its unit
+  Предоставляет возможность создать
+  [mock объекты,](https://en.wikipedia.org/wiki/Mock_object)
+  легко конфигурируемые для использования в фиксированных сценариях и
+  проверить, что тестируемая система взаимодействует с mock объектом ожидаемым образом.
+  На примеры использования package:test и package:mockito,
+  смотрите [International Space Station API library and its unit
   tests](https://github.com/dart-lang/mockito/tree/master/test/example/iss)
-  in the [mockito package](https://github.com/dart-lang/mockito).
+  в [пакете mockito](https://github.com/dart-lang/mockito).
 
-## Flutter testing
+## Тестирование Flutter
 
-Use the following resources to learn more about testing Flutter apps:
+Используйте следующие ресурсы для большего изучения о тестировании приложений на Flutter:
 
-* [Testing Flutter Apps](https://flutter.io/testing/)<br>
-  How to perform unit, widget, or integration tests on a Flutter app.
+* [Тестирование Flutter приложений](https://flutter.io/testing/)<br>
+  Как выполнить модуль, виджет или интеграционные тесты в приложении на Flutter.
 * [flutter_test](https://docs.flutter.io/flutter/flutter_test/flutter_test-library.html)<br>
-  A testing library for Flutter built on top of package:test.
+  Библиотека тестирования для Flutter собранная поверх package:test.
 * [flutter_driver](https://docs.flutter.io/flutter/flutter_driver/flutter_driver-library.html)<br>
-  A testing library for testing Flutter applications on real devices and
-  emulators (in a separate process).
+  Библиотека для тестирования Flutter приложений на реальный устройствах и эмуляторах (в раздельных процессах).
 * [flutter/examples/flutter_gallery](https://github.com/flutter/flutter/tree/master/examples/flutter_gallery)<br>
-  Tests for the Flutter gallery example.
+  Примеры тестов для Flutter gallery.
 * [flutter/dev/manual_tests](https://github.com/flutter/flutter/tree/master/dev/manual_tests)<br>
-  Many examples of tests in the Flutter SDK.
+  Множество примеров тестов в Flutter SDK.
 
-## Web testing
+## Тестирование Web
 
-Use the following resources to learn more about testing Dart web
-applications:
+Используйте следующие ресурсы для большего изучения того, как тестировать на Dart web
+приложения:
 
-* [Testing]({{site.webdev}}/angular/guide/testing)(a page
-  in the AngularDart guide)<br>
-  How to use the [angular_test](https://pub.dartlang.org/packages/angular_test)
-  package to test AngularDart components and subsystems.
+* [Testing]({{site.webdev}}/angular/guide/testing)(Страница в руководстве по AngularDart)<br>
+  Как использовать [angular_test](https://pub.dartlang.org/packages/angular_test)
+  пакет для тестирования AngularDart компонентов и подсистем.
   <!-- More pages are coming! -->
 * [package:webdriver](https://pub.dartlang.org/packages/webdriver)<br>
-  A Dart package for interfacing with
-  [WebDriver](https://www.w3.org/TR/webdriver/) servers.
+  Пакет на Dart для взаимодействия с
+  [WebDriver](https://www.w3.org/TR/webdriver/) серверами
 
-## Other tools and resources
-
-You may also find the following resources useful for developing and
-debugging Dart applications.
+## Другие утилиты и ресурсы
+Вы также можете найти следующие ресурсы полезными для разработки и отладки приложений на Dart.
 
 ### IDE
 
-When it comes to debugging, your first line of defense is your IDE.
-Dart plugins exist for many commonly used IDEs.
+Когда наступит время отладки, ваша первая линия обороны - ваша IDE.
+Dart плагины существуют для множества наиболее используемых IDE.
 
-If you don't have a preferred IDE, try
-[WebStorm]({{site.webdev}}/tools/webstorm) for web apps, or
-[IntelliJ](https://www.dartlang.org/tools/jetbrains-plugin) for Flutter.
-The JetBrains products have a full-featured Dart debugger, and WebStorm and
-IntelliJ Ultimate include additional built-in support for running test suites.
+Если у вас нет предпочитаемой IDE, попробуйте
+[WebStorm]({{site.webdev}}/tools/webstorm) для web приложений или
+[IntelliJ](https://www.dartlang.org/tools/jetbrains-plugin) для Flutter.
+Продукты JetBrains включают полно-функциональный отладчик для Dart, WebStorm и
+IntelliJ Ultimate включают дополнительную встроенную поддержку для запуска набора тестов.
 
 ### Observatory
 
-Observatory is a browser-based tool for profiling and debugging your
-Dart applications. You can learn more using the following resources:
+Observatory - это основанный на браузере инструмент для профилирования и отладки ваших Dart приложений.
+Вы можете изучить больше, воспользовавшись следующими ресурсами:
 
-* [Observatory: A Profiler for Dart
-  Apps](https://dart-lang.github.io/observatory/)
-* [Dart
-  Observatory](https://flutter.io/debugging/#dart-observatory-statement-level-single-stepping-debugger-and-profiler),
-  a section in [Debugging Flutter Apps](https://flutter.io/debugging/)
-* [Dart VM
-  Observatory](https://groups.google.com/a/dartlang.org/forum/#!forum/observatory-discuss)
-  discussion group
+* [Observatory: профайлер для Dart приложений](https://dart-lang.github.io/observatory/)
+* [Dart Observatory](https://flutter.io/debugging/#dart-observatory-statement-level-single-stepping-debugger-and-profiler),
+  раздел в [Отладка Flutter приложений](https://flutter.io/debugging/)
+* [Dart VM Observatory](https://groups.google.com/a/dartlang.org/forum/#!forum/observatory-discuss)
+  группа обсуждений
 
-### Continuous integration
+### Непрерывная интеграция
 
-Consider using continuous integration (CI) to build your project
-and run its tests after every commit. Two CI services for GitHub are
-[Travis CI](https://travis-ci.org/) (for OS X and Unix) and
-[AppVeyor](https://www.appveyor.com/) (for Windows).
+Рассмотрите возможность использовать непрерывную интеграцию (CI) для сборки вашего проекта
+и запуска для него тестов после каждого коммита. Два CI сервиса для GitHub
+[Travis CI](https://travis-ci.org/) (для OS X и Unix) и
+[AppVeyor](https://www.appveyor.com/) (для Windows).
 
-Travis has built-in support for Dart projects.
-Learn more at the following links:
-
-* [Building a Dart Project](https://docs.travis-ci.com/user/languages/dart)
-  covers how to configure Travis for Dart projects
-* The [shelf](https://github.com/dart-lang/shelf/blob/master/.travis.yml)
-  example uses the `dart_task` tag (in `.travis.yml`) to configure
-  the build.
+Travis имеет встроенную поддержку для проектов на Dart.
+Изучите больше по следующим ссылкам:
+* [Сборка Dart проекта](https://docs.travis-ci.com/user/languages/dart)
+  охватывает вопрос о том, как сконфигурировать Travis для проектов на Dart
+* [shelf](https://github.com/dart-lang/shelf/blob/master/.travis.yml)
+  пример использования `dart_task` пометки (в `.travis.yml`) для конфигурирования сборки.
