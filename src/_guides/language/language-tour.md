@@ -402,41 +402,31 @@ baz = [42]; // Ошибка: Константным переменным нел�
 `Map()` конструктор для создания мапы.
 
 
-### Numbers
+### Числа
 
-Dart numbers come in two flavors:
+Числа в Dart бывают двух видов:
 
 [int][]
 
-:   Integer values no larger than 64 bits,
-    depending on the platform.
-    On the Dart VM, values can be from
-    -2<sup>63</sup> to 2<sup>63</sup> - 1.
-    Dart that's compiled to JavaScript uses
-    [JavaScript numbers,][js numbers]
-    allowing values from -2<sup>53</sup> to 2<sup>53</sup> - 1.
-
-{% comment %}
-[PENDING: What about values on Android & iOS?
-The informal spec is at
-https://github.com/dart-lang/sdk/blob/master/docs/language/informal/int64.md.
-{% endcomment %}
+:   Целоечисленные значения не больше 64 бит, зависящие от платформы.
+    На Dart VM, значения могут быть от
+    -2<sup>63</sup> до 2<sup>63</sup> - 1.
+    Dart, который компилируется в JavaScript использует
+    [JavaScript числа, ][js numbers]
+    допустимые значения от -2<sup>53</sup> до 2<sup>53</sup> - 1.
 
 [double][]
 
-:   64-bit (double-precision) floating-point numbers, as specified by
-    the IEEE 754 standard.
+:   64 битные (двойной точности) числа с плавающей точкой,
+    специфицированные стандартом IEEE 754.
 
-Both `int` and `double` are subtypes of [`num`.][num]
-The num type includes basic operators such as +, -, /, and \*,
-and is also where you’ll find `abs()`,` ceil()`,
-and `floor()`, among other methods.
-(Bitwise operators, such as \>\>, are defined in the `int` class.)
-If num and its subtypes don’t have what you’re looking for, the
-[dart:math][] library might.
+`int` и `double` - подтипы [`num`.][num]
+Тип num включает базовые операторы, такие как +, -, / и \*,
+а также, где вы найдёте `abs()`, `ceil()` и `floor()` среди других методов.
+(Побитовые операторы, такие как \>\>, определены в классе `int`)
+Если num и его типы не имеют того, что вы ищите, вам может помочь библиотека [dart:math][].
 
-Integers are numbers without a decimal point. Here are some examples of
-defining integer literals:
+Целые - это числа без десятичной точки, далее несколько примеров определения целых литералов:
 
 <?code-excerpt "misc/lib/language_tour/built_in_types.dart (integer-literals)"?>
 {% prettify dart %}
@@ -444,8 +434,8 @@ var x = 1;
 var hex = 0xDEADBEEF;
 {% endprettify %}
 
-If a number includes a decimal, it is a double. Here are some examples
-of defining double literals:
+Если число включает десятичную точку - это вещественное число (с плавающей точкой) типа `double`.
+Далее несколько примеров определения вещественных литералов:
 
 <?code-excerpt "misc/lib/language_tour/built_in_types.dart (double-literals)"?>
 {% prettify dart %}
@@ -453,21 +443,20 @@ var y = 1.1;
 var exponents = 1.42e5;
 {% endprettify %}
 
-As of Dart 2.1, integer literals are automatically converted to doubles
-when necessary:
+Начиная с Dart 2.1, целые литералы автоматически конвертируются в вещественные когда это необходимо:
 
 <?code-excerpt "misc/lib/language_tour/built_in_types.dart (int-to-double)"?>
 {% prettify dart %}
-double z = 1; // Equivalent to double z = 1.0.
+double z = 1; // Эквивалентно double z = 1.0.
 {% endprettify %}
 
 <aside class="alert alert-info" markdown="1">
-  **Version note:**
-  Before Dart 2.1, it was an error to use an integer literal
-  in a double context.
+  **Замечание по версии:**
+  До Dart 2.1, было ошибкой использовать
+  целый литерал в вещественном контексте.
 </aside>
 
-Here’s how you turn a string into a number, or vice versa:
+Здесь показано, как преобразовать строку в число или наоборот:
 
 <?code-excerpt "misc/test/language_tour/built_in_types_test.dart (number-conversion)"?>
 {% prettify dart %}
@@ -488,8 +477,9 @@ String piAsString = 3.14159.toStringAsFixed(2);
 assert(piAsString == '3.14');
 {% endprettify %}
 
-The int type specifies the traditional bitwise shift (\<\<, \>\>), AND
-(&), and OR (|) operators. For example:
+Тип int поддерживает традиционные побитовые операторы сдвига (\<\<, \>\>),
+побитовые логические операторы: И (&), ИЛИ (|).
+Например:
 
 <?code-excerpt "misc/test/language_tour/built_in_types_test.dart (bit-shifting)"?>
 {% prettify dart %}
@@ -498,10 +488,9 @@ assert((3 >> 1) == 1); // 0011 >> 1 == 0001
 assert((3 | 4) == 7); // 0011 | 0100 == 0111
 {% endprettify %}
 
-Literal numbers are compile-time constants.
-Many arithmetic expressions are also compile-time constants,
-as long as their operands are
-compile-time constants that evaluate to numbers.
+Литералы чисел - константы времени компиляции.
+Многие арифметические выражения также константы времени компиляции,
+до тех пор, пока их операнды константы времени компиляции, которые вычисляются в числа.
 
 <?code-excerpt "misc/lib/language_tour/built_in_types.dart (const-num)"?>
 {% prettify dart %}
@@ -511,7 +500,7 @@ const msUntilRetry = secondsUntilRetry * msPerSecond;
 {% endprettify %}
 
 
-### Strings
+### Строки
 
 A Dart string is a sequence of UTF-16 code units. You can use either
 single or double quotes to create a string:
