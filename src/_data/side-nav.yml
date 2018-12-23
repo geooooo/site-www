@@ -1,58 +1,58 @@
-- title: Language
+- title: Язык
   permalink: /guides/language
   urlExactMatch: true
   children:
-    - title: Tour
+    - title: Тур
       permalink: /guides/language/language-tour
-    - title: Effective Dart
+    - title: Эффективный Dart
       permalink: /guides/language/effective-dart
       children:
-        - title: Style
+        - title: Стиль
           permalink: /guides/language/effective-dart/style
-        - title: Documentation
+        - title: Документация
           permalink: /guides/language/effective-dart/documentation
-        - title: Usage
+        - title: Использование
           permalink: /guides/language/effective-dart/usage
-        - title: Design
+        - title: Дизайн и проектирование
           permalink: /guides/language/effective-dart/design
-    - title: Sample Code
+    - title: Примеры кода
       permalink: /samples
 
-- title: Libraries
+- title: Библиотеки
   permalink: /guides/libraries
   urlExactMatch: true
   children:
-    - title: Tour
+    - title: Тур
       permalink: /guides/libraries/library-tour
 
-- title: Platforms
+- title: Платформы
   permalink: /guides/platforms
   urlExactMatch: true
   children:
-    - title: Mobile (Flutter)
+    - title: Мобильная (Flutter)
       permalink: https://flutter.io
     - title: Web
       permalink: https://webdev.dartlang.org
-    - title: Server
+    - title: Сервер
       permalink: /dart-vm
 
-- title: Testing
+- title: Тестирование
   permalink: /guides/testing
   urlExactMatch: true
 
-- title: Resources
+- title: Ресурсы
   # permalink: /resources
   # urlExactMatch: true
   children:
-  - title: Install
+  - title: Установка
     permalink: /install
   - title: Codelabs
     permalink: /codelabs
-  - title: Tutorials
+  - title: Руководства
     permalink: /tutorials
-  - title: Articles
+  - title: Статьи
     permalink: /articles
-  - title: Tools
+  - title: Утилиты
     permalink: /tools
-  - title: Community and Support
+  - title: Сообщество и поддержка
     permalink: /community

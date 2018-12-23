@@ -1,4 +1,4 @@
-- title: 'Dart: Scalable Application Development'
+- title: 'Dart: Разработка масштабируемых приложений'
   authors:
     - Davy Mitchell
     - Sergey Akopkokhyants
@@ -24,7 +24,7 @@
 - title: Learning Dart - Second Edition
   authors:
     - Ivo Balbaert
-    - Dzenan Ridjanovic 
+    - Dzenan Ridjanovic
   publisher: Packt Publishing
   cover: learning-dart.png
   link: "https://www.packtpub.com/web-development/learning-dart-second-edition"

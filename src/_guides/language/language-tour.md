@@ -502,146 +502,142 @@ const msUntilRetry = secondsUntilRetry * msPerSecond;
 
 ### Строки
 
-A Dart string is a sequence of UTF-16 code units. You can use either
-single or double quotes to create a string:
+В Dart строки - это последовательность кодовых единиц UTF-16.
+Вы можете использовать либо одиночные, либо двойные кавычки для создания строки:
 
 <?code-excerpt "misc/lib/language_tour/built_in_types.dart (quoting)"?>
 {% prettify dart %}
-var s1 = 'Single quotes work well for string literals.';
-var s2 = "Double quotes work just as well.";
-var s3 = 'It\'s easy to escape the string delimiter.';
-var s4 = "It's even easier to use the other delimiter.";
+var s1 = 'Одиночные ковычки отлично работают для строковых литералов.';
+var s2 = "Двойные кавычки работают просто отлично.";
+var s3 = 'Легко экранировать \'разделитель\' строки.';
+var s4 = "Ещё проще использовать другой 'разделитель'.";
 {% endprettify %}
 
-You can put the value of an expression inside a string by using
-`${`*`expression`*`}`. If the expression is an identifier, you can skip
-the {}. To get the string corresponding to an object, Dart calls the
-object’s `toString()` method.
+Вы можете поместить значение выражения внутрь строки, используя
+`${`*`выражение`*`}`. Если выражение - идентификатор, вы можете опустить {}.
+Чтобы получить строковое представление объекта, Dart вызывает метод `toString()` у этого объекта.
 
 <?code-excerpt "misc/test/language_tour/built_in_types_test.dart (string-interpolation)"?>
 {% prettify dart %}
-var s = 'string interpolation';
+var s = 'интерполяция строки';
 
-assert('Dart has $s, which is very handy.' ==
-    'Dart has string interpolation, ' +
-        'which is very handy.');
-assert('That deserves all caps. ' +
-        '${s.toUpperCase()} is very handy!' ==
-    'That deserves all caps. ' +
-        'STRING INTERPOLATION is very handy!');
+assert('У Dart есть $s, которая очень проста.' ==
+    'У Dart есть интерполяция строки, которая очень проста.');
+assert('Это заслуживает больших букв. ' +
+        '${s.toUpperCase()} очень проста!' ==
+    'Это заслуживает больших букв. ИНТЕРПОЛЯЦИЯ СТРОКИ очень проста!');
 {% endprettify %}
 
 <div class="alert alert-info" markdown="1">
-**Note:**
-The `==` operator tests whether two objects are equivalent. Two
-strings are equivalent if they contain the same sequence of code
-units.
+**Замечание:**
+Оператор `==` проверяет два объекта на эквивалентность. Две строки
+эквивалентны, если они содержат одинаковую последовательность кодовых единиц.
 </div>
 
-You can concatenate strings using adjacent string literals or the `+`
-operator:
+Вы можете конкатенировать строки, используя смежный литерал строки или
+оператор `+`:
 
 <?code-excerpt "misc/test/language_tour/built_in_types_test.dart (adjacent-string-literals)"?>
 {% prettify dart %}
-var s1 = 'String '
-    'concatenation'
-    " works even over line breaks.";
+var s1 = 'Конкатенация '
+    'строк'
+    " работает даже с разрывами строк.";
 assert(s1 ==
-    'String concatenation works even over '
-    'line breaks.');
+    'Конкатенация строк'
+    ' работает даже с разрывами строк.');
 
-var s2 = 'The + operator ' + 'works, as well.';
-assert(s2 == 'The + operator works, as well.');
+var s2 = 'Оператор + ' + 'работает отлично.';
+assert(s2 == 'Оператор + работает отлично.');
 {% endprettify %}
 
-Another way to create a multi-line string: use a triple quote with
-either single or double quotation marks:
+Другой путь создания многострочных строк:
+использовать тройные кавычки (три одиночные или из три двойные):
 
 <?code-excerpt "misc/lib/language_tour/built_in_types.dart (triple-quotes)"?>
 {% prettify dart %}
 var s1 = '''
-You can create
-multi-line strings like this one.
+Вы можете создать
+многострочную строку как эта.
 ''';
 
-var s2 = """This is also a
-multi-line string.""";
+var s2 = """Это также
+многострочная строка.""";
 {% endprettify %}
 
-You can create a “raw” string by prefixing it with `r`:
+Вы можете создать "сырую" строку с помощью префикса `r`:
 
 <?code-excerpt "misc/lib/language_tour/built_in_types.dart (raw-strings)"?>
 {% prettify dart %}
-var s = r'In a raw string, not even \n gets special treatment.';
+var s = r'В сырой строки, даже \n не обрабатывается.';
 {% endprettify %}
 
-See [Runes](#runes) for details on how to express Unicode
-characters in a string.
+Смотрите [Руны](#runes) чтобы узнать как представить символы Unicode в строку.
 
-Literal strings are compile-time constants,
-as long as any interpolated expression is a compile-time constant
-that evaluates to null or a numeric, string, or boolean value.
+Литеральные строки являются константами времени компиляции,
+если любое интерполированное выражение является константой времени компиляции,
+и относится к null, числам, строке или логическому значению.
 
 <?code-excerpt "misc/lib/language_tour/built_in_types.dart (string-literals)"?>
 {% prettify dart %}
-// These work in a const string.
+// Эти работают в константных строках
 const aConstNum = 0;
 const aConstBool = true;
-const aConstString = 'a constant string';
+const aConstString = 'константная строка';
 
-// These do NOT work in a const string.
+// Эти не работают в константных строках
 var aNum = 0;
 var aBool = true;
-var aString = 'a string';
+var aString = 'строка';
 const aConstList = [1, 2, 3];
 
 const validConstString = '$aConstNum $aConstBool $aConstString';
 // const invalidConstString = '$aNum $aBool $aString $aConstList';
 {% endprettify %}
 
-For more information on using strings, see
-[Strings and regular expressions](/guides/libraries/library-tour#strings-and-regular-expressions).
+Более подробную информацию об использовании строк, смотрите
+[Строки и регулярные выражения](/guides/libraries/library-tour#strings-and-regular-expressions).
 
 
-### Booleans
+### Логические значения
 
-To represent boolean values, Dart has a type named `bool`. Only two
-objects have type bool: the boolean literals `true` and `false`,
-which are both compile-time constants.
+Для представления логических значений, у Dart сть тип, называемый `bool`.
+Только два объекта имеют тип bool: логические литералы `true` и `false`,
+которые оба константы времени компиляции.
 
-Dart's type safety means that you can't use code like
-<code>if (<em>nonbooleanValue</em>)</code> or
-<code>assert (<em>nonbooleanValue</em>)</code>.
-Instead, explicitly check for values, like this:
+Безопасность типов в Dart не даёт использовать такой код, как
+<code>if (<em>неЛогическоеЗначение</em>)</code> или
+<code>assert (<em>неЛогическоеЗначение</em>)</code>.
+
+Вместо этого, следует использовать явную проверку значений, как тут:
 
 <?code-excerpt "misc/test/language_tour/built_in_types_test.dart (no-truthy)"?>
 {% prettify dart %}
-// Check for an empty string.
+// Проверка строки на пустоту.
 var fullName = '';
 assert(fullName.isEmpty);
 
-// Check for zero.
+// Проверка на ноль.
 var hitPoints = 0;
 assert(hitPoints <= 0);
 
-// Check for null.
+// Проверка на null.
 var unicorn;
 assert(unicorn == null);
 
-// Check for NaN.
+// Проверка на NaN.
 var iMeantToDoThis = 0 / 0;
 assert(iMeantToDoThis.isNaN);
 {% endprettify %}
 
 
-### Lists
+### Списки
 
-Perhaps the most common collection in nearly every programming language
-is the *array*, or ordered group of objects. In Dart, arrays are
-[List][] objects, so most people just call them *lists*.
+Возможно наиболее распространёная коллекция почти в каждом языке программирования - *массив* или
+упорядоченная группа объектов. В Dart массив - это [Список][] объектов, так что большинство людей
+называют их просто *списки*.
 
-Dart list literals look like JavaScript array literals. Here’s a simple
-Dart list:
+В Dart литерал списка выглядит также, как в JavaScript литерал массива.
+Здесь пример списка в Dart:
 
 <?code-excerpt "misc/lib/language_tour/built_in_types.dart (list-literal)"?>
 {% prettify dart %}
@@ -649,18 +645,16 @@ var list = [1, 2, 3];
 {% endprettify %}
 
 <aside class="alert alert-info" markdown="1">
-  **Note:**
-  The analyzer infers that `list` has type `List<int>`.
-  If you try to add non-integer objects to this list,
-  the analyzer or runtime raises an error.
-  For more information, read about
-  [type inference.](/guides/language/sound-dart#type-inference)
+  **Замечание:**
+  Анализатор выведет, что `list` имеет тип `List<ing>`.
+  Если вы попробуете добавить не целочисленный объект в этот список,
+  анализатор сообщит об ошибке или ошибка будет выдана во время исполнения.
+  Для большей информацией, читайте о [выводе типов](/guides/language/sound-dart#type-inference).
 </aside>
 
-Lists use zero-based indexing, where 0 is the index of the first element
-and `list.length - 1` is the index of the last element. You can get a
-list’s length and refer to list elements just as you would in
-JavaScript:
+Списки используют индексацию с нуля, когда 0 - индекс первого элемента и
+`list.length - 1` - индекс последнего. Вы можете получить длинну списка и сослаться
+на элемент списка также просто, как в JavaScript:
 
 <?code-excerpt "misc/test/language_tour/built_in_types_test.dart (list-indexing)"?>
 {% prettify dart %}
@@ -672,28 +666,28 @@ list[1] = 1;
 assert(list[1] == 1);
 {% endprettify %}
 
-To create a list that's a compile-time constant,
-add `const` before the list literal:
+Для создания списка, который будет константой времени компиляции,
+добавте `const` перед литералом списка:
 
 <?code-excerpt "misc/lib/language_tour/built_in_types.dart (const-list)"?>
 {% prettify dart %}
 var constantList = const [1, 2, 3];
-// constantList[1] = 1; // Uncommenting this causes an error.
+// constantList[1] = 1; // Раскомментировав это, получите ошибку.
 {% endprettify %}
 
-The List type has many handy methods for manipulating lists. For more
-information about lists, see [Generics](#generics) and
-[Collections](/guides/libraries/library-tour#collections).
+Тип List имеет много простых методов для работы со списками.
+Для получения большей информации о списках, смотрите [Обобщения](#generics) и
+[Коллекции](/guides/libraries/library-tour#collections).
 
 
-### Maps
+### Мапы
 
-In general, a map is an object that associates keys and values. Both
-keys and values can be any type of object. Each *key* occurs only once,
-but you can use the same *value* multiple times. Dart support for maps
-is provided by map literals and the [Map][] type.
+В общем, мапа - это объект, в котором ключи, ассоциированы со значением.
+Ключи и значения могут быть объектами любого типа. Каждый *ключ* встречается только один раз,
+но вы можете использовать некоторые *значения* множество раз. Dart поддерживает
+литерал мап и тип [Map][].
 
-Here are a couple of simple Dart maps, created using map literals:
+Здесь пара простых мап на Dart, созданных, используя литерал мап:
 
 <?code-excerpt "misc/lib/language_tour/built_in_types.dart (map-literal)"?>
 {% prettify dart %}
@@ -712,16 +706,15 @@ var nobleGases = {
 {% endprettify %}
 
 <aside class="alert alert-info" markdown="1">
-  **Note:**
-  The analyzer infers that `gifts` has the type
-  `Map<String, String>` and `nobleGases` has the type
-  `Map<int, String>`. If you try to add the wrong type of value
-  to either map, the analyzer or runtime raises an error.
-  For more information, read about
-  [type inference.](/guides/language/sound-dart#type-inference)
+  **Замечание:**
+  Анализатор выведет, что `gifts` имеет тип `Map<String, String>` и
+  `nobleGases` имеет тип `Map<int, String>`. Если вы попробуете добавить
+  значение неправильного типа в эту мапу,
+  анализатор сообщит об ошибке или ошибка будет выдана во время исполнения.
+  За большей информацией, читайте о [выводе типов](/guides/language/sound-dart#type-inference).
 </aside>
 
-You can create the same objects using a Map constructor:
+Вы можете создать некоторые объекты, используя конструктор мап:
 
 <?code-excerpt "misc/lib/language_tour/built_in_types.dart (map-constructor)"?>
 {% prettify dart %}
@@ -737,22 +730,21 @@ nobleGases[18] = 'argon';
 {% endprettify %}
 
 <aside class="alert alert-info" markdown="1">
-**Note:**
-You might expect to see `new Map()` instead of just `Map()`.
-As of Dart 2, the `new` keyword is optional.
-For details, see [Using constructors](#using-constructors).
+**Замечание:**
+Возможно вы заметили вместо `new Map()` просто `Map()`.
+Начиная с Dart 2, ключевое слово `new` опционально.
+За деталями, смотрите [Использование конструкторов](#using-constructors).
 </aside>
 
-Add a new key-value pair to an existing map just as you would in
-JavaScript:
+Добавить новую пару ключ-значение в существующую мапу просто как и в JavaScript:
 
 <?code-excerpt "misc/lib/language_tour/built_in_types.dart (map-add-item)"?>
 {% prettify dart %}
 var gifts = {'first': 'partridge'};
-gifts['fourth'] = 'calling birds'; // Add a key-value pair
+gifts['fourth'] = 'calling birds'; // Добавление новой пары ключ-значение
 {% endprettify %}
 
-Retrieve a value from a map the same way you would in JavaScript:
+Получение значения из мапы выглядит похоже, как в JavaScript:
 
 <?code-excerpt "misc/test/language_tour/built_in_types_test.dart (map-retrieve-item)"?>
 {% prettify dart %}
@@ -760,7 +752,7 @@ var gifts = {'first': 'partridge'};
 assert(gifts['first'] == 'partridge');
 {% endprettify %}
 
-If you look for a key that isn’t in a map, you get a null in return:
+Если ключа нет в мапе, вы получите null:
 
 <?code-excerpt "misc/test/language_tour/built_in_types_test.dart (map-missing-key)"?>
 {% prettify dart %}
@@ -768,7 +760,7 @@ var gifts = {'first': 'partridge'};
 assert(gifts['fifth'] == null);
 {% endprettify %}
 
-Use `.length` to get the number of key-value pairs in the map:
+Используйте `.length` для получения количества пар ключ-значение в мапе:
 
 <?code-excerpt "misc/test/language_tour/built_in_types_test.dart (map-length)"?>
 {% prettify dart %}
@@ -777,8 +769,8 @@ gifts['fourth'] = 'calling birds';
 assert(gifts.length == 2);
 {% endprettify %}
 
-To create a map that's a compile-time constant,
-add `const` before the map literal:
+Чтобы создать мапу, которая будет константой времени компиляции,
+добавте перед литералом мапы `const` :
 
 <?code-excerpt "misc/lib/language_tour/built_in_types.dart (const-map)"?>
 {% prettify dart %}
@@ -788,14 +780,14 @@ final constantMap = const {
   18: 'argon',
 };
 
-// constantMap[2] = 'Helium'; // Uncommenting this causes an error.
+// constantMap[2] = 'Helium'; // Раскомментировав это, получите ошибку
 {% endprettify %}
 
-For more information about maps, see
-[Generics](#generics) and
-[Maps](/guides/libraries/library-tour#maps).
+За большей информацией, смотрите
+[Обобщения](#generics) и
+[Мапы](/guides/libraries/library-tour#maps).
 
-### Runes
+### Руны
 
 In Dart, runes are the UTF-32 code points of a string.
 
