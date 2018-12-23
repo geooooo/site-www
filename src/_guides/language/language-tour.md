@@ -787,32 +787,31 @@ final constantMap = const {
 [Обобщения](#generics) и
 [Мапы](/guides/libraries/library-tour#maps).
 
+
 ### Руны
 
-In Dart, runes are the UTF-32 code points of a string.
+В Dart руны - это строки из кодовых точек UTF-32.
 
-Unicode defines a unique numeric value for each letter, digit,
-and symbol used in all of the world's writing systems.
-Because a Dart string is a sequence of UTF-16 code units,
-expressing 32-bit Unicode values within a string requires
-special syntax.
+Unicode определяет уникальное числовое значение для каждой буквы,
+цифры и символа, используемых во всех мировых системах письма.
+Так как в Dart строки - последовательность кодовых единиц UTF-16,
+вычисление 32 битных Unicode значений в строках требует специального синтаксиса.
 
-The usual way to express a Unicode code point is
-`\uXXXX`, where XXXX is a 4-digit hexadecimal value.
-For example, the heart character (♥) is `\u2665`.
-To specify more or less than 4 hex digits,
-place the value in curly brackets.
-For example, the laughing emoji (😆) is `\u{1f600}`.
+Обычный способ для вычисления кодовых точек Unicode - `\uXXXX`,
+где XXXX - шестнадцатеричное значение из 4 цифр.
+Например, символ сердца (♥) - `\u2665`.
+Чтобы указать больше или меньше, чем 4 шестнадцатеричные цифры,
+поместите значение в фигурные скобки.
+Например, смеющийся смайлик (😆) - `\u{1f600}`.
 
-The [String][]
-class has several properties you can use to extract rune information.
-The `codeUnitAt` and `codeUnit` properties return 16-bit code
-units. Use the `runes` property to get the runes of a string.
+У Класса [String][]
+несколько свойств могут извлекать информацию о рунах.
+Свойства `codeUnitAt` и `codeUnit` возвращают 16 битные кодовые единицы.
+Используйте свойство `runes`, чтобы получить руну как строку.
 
-The following example illustrates the relationship between runes,
-16-bit code units, and 32-bit code points.
-Click the run button {% asset red-run.png alt="" %}
-to see runes in action.
+Следующий пример иллюстрирует взаимосвязь между рунами 16 битных кодовых единиц и
+32 битных кодовых единиц.
+Нажмите на кнопку запуска {% asset red-run.png alt="" %}, чтобы увидеть руны в действии.
 
 {% comment %}
 https://gist.github.com/589bc5c95318696cefe5
@@ -842,52 +841,30 @@ src="{{site.custom.dartpad.embed-inline-prefix}}?id=589bc5c95318696cefe5&vertica
 </iframe>
 
 <div class="alert alert-warning" markdown="1">
-**Note:**
-Be careful when manipulating runes using list operations.
-This approach can easily break down,
-depending on the particular language, character set, and operation.
-For more information, see
-[How do I reverse a String in Dart?](http://stackoverflow.com/questions/21521729/how-do-i-reverse-a-string-in-dart) on Stack Overflow.
+**Замечание:**
+Будьте осторожны, когда обрабатываете руны, используя операции списков.
+Этот подход может легко сломаться, в зависимости от конкретного языка, набора символов и операций.
+Больше информации смотрите в [Как мне перевернуть строку в Dart?](http://stackoverflow.com/questions/21521729/how-do-i-reverse-a-string-in-dart) на Stack Overflow.
 </div>
 
-### Symbols
+### Символы
 
-A [Symbol][] object
-represents an operator or identifier declared in a Dart program. You
-might never need to use symbols, but they're invaluable for APIs that
-refer to identifiers by name, because minification changes identifier
-names but not identifier symbols.
+Объекты [Symbol][]
+представляют оператор или идентификатор в программе на Dart.
+Возможно вам никогда не нужно будет использовать символы, но они бесцены
+для API, чтобы ссылаться на идентификаторы по именам, так как минификация
+изменяет имена идентификаторов, но не изменяет имена идентификаторов символов.
 
-To get the symbol for an identifier, use a symbol literal, which is just
-`#` followed by the identifier:
+Чтобы получить символ для идентификатора,
+используйте символьный литерал, который является просто #,
+за которым следует идентификатор:
 
 ```nocode
 #radix
 #bar
 ```
 
-{% comment %}
-The code from the following excerpt isn't actually what is being shown in the page
-
-<?code-excerpt "misc/lib/language_tour/built_in_types.dart (symbols)"?>
-{% prettify dart %}
-// MOVE TO library tour?
-
-void main() {
-  print(Function.apply(int.parse, ['11']));
-  print(Function.apply(int.parse, ['11'], {#radix: 16}));
-  print(Function.apply(int.parse, ['11a'], {#onError: handleError}));
-  print(Function.apply(
-      int.parse, ['11a'], {#radix: 16, #onError: handleError}));
-}
-
-int handleError(String source) {
-  return 0;
-}
-{% endprettify %}
-{% endcomment %}
-
-Symbol literals are compile-time constants.
+Литералы символов - константы времени компиляции.
 
 
 ## Functions
