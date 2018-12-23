@@ -1,153 +1,147 @@
 ---
-title: A Tour of the Dart Language
-description: A tour of all of the major Dart language features.
-short-title: Language Tour
+title: Тур по языку Dart
+description: Тур по всем основным возможностям языка Dart.
+short-title: Тур по языку
 ---
 <?code-excerpt replace="/([A-Z]\w*)\d\b/$1/g"?>
 
-This page shows you how to use each major Dart feature, from
-variables and operators to classes and libraries, with the assumption
-that you already know how to program in another language.
+На этой странице показывается, как использовать каждую основную возможность Dart,
+от переменных и операторов до классов и библиотек, предполагается, что вы уже знаете какой-нибудь другой язык программирования.
 
-To learn more about Dart's core libraries, see
-[A Tour of the Dart Libraries](/guides/libraries/library-tour).
-Whenever you want more details about a language feature,
-consult the [Dart Language Specification](/guides/language/spec).
+Чтобы узнать больше о стандартной библиотеке Dart, смотрите
+[Тур по библиотекам Dart](/guides/libraries/library-tour).
+Всякий раз, когда вы желаете больше подробностей о возможностях языка,
+проконсультируйтесь со [Спецификацией языка Dart](/guides/language/spec).
 
 <div class="alert alert-info" markdown="1">
-**Tip:**
-You can play with most of Dart's language features using DartPad
-([learn more](/tools/dartpad)).
+**Совет:**
+Вы можете поиграть с большинстов возможностей языка Dart, используя DartPad
+([узнать больше](/tools/dartpad)).
 
-**<a href="{{ site.custom.dartpad.direct-link }}" target="_blank">Open DartPad</a>**
+**<a href="{{ site.custom.dartpad.direct-link }}" target="_blank">открыть DartPad</a>**
 </div>
 
 
-## A basic Dart program
+## Базовая программа на Dart
 
-The following code uses many of Dart’s most basic features:
+Следующий код использует большинство наиболее базовых возможностей Dart:
 
 <?code-excerpt "misc/test/language_tour/basic_test.dart"?>
 {% prettify dart %}
-// Define a function.
+// Определение функции.
 printInteger(int aNumber) {
-  print('The number is $aNumber.'); // Print to console.
+  print('Число $aNumber.'); // Вывод в консоль.
 }
 
-// This is where the app starts executing.
+// Это точка начала исполнения приложения
 main() {
-  var number = 42; // Declare and initialize a variable.
-  printInteger(number); // Call a function.
+  var number = 42; // Объявление и инициализация переменной.
+  printInteger(number); // Вызов функции.
 }
 {% endprettify %}
 
-Here’s what this program uses that applies to all (or almost all) Dart
-apps:
+Здесь то, что используется в этой программе и примяется во всех (или почти во всех) приложениях на Dart:
 
-<code>// <em>This is a comment.</em> </code>
 
-:   A single-line comment.
-    Dart also supports multi-line and document comments.
-    For details, see [Comments](#comments).
+<code>// <em>Это комментарий.</em> </code>
+
+:   Однострочных комментарий.
+    Dart также поддерживает много-строчные и докуметирующие комментарии.
+    За деталями, смотрите [Комментарии](#comments).
 
 `int`
 
-:   A type. Some of the other [built-in types](#built-in-types)
-    are `String`, `List`, and `bool`.
+:   Тип. Один из других [встроенных типов](#built-in-types)
+    , таких как `String`, `List`, и `bool`.
 
 `42`
 
-:   A number literal. Number literals are a kind of compile-time constant.
+:   Числовой литерал. Числовой литерал - это один из видов констант времени компиляции.
 
 `print()`
 
-:   A handy way to display output.
+:   Простой способ вывести данные.
 
-`'...'` (or `"..."`)
+`'...'` (или `"..."`)
 
-:   A string literal.
+:   Литерал строки.
 
-<code>$<em>variableName</em></code> (or <code>${<em>expression</em>}</code>)
+<code>$<em>имяПеременной</em></code> (или <code>${<em>выражение</em>}</code>)
 
-:   String interpolation: including a variable or expression’s string
-    equivalent inside of a string literal. For more information, see
-    [Strings](#strings).
+:   Строковая интерполяция: включает строковое представление переменной или выражения
+    как строковый литерал. За большими подробностями, смотрите
+    [Строки](#strings).
 
 `main()`
 
-:   The special, *required*, top-level function where app execution
-    starts. For more information, see
-    [The main() function](#the-main-function).
+:   Специальная *требуемая*, глобальная функция, которая начинает исполнение приложения.
+    За большей информацией, смотрите
+    [функция main()](#the-main-function).
 
 `var`
 
-:   A way to declare a variable without specifying its type.
+:   Способ объявить переменную, без уточнения её типа.
 
 <div class="alert alert-info" markdown="1">
-**Note:**
-This site's code follows the conventions in the
-[Dart style guide](/guides/language/effective-dart/style).
+**Замечание:**
+Код на этом сайте следует конвенции
+[руководства стиля кода на Dart](/guides/language/effective-dart/style).
 </div>
 
 
-## Important concepts
+## Важные концепции
 
-As you learn about the Dart language, keep these facts and concepts in
-mind:
+Раз вы уже изучаете язык Dart, примите во внимание эти факты и концепции:
 
--   Everything you can place in a variable is an *object*, and every
-    object is an instance of a *class*. Even numbers, functions, and
-    `null` are objects. All objects inherit from the [Object][] class.
+-   Всё, что вы помещаете в переменные есть *объект* и каждый объект
+    являетсе экземпляром некоторого *класса*. Каждое число, фукция и `null`
+    объекты. Все объекты наследуются от класса [Object][].
 
--   Although Dart is strongly typed, type annotations are optional
-    because Dart can infer types. In the code above, `number`
-    is inferred to be of type `int`. When you want to explicitly say
-    that no type is expected,
-    [use the special type `dynamic`][ObjectVsDynamic].
+-   Хоть Dart строго типизированный язык, аннотация типов опциональна,
+    так как Dart может выводить типы. В коде выше, `number` выводится
+    в тип `int`. Когда вы хотите сказать, что явного типа не ожидается,
+    [исользуйте специальный тип `dynamic`][ObjectVsDynamic].
 
--   Dart supports generic types, like `List<int>` (a list of integers)
-    or `List<dynamic>` (a list of objects of any type).
+-   Dart поддерживает обобщённые типы, как `List<int>` (список целых чисел)
+    или `List<dynamic>` (спиок объектов любого типа).
 
--   Dart supports top-level functions (such as `main()`), as well as
-    functions tied to a class or object (*static* and *instance
-    methods*, respectively). You can also create functions within
-    functions (*nested* or *local functions*).
+-   Dart поддерживает глобальные функции (такие как `main()`),
+    а также функции, связанные с классом или объектом
+    (*статические* и *методы экземпляра* соответственно).
+    Вы можете также создать функцию с функцией (*вложенные* или *локальные функции*).
 
--   Similarly, Dart supports top-level *variables*, as well as variables
-    tied to a class or object (static and instance variables). Instance
-    variables are sometimes known as fields or properties.
+-   Так же, Dart поддерживает глобальные *переменные*, а также переменные,
+    связанные с классом или объектом (статические или переменные экземпляра).
+    Переменные экземпляра известны как поля или свойства.
 
--   Unlike Java, Dart doesn’t have the keywords `public`, `protected`,
-    and `private`. If an identifier starts with an underscore (\_), it’s
-    private to its library. For details, see
-    [Libraries and visibility](#libraries-and-visibility).
+-   В отличии от Java, Dart не имеет ключевых слов `public`, `protected` и `private`.
+    Если идентификатор начинается с нижнего подчёркивания (\_), то он приватен
+    для своей библиотеки. За деталями смотрите [Библиотека и видимость](#libraries-and-visibility).
 
--   *Identifiers* can start with a letter or underscore (\_), followed by any
-    combination of those characters plus digits.
+-   *Идентификаторы* могут начинаться с буквы или нижнего подчёркивания (\_),
+    следуя в любом порядке из тех же символов плюс цифр.
 
--   Dart has both *expressions* (which have runtime values) and
-    *statements* (which don't).
-    For example, the [conditional expression](#conditional-expressions)
-    `condition ? expr1 : expr2` has a value of `expr1` or `expr2`.
-    Compare that to an [if-else statement](#if-and-else), which has no value.
-    A statement often contains one or more expressions,
-    but an expression can't directly contain a statement.
+-   У Dart есть понятие *выражений* (которые имеют значение во время исполнения) и
+    *инструкций* (которые его не имеют).
+    Например, [условные выражения](#conditional-expressions)
+    `условие ? выражение1 : выражение2` имеет значение `выражение1` или `выражение2`.
+    В сравнение есть [инструкция if-else](#if-and-else), у которого нет значения.
+    Инструкции часто содержат одно или множество выражений, но
+    выражение не может содержать инструкцию.
 
--   Dart tools can report two kinds of problems: _warnings_ and _errors_.
-    Warnings are just indications that your code might not work, but
-    they don’t prevent your program from executing. Errors can be either
-    compile-time or run-time. A compile-time error prevents the code
-    from executing at all; a run-time error results in an
-    [exception](#exceptions) being raised while the code executes.
+-   Утилиты Dart могут сообщать о двух видах проблем: _предупреждения_ и _ошибки_.
+    Предупреждения просто сообщают, что ваш код может не работать, но они не мешают
+    исполнению вашей программы. Ошибки могут быть либо времени компиляции, либо времени исполнения.
+    Ошибки времени компиляции не дадут программе запуститься в любом случае; ошибки времени исолнения
+    приводят к [исключению](#exceptions), поднимающемуся во время исполнения кода.
 
+## Ключевые слова
 
-## Keywords
+Следующая таблица показывает слова, которые в языке Dart относятся к специальным.
 
-The following table lists the words that the Dart language treats specially.
-
-{% assign ckw = '&nbsp;<sup title="contextual keyword" alt="contextual keyword">1</sup>' %}
-{% assign bii = '&nbsp;<sup title="built-in-identifier" alt="built-in-identifier">2</sup>' %}
-{% assign lrw = '&nbsp;<sup title="limited reserved word" alt="limited reserved word">3</sup>' %}
+{% assign ckw = '&nbsp;<sup title="Контекстуальное ключевое слово" alt="Контекстуальное ключевое слово">1</sup>' %}
+{% assign bii = '&nbsp;<sup title="Встроенный идентификатор" alt="Встроенный идентификатор">2</sup>' %}
+{% assign lrw = '&nbsp;<sup title="Ограниченно зарезервированное слово" alt="Ограниченно зарезервированное слово">3</sup>' %}
 | [abstract][]{{bii}}   | [dynamic][]{{bii}}    | [implements][]{{bii}} | [show][]{{ckw}}   |
 | [as][]{{bii}}         | [else][]              | [import][]{{bii}}     | [static][]{{bii}} |
 | [assert][]            | [enum][]              | [in][]                | [super][]         |
@@ -233,56 +227,49 @@ The following table lists the words that the Dart language treats specially.
 [while]: #while-and-do-while
 [yield]: #generators
 
-Avoid using these words as identifiers.
-However, if necessary, the keywords marked with superscripts can be identifiers:
+Избегайте использования этих слов как идентификаторв.
+Тем неменее, если необходимо, ключевые слова, помеченные надстрочным индексом, могут
+быть идентификаторами:
 
-* Words with the superscript **1** are **contextual keywords**,
-  which have meaning only in specific places.
-  They're valid identifiers everywhere.
+* Слова с надстрочным индексом **1** это **контекстуальные ключевые слова**,
+  которые имеют смысл только в определённом месте.
+  Они коректные идентификаторы везде.
 
-* Words with the superscript **2** are **built-in identifiers**.
-  To simplify the task of porting JavaScript code to Dart,
-  these keywords are valid identifiers in most places,
-  but they can't be used as class or type names, or as import prefixes.
+* Слова с надстрочным индексом **2** это **встроенные идентификаторы**.
+  Для упрощения задач портирования JavaScript кода в Dart,
+  эти ключевые слова правильные идентификаторы в большинстве мест,
+  но они не могут быть использованы как классы или имена типов или префиксы импорта.
 
-* Words with the superscript **3** are newer, limited reserved words related to
-  the [asynchrony support](#asynchrony-support) that was added
-  after Dart's 1.0 release.
-  You can't use `await` or `yield` as an identifier
-  in any function body marked with `async`, `async*`, or `sync*`.
+* Слова с надстрочным индексом **3** новейшие, ограниченно зарезервированные слова, относящиеся
+  к [поддержке асинхронности](#asynchrony-support), что были добавлены после релиза Dart 1.0.
+  Вы не можете использовать `await` или `yield` как идентификтор в любых функциях, помеченных
+  с помощью `async`, `async*` или `sync*`.
 
-All other words in the table are **reserved words**,
-which can't be identifiers.
+Все другие слова в таблице **зарезервированные слова**, которые не могут быть идентификаторами.
 
+## Переменные
 
-## Variables
+Здесь примеры по созданию переменных и их инициализации:
 
-Here’s an example of creating a variable and initializing it:
 
 <?code-excerpt "misc/lib/language_tour/variables.dart (var-decl)"?>
 {% prettify dart %}
 var name = 'Bob';
 {% endprettify %}
 
-Variables store references. The variable called `name` contains a
-reference to a `String` object with a value of “Bob”.
-
-The type of the `name` variable is inferred to be `String`,
-but you can change that type by specifying it.
-If an object isn't restricted to a single type,
-specify the `Object` or `dynamic` type, following
-[design guidelines][ObjectVsDynamic].
-
-{% comment %}
-**[PENDING: check on Object vs. dynamic guidance.]**
-{% endcomment %}
+Переменные хранят ссылки. Переменная с именем `name` содеражит ссылку на объект
+`String` со значением "Bob".
+Тип переменной `name` при выводе типа будет `String`,
+но вы можете изменить этот тип, указав его.
+Если объект не ограничен одним типом, укажите тип `Object` или `dynamic`,
+следуя [методическим указаниям по дизайну и проектированию][ObjectVsDynamic].
 
 <?code-excerpt "misc/lib/language_tour/variables.dart (type-decl)"?>
 {% prettify dart %}
 dynamic name = 'Bob';
 {% endprettify %}
 
-Another option is to explicitly declare the type that would be inferred:
+Другой способ явно указать, какой тип должен быть выведен:
 
 <?code-excerpt "misc/lib/language_tour/variables.dart (static-types)"?>
 {% prettify dart %}
@@ -290,18 +277,17 @@ String name = 'Bob';
 {% endprettify %}
 
 <div class="alert alert-info" markdown="1">
-**Note:**
-This page follows the
-[style guide recommendation](/guides/language/effective-dart/design#types)
-of using `var`, rather than type annotations, for local variables.
+**Замечание:**
+Код на этом сайте следует конвенции
+[руководства стиля кода на Dart](/guides/language/effective-dart/design#types)
+по использованию `var`, вместо анотации типов для локальных переменных.
 </div>
 
 
-### Default value
+### Значения поумолчанию
 
-Uninitialized variables have an initial value of `null`. Even variables
-with numeric types are initially null, because numbers—like everything
-else in Dart—are objects.
+Не инициализированные переменные имеют исходное значение `null`. Каждая переменная
+числового типа изначально равна `null`, потому что числа, как и всё остальное в Dart - объекты.
 
 <?code-excerpt "misc/test/language_tour/variables_test.dart (var-null-init)"?>
 {% prettify dart %}
@@ -310,119 +296,110 @@ assert(lineCount == null);
 {% endprettify %}
 
 <div class="alert alert-info" markdown="1">
-**Note:**
-The `assert()` call is ignored in production code.
-During development, <code>assert(<em>condition</em>)</code>
-throws an exception unless *condition* is true. For details,
-see [Assert](#assert).
+**Замечание:**
+Вызов `assert()` игнорируется в продакшн коде.
+Во время разработки, <code>assert(<em>условие</em>)</code>
+бросает исключение, если *условие* ложно. За подробностями, смотрите
+[Assert](#assert).
 </div>
 
 
-### Final and const
+### Final и const
 
-If you never intend to change a variable, use `final` or `const`, either
-instead of `var` or in addition to a type. A final variable can be set
-only once; a const variable is a compile-time constant. (Const variables
-are implicitly final.) A final top-level or class variable is initialized
-the first time it's used.
+Если вы никогда не хотите изменять переменную, используйте `final` или `const`,
+либо вместо `var` ли в дополнение к типу. Финальные переменные могут быть заданы только один раз;
+константные переменные - это константы времени компиляции. (Константные переменные неявно финальные).
+Финальные глобальные переменные или переменные класса инициализируются при первом использовании.
 
 <div class="alert alert-info" markdown="1">
-**Note:**
-Instance variables can be `final` but not `const`.
-Final instance variables must be initialized before
-the constructor body starts —
-at the variable declaration, by a constructor parameter,
-or in the constructor's [initializer list](#initializer-list).
+**Замечание:**
+Переменные экземпляра могут быть `final`, но не `const`.
+Финальные переменные экземпляра должны быть инициализированы перед началом тела конструктора -
+при объявлении переменной, параметром конструктора или в [списке инициализатора](#initializer-list) конструктора.
 </div>
 
-Here's an example of creating and setting a final variable:
+Здесь пример создания и установки финальных переменных:
 
 <?code-excerpt "misc/lib/language_tour/variables.dart (final)"?>
 {% prettify dart %}
-final name = 'Bob'; // Without a type annotation
+final name = 'Bob'; // Без аннотации типа
 final String nickname = 'Bobby';
 {% endprettify %}
 
-You can't change the value of a final variable:
+Вы не можете изменить значение финальной переменной:
 
 {:.fails-sa}
 <?code-excerpt "misc/lib/language_tour/variables.dart (cant-assign-to-final)"?>
 {% prettify dart %}
-name = 'Alice'; // Error: a final variable can only be set once.
+name = 'Alice'; // Ошибка: финальная переменная может быть задана только один раз
 {% endprettify %}
 
-Use `const` for variables that you want to be **compile-time constants**. If
-the const variable is at the class level, mark it `static const`.
-Where you declare the variable, set the value to a compile-time constant
-such as a number or string literal, a const
-variable, or the result of an arithmetic operation on constant numbers:
+Используйте `const` для переменных, которые вы хотите сделать **константами времени компиляции**.
+Если константная переменная задаётся в классе, пометьте её `static const`.
+Там, где вы объявляете переменную, задайте значение константы времени компиляции, такое как
+числовой или строковый литерал, константная переменная или результат арифметической операции над
+константными числами:
 
 <?code-excerpt "misc/lib/language_tour/variables.dart (const)"?>
 {% prettify dart %}
-const bar = 1000000; // Unit of pressure (dynes/cm2)
-const double atm = 1.01325 * bar; // Standard atmosphere
+const bar = 1000000; // Единица измерения давления (dynes/cm2)
+const double atm = 1.01325 * bar; // Стандартное атмосферное
 {% endprettify %}
 
-The `const` keyword isn't just for declaring constant variables.
-You can also use it to create constant _values_,
-as well as to declare constructors that _create_ constant values.
-Any variable can have a constant value.
+Ключевое слово `const` предназначено не только для объявления константных переменных.
+Вы также можете использовать её для создания константных _значений_,
+а также объявить конструктор, который _созданёт_ константные значения.
+Любая переменная может иметь константное значение.
 
 <?code-excerpt "misc/lib/language_tour/variables.dart (const-vs-final)"?>
 {% prettify dart %}
 var foo = const [];
 final bar = const [];
-const baz = []; // Equivalent to `const []`
+const baz = []; // Эквивалентно `const []`
 {% endprettify %}
 
-You can omit `const` from the initializing expression of a `const` declaration,
-like for `baz` above. For details, see [DON’T use const redundantly][].
+Вы можете опустить `const` в выражении инициализации при объявлении `const`,
+как выше для `baz`, за подробностями, смотрите [DON’T use const redundantly][].
 
-You can change the value of a non-final, non-const variable,
-even if it used to have a const value:
+Вы можете изменить значение не финальной, не константной переменной,
+даже если раннее оно имело константное значение:
 
 <?code-excerpt "misc/lib/language_tour/variables.dart (reassign-to-non-final)"?>
 {% prettify dart %}
-foo = [1, 2, 3]; // Was const []
+foo = [1, 2, 3]; // Было const []
 {% endprettify %}
 
-You can't change the value of a const variable:
+Вы не можете изменить значение константной переменной:
 
 {:.fails-sa}
 <?code-excerpt "misc/lib/language_tour/variables.dart (cant-assign-to-const)"?>
 {% prettify dart %}
-baz = [42]; // Error: Constant variables can't be assigned a value.
+baz = [42]; // Ошибка: Константным переменным нельзя присвоить значение.
 {% endprettify %}
 
-For more information on using `const` to create constant values, see
-[Lists](#lists), [Maps](#maps), and [Classes](#classes).
+За большей информацией об использовании `const` для создания константных значений, смотрите
+[Списки](#lists), [Мапы](#maps), и [Классы](#classes).
 
 
-## Built-in types
+## Встроенные типы
 
-The Dart language has special support for the following types:
+Язык Dart имеет специальную поддержку для следующих типов:
 
-- numbers
-- strings
-- booleans
-- lists (also known as *arrays*)
-- maps
-- runes (for expressing Unicode characters in a string)
-- symbols
+- числа
+- строки
+- логические значения
+- списки (также известные как *массивы*)
+- мапы (также известные как *хеши* и *словари*)
+- руны (для выражения символов Unicode в строки)
+- символы
 
-You can initialize an object of any of these special types using a
-literal. For example, `'this is a string'` is a string literal,
-and `true` is a boolean literal.
+Вы можете инициализировать объект любым из этих специальных типов, используя литерал.
+Например, `'this is a string'` - строковый литерал и `true` - логический литерал.
 
-{% comment %}
-PENDING: add info about support for Iterable, Future, Stream?
-Those can't be initialized using literals, but they do have special support.
-{% endcomment %}
-
-Because every variable in Dart refers to an object—an instance of a
-*class*—you can usually use *constructors* to initialize variables. Some
-of the built-in types have their own constructors. For example, you can
-use the `Map()` constructor to create a map.
+Так как каждая переменная в Dart ссылается на объект-экземпляр *класса*, вы можете
+обычно использовать *конструкторы* для инициализации переменных. Некоторые из встроенных
+типов имеют свои собственные конструкторы. Например, вы можете использовать
+`Map()` конструктор для создания мапы.
 
 
 ### Numbers
