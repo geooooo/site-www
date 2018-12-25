@@ -867,15 +867,15 @@ src="{{site.custom.dartpad.embed-inline-prefix}}?id=589bc5c95318696cefe5&vertica
 Литералы символов - константы времени компиляции.
 
 
-## Functions
+## Функции
 
-Dart is a true object-oriented language, so even functions are objects
-and have a type, [Function.][Function API reference]
-This means that functions can be assigned to variables or passed as arguments
-to other functions. You can also call an instance of a Dart class as if
-it were a function. For details, see [Callable classes](#callable-classes).
+Dart - настоящий объектно-ориентированный язык, так что каждая функция - объект
+и имеет тип [Function.][Function API reference]
+Функцию можно присвоить переменной или передать параметром в другую функцию.
+Вы можете также вызвать экземпляр некоторого класса как функцию.
+За подробностями, смотрите [Вызываемые классы](#callable-classes).
 
-Here’s an example of implementing a function:
+Здесь пример реализации функции:
 
 <?code-excerpt "misc/lib/language_tour/functions.dart (function)"?>
 {% prettify dart %}
@@ -884,9 +884,8 @@ bool isNoble(int atomicNumber) {
 }
 {% endprettify %}
 
-Although Effective Dart recommends
-[type annotations for public APIs](/guides/language/effective-dart/design#prefer-type-annotating-public-fields-and-top-level-variables-if-the-type-isnt-obvious),
-the function still works if you omit the types:
+Хотя в Dart и рекомендуется использовать [аннотацию типов для публичных API](/guides/language/effective-dart/design#prefer-type-annotating-public-fields-and-top-level-variables-if-the-type-isnt-obvious),
+функция всё ещё будет работать, если вы опустите типы:
 
 <?code-excerpt "misc/lib/language_tour/functions.dart (function-omitting-types)"?>
 {% prettify dart %}
@@ -895,142 +894,136 @@ isNoble(atomicNumber) {
 }
 {% endprettify %}
 
-For functions that contain just one expression, you can use a shorthand
-syntax:
+Для функций, которые содеражит одно простое выражение, вы можете использовать
+сокращённый синтаксис:
 
 <?code-excerpt "misc/lib/language_tour/functions.dart (function-shorthand)"?>
 {% prettify dart %}
 bool isNoble(int atomicNumber) => _nobleGases[atomicNumber] != null;
 {% endprettify %}
 
-The <code>=> <em>expr</em></code> syntax is a shorthand for
-<code>{ return <em>expr</em>; }</code>. The `=>` notation
-is sometimes referred to as _arrow_ syntax.
+Такой синтаксис <code>=> <em>выражение</em></code> - сокращённая форма
+<code>{ return <em>выражение</em>; }</code>. Синтаксис с аннотацией `=>` иногда называют
+_стрелочным_.
 
 <div class="alert alert-info" markdown="1">
-**Note:**
-Only an *expression*—not a *statement*—can appear between the arrow
-(=\>) and the semicolon (;). For example, you can’t put an [if
-statement](#if-and-else) there, but you can use a [conditional
-expression](#conditional-expressions).
+**Замечание:**
+Только *выражение*, но не *инструкция*,
+может быть помещено между стрелкой (=\>) и точкой с запятой (;)
+Например, вы не можете поместить [инструкцию if](#if-and-else) туда, но
+вы можете воспользоваться [условным выражением](#conditional-expressions).
 </div>
 
-A function can have two types of parameters: required and optional. The
-required parameters are listed first, followed by any optional
-parameters. Named optional parameters can also be marked as `@required`.
-See the next section for details.
+У функции может быть два типа параметров: обязательные и опциональные.
+Обязательные параметры следуют первыми, далее любые опциональные параметры.
+Именованные опциональные параметры могут также быть помечены как `@required`.
+Смотрите следующий раздел для подробностей.
 
 
-### Optional parameters
+### Опциональные параметры
 
-Optional parameters can be either positional or named, but not both.
+Опциональные параметры могут быть либо позиционными, либо именованными, но не обоими сразу.
 
-#### Optional named parameters
+#### Опциональные именованные параметры
 
-When calling a function, you can specify named parameters using
-<code><em>paramName</em>: <em>value</em></code>. For example:
+Там, где вызывается функция, вы можете указать имя параметра, используя
+<code><em>имяПараметра</em>: <em>значение</em></code>. Например:
 
 <?code-excerpt "misc/lib/language_tour/functions.dart (use-named-parameters)"?>
 {% prettify dart %}
 enableFlags(bold: true, hidden: false);
 {% endprettify %}
 
-When defining a function, use
-<code>{<em>param1</em>, <em>param2</em>, …}</code>
-to specify named parameters:
+Когда определяете функцию, используйте
+<code>{<em>параметр1</em>, <em>параметр2</em>, …}</code>
+для указания именованных параметров:
 
 <?code-excerpt "misc/lib/language_tour/functions.dart (specify-named-parameters)"?>
 {% prettify dart %}
-/// Sets the [bold] and [hidden] flags ...
+/// Устанавливает флаги [bold] и [hidden] ...
 void enableFlags({bool bold, bool hidden}) {...}
 {% endprettify %}
 
-[Flutter][] instance creation expressions can get complex, so widget
-constructors use named parameters exclusively. This makes instance creation
-expressions easier to read.
+У [Flutter][] выражение создания экземпляра может быть сложным,
+поэтому конструкторы виджетов используют в основном именованные параметры.
+Это делает выражение создание экземпляра простым для чтения.
 
-You can annotate a named parameter in any Dart code (not just Flutter) with
-[@required][] to indicate that it is a _required_ parameter. For example:
+Вы можете аннотировать именованный параметр в любом Dart коде
+(не только в Flutter) с помощью [@required][],
+чтобы сообщить, что это _обязательный_ параметр. Например:
 
 <?code-excerpt "misc/lib/language_tour/functions.dart (required-named-parameters)" replace="/@required/[!$&!]/g"?>
 {% prettify dart %}
 const Scrollbar({Key key, [!@required!] Widget child})
 {% endprettify %}
 
-When a `Scrollbar` is constructed, the analyzer reports an issue when the
-`child` argument is absent.
+Когда `Scrollbar` создан, анализатор сообщит о проблеме, где
+`дочерний` аргумент пропущен.
 
-[Required][@required] is defined in the [meta][] package. Either import
-`package:meta/meta.dart` directly, or import another package that exports
-`meta`, such as Flutter's `package:flutter/material.dart`.
+[Required][@required] определён в пакете [meta][]. Либо импортируется целенаправленно
+`package:meta/meta.dart`, либо импортиртируется другой пакет, который экспортирует
+`meta`, такой как у Flutter `package:flutter/material.dart`.
 
-#### Optional positional parameters
+#### Опциональные позиционные параметры
 
-Wrapping a set of function parameters in `[]` marks them as optional
-positional parameters:
+Оберните множество параметров функции в `[]`,
+пометив их тем самым как опциональные позиционные параметры:
 
 <?code-excerpt "misc/test/language_tour/functions_test.dart (optional-positional-parameters)"?>
 {% prettify dart %}
 String say(String from, String msg, [String device]) {
-  var result = '$from says $msg';
+  var result = '$from сказал $msg';
   if (device != null) {
-    result = '$result with a $device';
+    result = '$result с помощью $device';
   }
   return result;
 }
 {% endprettify %}
 
-Here’s an example of calling this function without the optional
-parameter:
+Здесь пример вызова этой фукнции без опциональных параметров:
 
 <?code-excerpt "misc/test/language_tour/functions_test.dart (call-without-optional-param)"?>
 {% prettify dart %}
-assert(say('Bob', 'Howdy') == 'Bob says Howdy');
+assert(say('Bob', 'Howdy') == 'Bob сказал Howdy');
 {% endprettify %}
 
-And here’s an example of calling this function with the third parameter:
+А здесь пример вызова этой функции с этим параметром:
 
 <?code-excerpt "misc/test/language_tour/functions_test.dart (call-with-optional-param)"?>
 {% prettify dart %}
-assert(say('Bob', 'Howdy', 'smoke signal') ==
-    'Bob says Howdy with a smoke signal');
+assert(say('Bob', 'Howdy', 'дымового сигнала') ==
+    'Bob сказал Howdy с помощью дымового сигнала');
 {% endprettify %}
 
 <a id="default-parameters"></a>
-#### Default parameter values
+#### Значение параметров поумолчанию
 
-Your function can use `=` to define default values for both named and positional
-parameters. The default values must be compile-time constants.
-If no default value is provided, the default value is `null`.
+Ваши функции могут использовать `=` для определения значений поумолчанию для
+именованных и позиционных параметров. Значения поумолчанию должны быть константами
+времени компиляции. Если не предоставлено значение поумолчанию, исходное значение `null`.
 
-Here's an example of setting default values for named parameters:
+Здесь пример установки значений поумолчанию для именованых параметров:
 
 <?code-excerpt "misc/lib/language_tour/functions.dart (named-parameter-default-values)"?>
 {% prettify dart %}
-/// Sets the [bold] and [hidden] flags ...
+/// Установить флаги [bold] и [hidden] ...
 void enableFlags({bool bold = false, bool hidden = false}) {...}
 
-// bold will be true; hidden will be false.
+// bold будет true; hidden будет false.
 enableFlags(bold: true);
 {% endprettify %}
 
 <div class="alert alert-info" markdown="1">
-**Deprecation note:**
-Old code might use a colon (`:`) instead of `=`
-to set default values of named parameters.
-The reason is that originally, only `:` was supported for named parameters.
-That support is likely to be deprecated,
-so we recommend that you
-**[use `=` to specify default values.](/tools/pub/pubspec#sdk-constraints)**
+**Неодобрение:**
+Старый код может использовать (`:`) вместо `=`
+для установки значений поумолчанию именованых параметров.
+Первоначально предполагалось, что для именованных параметров
+будет поддерживаться только `:`.
+Сейчас его использование осуждается, так что мы рекомендуем вам
+**[использовать `=` для указания значений поумолчанию.](/tools/pub/pubspec#sdk-constraints)**
 </div>
 
-{% comment %}
-PENDING: I don't see evidence that we've dropped support for `:`.
-Update if/when we do. Issue #?
-See `defaultNamedParameter` in the language spec.
-{% endcomment %}
-
-The next example shows how to set default values for positional parameters:
+Следующий пример показывает, как задать значения поумолчанию для позиционных параметров:
 
 <?code-excerpt "misc/test/language_tour/functions_test.dart (optional-positional-param-default)"?>
 {% prettify dart %}
