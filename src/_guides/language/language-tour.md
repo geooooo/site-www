@@ -1336,13 +1336,13 @@ assert(foo() == null);
 | мультипликативный           | `*`    `/`    `%`    `~/`                      |
 | аддитивный                 | `+`    `-`                                     |
 | свдиг                    | `<<`    `>>`                                   |
-| побитовый AND            | `&`                                            |
-| побитовый XOR              | `^`                                            |
-| побитовый OR               | `|`                                            |
+| побитовый И            | `&`                                            |
+| побитовый Исключающий ИЛИ              | `^`                                            |
+| побитовый ИЛИ               | `|`                                            |
 | отношения&nbsp;и&nbsp;проверка&nbsp;типов | `>=`    `>`    `<=`    `<`    `as`    `is`    `is!` |
 | равенство                 | `==`    `!=`                                   |
-| логический AND              | `&&`                                           |
-| логический OR               | `||`                                           |
+| логический И              | `&&`                                           |
+| логический ИЛИ               | `||`                                           |
 | если null                 | `??`                                           |
 | сравнение              | <code><em>expr1</em> ? <em>expr2</em> : <em>expr3</em></code> |
 | каскад                  | `..`                                           |
@@ -1420,70 +1420,68 @@ assert('5/2 = ${5 ~/ 2} r ${5 % 2}' == '5/2 = 2 r 1');
 Dart также поддерживает операторы префиксного и постфиксного инкремента.
 
 |-----------------------------+-------------------------------------------|
-| Operator                    | Meaning                                   |
+| Оператор                    | Смысл                                   |
 |-----------------------------+-------------------------------------------|
-| <code>++<em>var</em></code> | <code><em>var</em> = <em>var</em> + 1</code> (expression value is <code><em>var</em> + 1</code>)
-| <code><em>var</em>++</code> | <code><em>var</em> = <em>var</em> + 1</code> (expression value is <code><em>var</em></code>)
-| <code>--<em>var</em></code> | <code><em>var</em> = <em>var</em> – 1</code> (expression value is <code><em>var</em> – 1</code>)
-| <code><em>var</em>--</code> | <code><em>var</em> = <em>var</em> – 1</code> (expression value is <code><em>var</em></code>)
+| <code>++<em>var</em></code> | <code><em>var</em> = <em>var</em> + 1</code> (вычисленное значение - <code><em>var</em> + 1</code>)
+| <code><em>var</em>++</code> | <code><em>var</em> = <em>var</em> + 1</code> (вычисленное значение -  <code><em>var</em></code>)
+| <code>--<em>var</em></code> | <code><em>var</em> = <em>var</em> – 1</code> (вычисленное значение - <code><em>var</em> – 1</code>)
+| <code><em>var</em>--</code> | <code><em>var</em> = <em>var</em> – 1</code> (вычисленное значение - <code><em>var</em></code>)
 {:.table .table-striped}
 
-Example:
+Примеры:
 
 <?code-excerpt "misc/test/language_tour/operators_test.dart (increment-decrement)"?>
 {% prettify dart %}
 var a, b;
 
 a = 0;
-b = ++a; // Increment a before b gets its value.
+b = ++a; // Инкремент a перед тем как b получит значение.
 assert(a == b); // 1 == 1
 
 a = 0;
-b = a++; // Increment a AFTER b gets its value.
+b = a++; // Сначала b получает значение a, зачем происходит инкремент
 assert(a != b); // 1 != 0
 
 a = 0;
-b = --a; // Decrement a before b gets its value.
+b = --a; // Декремент a перед тем как b получит значение.
 assert(a == b); // -1 == -1
 
 a = 0;
-b = a--; // Decrement a AFTER b gets its value.
+b = a--; // Сначала b получает значение a, зачем происходит декремент
 assert(a != b); // -1 != 0
 {% endprettify %}
 
 
-### Equality and relational operators
+### Операторы равенства и отношений
 
 The following table lists the meanings of equality and relational operators.
 
 |-----------+-------------------------------------------|
-| Operator  | Meaning                                   |
+| Оператор  | Смысл                                   |
 |-----------+-------------------------------------------|
-| `==`      |       Equal; see discussion below
-| `!=`      |       Not equal
-| `>`       |       Greater than
-| `<`       |       Less than
-| `>=`      |       Greater than or equal to
-| `<=`      |       Less than or equal to
+| `==`      |       Равно, смотрите обсуждение ниже
+| `!=`      |       Не равно
+| `>`       |       Больше
+| `<`       |       Меньше
+| `>=`      |       Больше или равно
+| `<=`      |       Меньше или равно
 {:.table .table-striped}
 
-To test whether two objects x and y represent the same thing, use the
-`==` operator. (In the rare case where you need to know whether two
-objects are the exact same object, use the [identical()][]
-function instead.) Here’s how the `==` operator works:
+Чтобы проверить, представляют ли два объекта x и y одно и то же,
+используйте оператор `==`. (В редких случаях, когда нужно узнать, представляют ли два объекта
+один и тот же объект, используйте функцию [identical()][]).
+Далее расказано, как работает оператор `==`:
 
-1.  If *x* or *y* is null, return true if both are null, and false if only
-    one is null.
 
-2.  Return the result of the method invocation
-    <code><em>x</em>.==(<em>y</em>)</code>. (That’s right,
-    operators such as `==` are methods that are invoked on their first
-    operand. You can even override many operators, including `==`, as
-    you’ll see in
-    [Overridable operators](#overridable-operators).)
+1.  Если *x* и  *y* равны null, вернёт true, иначе если только один из них равен null, вернёт false.
 
-Here’s an example of using each of the equality and relational
-operators:
+2.  Возвращает результат вызова метода.
+    <code><em>x</em>.==(<em>y</em>)</code>.
+    Такие операторы, как `==` - методы, вызываемые из первого операнда.
+    Вы даже можете переопределить некоторые операторы, включая `==`, как вы могли увидеть
+    [Переопределяемые операторы](#overridable-operators).
+
+Здесь примеры использования каждого из операторов равенства и отношения:
 
 <?code-excerpt "misc/test/language_tour/operators_test.dart (relational)"?>
 {% prettify dart %}
@@ -1496,36 +1494,36 @@ assert(2 <= 3);
 {% endprettify %}
 
 
-### Type test operators
+### Операторы проверки типов
 
-The `as`, `is`, and `is!` operators are handy for checking types at
-runtime.
+
+Операторы `as`, `is`, и `is!` просто проверяют типы во время исполнения.
 
 |-----------+-------------------------------------------|
-| Operator  | Meaning                                   |
+| Оператор  | Смысл                                   |
 |-----------+-------------------------------------------|
-| `as`      | Typecast (also used to specify [library prefixes](#specifying-a-library-prefix))
-| `is`      | True if the object has the specified type
-| `is!`     | False if the object has the specified type
+| `as`      | Приведение типа (также используется для указания [префиксов библиотек](#specifying-a-library-prefix))
+| `is`      | true, если объект имеет указанный тип
+| `is!`     | false, если объект не имеет указанный тип
 {:.table .table-striped}
 
-The result of `obj is T` is true if `obj` implements the interface
-specified by `T`. For example, `obj is Object` is always true.
+Результат `obj is T` true, если `obj` реализует интерфейс, указанный в `T`.
+Например, `obj is Object` всегда true.
 
-Use the `as` operator to cast an object to a particular type. In
-general, you should use it as a shorthand for an `is` test on an object
-following by an expression using that object. For example, consider the
-following code:
+Используйте оператор `as` для прведения объекта к конкретному типу.
+В общем, вы должны использовать его как сокращение проверки `is`
+для объекта, за которым следует выражение, использующее этот объект.
+Например, рассмотрим следующий код:
 
 <?code-excerpt "misc/lib/language_tour/classes/employee.dart (emp is Person)"?>
 {% prettify dart %}
 if (emp is Person) {
-  // Type check
+  // Проверка типа
   emp.firstName = 'Bob';
 }
 {% endprettify %}
 
-You can make the code shorter using the `as` operator:
+Вы можете сделать код короче, используя оператор `as`:
 
 <?code-excerpt "misc/lib/language_tour/classes/employee.dart (emp as Person)"?>
 {% prettify dart %}
@@ -1533,24 +1531,24 @@ You can make the code shorter using the `as` operator:
 {% endprettify %}
 
 <div class="alert alert-info" markdown="1">
-**Note:**
-The code isn’t equivalent. If `emp` is null or not a Person, the
-first example (with `is`) does nothing; the second (with `as`) throws
-an exception.
+**Замечание:**
+Приведённые выше два кода не эквивалентны.
+Если `emp` - null или не Person, то первый пример (с `is`) ничего не делает,
+второй (с `as`) бросит исключение.
 </div>
 
 
-### Assignment operators
+### Операторы присваивания
 
-As you’ve already seen, you can assign values using the `=` operator.
-To assign only if the assigned-to variable is null,
-use the `??=` operator.
+Как вы уже видели, вы можете присваивать значения, используя оператор `=`.
+Используйте оператор `??=`, если вы хотите присвоить значение переменной только
+когда она равна null.
 
 <?code-excerpt "misc/test/language_tour/operators_test.dart (assignment)"?>
 {% prettify dart %}
-// Assign value to a
+// Присваивание значения переменной a
 a = value;
-// Assign value to b if b is null; otherwise, b stays the same
+// Присвоить значение b, если b равна null; в остальных случаях, b остаётся прежней
 b ??= value;
 {% endprettify %}
 
@@ -1577,52 +1575,51 @@ main() {
 {% endprettify %}
 {% endcomment %}
 
-Compound assignment operators such as `+=` combine
-an operation with an assignment.
+Составные операторы присваивания, такие как `+=`,
+объединяют операцию с присваиванием.
 
 | `=`  | `–=` | `/=`  | `%=`  | `>>=` | `^=`
 | `+=` | `*=` | `~/=` | `<<=` | `&=`  | `|=`
 {:.table}
 
-Here’s how compound assignment operators work:
+Здесь показано, как работают операторы присваивания:
 
 |-----------+----------------------+-----------------------|
-|           | Compound assignment  | Equivalent expression |
+|           | Составное присваивание  | Эквивалентное выражение |
 |-----------+----------------------+-----------------------|
-|**For an operator <em>op</em>:** | <code>a <em>op</em>= b</code> | <code>a = a <em>op</em> b</code>
-|**Example:**                     |`a += b`                       | `a = a + b`
+|**Для оператора <em>оп</em>:** | <code>a <em>оп</em>= b</code> | <code>a = a <em>оп</em> b</code>
+|**Пример:**                     |`a += b`                       | `a = a + b`
 {:.table}
 
-The following example uses assignment and compound assignment
-operators:
+Следующий пример использует  обычное присваивание и составные операторы присваивания:
 
 <?code-excerpt "misc/test/language_tour/operators_test.dart (op-assign)"?>
 {% prettify dart %}
-var a = 2; // Assign using =
-a *= 3; // Assign and multiply: a = a * 3
+var a = 2; // Присваивание, используя =
+a *= 3; // Присвоить и умножить: a = a * 3
 assert(a == 6);
 {% endprettify %}
 
 
-### Logical operators
+### Логические операторы
 
-You can invert or combine boolean expressions using the logical
-operators.
+Вы можете инвертировать или комбинировать логические выражения, используя
+логические операторы:
 
 |-----------------------------+-------------------------------------------|
-| Operator                    | Meaning                                   |
+| Оператор                    | Смысл                                   |
 |-----------------------------+-------------------------------------------|
-| <code>!<em>expr</em></code> | inverts the following expression (changes false to true, and vice versa)
-| `||`                        | logical OR
-| `&&`                        | logical AND
+| <code>!<em>выражение</em></code> | инвертирует следующее выражение (изменяет false на true и наоборот)
+| `||`                        | логическое ИЛИ
+| `&&`                        | логическое И
 {:.table .table-striped}
 
-Here’s an example of using the logical operators:
+Далее пример использования логических операторов:
 
 <?code-excerpt "misc/lib/language_tour/operators.dart (op-logical)"?>
 {% prettify dart %}
 if (!done && (col == 0 || col == 3)) {
-  // ...Do something...
+  // ... тут что-то происходит ...
 }
 {% endprettify %}
 
