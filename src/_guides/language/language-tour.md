@@ -1043,14 +1043,14 @@ assert(say('Bob', 'Howdy') ==
     'Bob says Howdy with a carrier pigeon');
 {% endprettify %}
 
-You can also pass lists or maps as default values.
-The following example defines a function, `doStuff()`,
-that specifies a default list for the `list`
-parameter and a default map for the `gifts` parameter.
+Вы также можете вставить списки или мапы как значения поумолчанию
+В следующем примере определяется функция `doStuff()`,
+которая указывает список поумолчанию для параметра `list`
+и мапу поумолчанию для параметра `gifts`.
 {% comment %}
-The function is called three times with different values.
-Click the run button {% asset red-run.png alt="" %}
-to see list and map default values in action.
+Нажмите кнопку запустить
+{% asset red-run.png alt="" %}
+чтобы увидеть список и мапу как значения поумолчанию в действии.
 {% endcomment %}
 
 <?code-excerpt "misc/lib/language_tour/functions.dart (list-map-default-function-param)"?>
@@ -1080,36 +1080,34 @@ src="{{site.custom.dartpad.embed-inline-prefix}}?id=d988cfce0a54c6853799&vertica
 {% endcomment %}
 
 
-### The main() function
+### Функция main()
 
-Every app must have a top-level `main()` function, which serves as the
-entrypoint to the app. The `main()` function returns `void` and has an
-optional `List<String>` parameter for arguments.
+Каждое приложение должно определять глобальную функцию `main()`,
+которая будет входной точкой для приложения. Функция `main()` возвращает `void`
+и имеет опциональный параметр `List<String>` для аргументов командной строки.
 
-Here's an example of the `main()` function for a web app:
+Здесь пример функции `main()` для web приложения:
 
 <?code-excerpt "misc/test/language_tour/browser_test.dart (simple-web-main-function)"?>
 {% prettify dart %}
 void main() {
   querySelector('#sample_text_id')
-    ..text = 'Click me!'
+    ..text = 'Нажми на меня!'
     ..onClick.listen(reverseText);
 }
 {% endprettify %}
 
 <div class="alert alert-info" markdown="1">
-**Note:**
-The `..` syntax in the preceding code is called a [cascade](#cascade-notation-).
-With cascades,
-you can perform multiple operations on the members of a single object.
+**Замечание:**
+Синтаксис `..` в предшествующем коде называется [каскадом](#cascade-notation-).
+С каскадом, вы можете выполнять множество операций над членами одного объекта.
 </div>
 
-Here's an example of the `main()` function for a command-line app that
-takes arguments:
+Здесь пример функции `main()` для приложения командной строки, которая получает аргументы:
 
 <?code-excerpt "misc/test/language_tour/functions_test.dart (main-args)"?>
 {% prettify dart %}
-// Run the app like this: dart args.dart 1 test
+// Запустите программу так: dart args.dart 1 test
 void main(List<String> arguments) {
   print(arguments);
 
@@ -1119,12 +1117,13 @@ void main(List<String> arguments) {
 }
 {% endprettify %}
 
-You can use the [args library](https://pub.dartlang.org/packages/args) to
+Вы можете использовать [библиотеку args](https://pub.dartlang.org/packages/args)
+для определения и разбора аргументов командной строки
 define and parse command-line arguments.
 
-### Functions as first-class objects
+### Функции как объекты первого порядка
 
-You can pass a function as a parameter to another function. For example:
+Вы можете вставить функцию как параметр другой функции. Например:
 
 <?code-excerpt "misc/lib/language_tour/functions.dart (function-as-param)"?>
 {% prettify dart %}
@@ -1134,11 +1133,11 @@ void printElement(int element) {
 
 var list = [1, 2, 3];
 
-// Pass printElement as a parameter.
+// Вставка printElement как параметра.
 list.forEach(printElement);
 {% endprettify %}
 
-You can also assign a function to a variable, such as:
+Вы также можете присвоить функцию переменной, как тут:
 
 <?code-excerpt "misc/test/language_tour/functions_test.dart (function-as-var)"?>
 {% prettify dart %}
@@ -1146,32 +1145,32 @@ var loudify = (msg) => '!!! ${msg.toUpperCase()} !!!';
 assert(loudify('hello') == '!!! HELLO !!!');
 {% endprettify %}
 
-This example uses an anonymous function.
-More about those in the next section.
+Это пример использования анонимной фукнции.
+Больше о об этом в следующем разделе.
 
-### Anonymous functions
+### Анонимные функции
 
-Most functions are named, such as `main()` or `printElement()`.
-You can also create a nameless function
-called an _anonymous function_, or sometimes a _lambda_ or _closure_.
-You might assign an anonymous function to a variable so that,
-for example, you can add or remove it from a collection.
+Большинство функций - именованые. такие как `main()` или `printElement()`.
+Вы можете также создать безымянную функцию, называемую _анонимной функцией_ или
+по другому _лямбда_ или _замыкание_.
+Вы можете присвоить анонимную функцию переменной, чтобы,
+например, вы могли добавить или удалить ее из коллекции.
 
-An anonymous function looks similar to a named function&mdash;
-zero or more parameters, separated by commas
-and optional type annotations, between parentheses.
+Анонимная функция выглядит похоже на именованную функцию&mdash;
+с нулём или большим числом параметров, разделённх запятыми и
+опциональной анотацией типов между круглыми скобками.
 
-The code block that follows contains the function's body:
+Следующий за ней блок кода содержит тело функции:
 
 <code>
-([[<em>Type</em>] <em>param1</em>[, …]]) { <br>
-&nbsp;&nbsp;<em>codeBlock</em>; <br>
+([[<em>Type</em>] <em>параметр1</em>[, …]]) { <br>
+&nbsp;&nbsp;<em>блокКода</em>; <br>
 }; <br>
 </code>
 
-The following example defines an anonymous function with an untyped parameter, `item`.
-The function, invoked for each item in the list,
-prints a string that includes the value at the specified index.
+Следующий пример определяет анонимную функцию с нетипизированным параметром `item`.
+Функция вызывается для каждого элемента списка,
+печатает строку, которая включает значение по и соответсвтвующий индекс.
 
 <?code-excerpt "misc/test/language_tour/functions_test.dart (anonymous-function)"?>
 {% prettify dart %}
@@ -1181,7 +1180,7 @@ list.forEach((item) {
 });
 {% endprettify %}
 
-Click the run button {% asset red-run.png alt="" %} to execute the code.
+Нажмите кнопку запуска {% asset red-run.png alt="" %} чтобы выполнить этот код.
 
 {% comment %}
 https://gist.github.com/chalin/5d70bc1889d055c7a18d35d77874af88
@@ -1195,9 +1194,9 @@ src="{{site.custom.dartpad.embed-inline-prefix}}?id=5d70bc1889d055c7a18d35d77874
     style="border: 1px solid #ccc;">
 </iframe>
 
-If the function contains only one statement, you can shorten it using
-arrow notation. Paste the following line into DartPad
-and click run to verify that it is functionally equivalent.
+Если функция содержит только одно выражение, вы можете использовать
+короткую стрелочную запись. Вставте следующую строку в DartPad и нажмите
+запустить, чтобы проверить, что эта функциональность эквивалентна.
 
 <?code-excerpt "misc/test/language_tour/functions_test.dart (anon-func)"?>
 {% prettify dart %}
@@ -1206,15 +1205,14 @@ list.forEach(
 {% endprettify %}
 
 
-### Lexical scope
+### Лексическая область видимости
 
-Dart is a lexically scoped language, which means that the scope of
-variables is determined statically, simply by the layout of the code.
-You can “follow the curly braces outwards” to see if a variable is in
-scope.
+Dart - язык с лексической области видимости, которая означает, что
+область видимости переменой задаётся статично, просто расположением в коде.
+Вы можете "проследовать за фигурными скобками наружу", чтобы увидеть, есть ли переменная в
+области видимости.
 
-Here is an example of nested functions with variables at each scope
-level:
+Здесь пример вложенных функций с переменными на каждом уровне области видимости:
 
 <?code-excerpt "misc/test/language_tour/functions_test.dart (nested-functions)"?>
 {% prettify dart %}
@@ -1238,87 +1236,83 @@ void main() {
 }
 {% endprettify %}
 
-Notice how `nestedFunction()` can use variables from every level, all
-the way up to the top level.
+Обратите внимание, как функция `nestedFunction()` может использовать переменные из каждого уровня
+области видимости, вплоть до самого верхнего - глобального.
 
 
-### Lexical closures
+### Лексические замыкания
 
-A *closure* is a function object that has access to variables in its
-lexical scope, even when the function is used outside of its original
-scope.
+*Замыкание* - это функциональный объект, который имеет доступ к переменным в своей
+лексической области видимости, даже когда функция используется вне своей исходной
+области видимости.
 
-Functions can close over variables defined in surrounding scopes. In the
-following example, `makeAdder()` captures the variable `addBy`. Wherever the
-returned function goes, it remembers `addBy`.
+Функции могут перекрывать переменные, определённые в окружающих областях видимости.
+В следующем примере `makeAdder()` захватывает переменную `addBy`. Куда бы
+не возвращалась функция, она запоминает `addBy`.
 
 <?code-excerpt "misc/test/language_tour/functions_test.dart (function-closure)"?>
 {% prettify dart %}
-/// Returns a function that adds [addBy] to the
-/// function's argument.
+/// Возвращает функцию, которая добавляет [addBy] к аргументу функции
 Function makeAdder(num addBy) {
   return (num i) => addBy + i;
 }
 
 void main() {
-  // Create a function that adds 2.
+  // Создание функции, которая прибавляет 2.
   var add2 = makeAdder(2);
-
-  // Create a function that adds 4.
+  // Создание функции, которая прибавляет 4.
   var add4 = makeAdder(4);
-
   assert(add2(3) == 5);
   assert(add4(3) == 7);
 }
 {% endprettify %}
 
 
-### Testing functions for equality
+### Тестирование функций на равенство
 
-Here's an example of testing top-level functions, static methods, and
-instance methods for equality:
+Здесь пример тестирования глобальных функций, статических методов и
+методов экземпляра на равенство
 
 <?code-excerpt "misc/lib/language_tour/function_equality.dart"?>
 {% prettify dart %}
-void foo() {} // A top-level function
+void foo() {} // Глобальная функция
 
 class A {
-  static void bar() {} // A static method
-  void baz() {} // An instance method
+  static void bar() {} // Статический метод
+  void baz() {} // Метод экземпляра
 }
 
 void main() {
   var x;
 
-  // Comparing top-level functions.
+  // Сравнение глобальных функций
   x = foo;
   assert(foo == x);
 
-  // Comparing static methods.
+  // Сравнение статических методов
   x = A.bar;
   assert(A.bar == x);
 
-  // Comparing instance methods.
-  var v = A(); // Instance #1 of A
-  var w = A(); // Instance #2 of A
+  // Сравнение методов экземпляра
+  var v = A(); // Экземпляр A #1
+  var w = A(); // Экземпляр A #2
   var y = w;
   x = w.baz;
 
-  // These closures refer to the same instance (#2),
-  // so they're equal.
+  // Эти замыкания ссылаются на один и тот же экземпляр (#2),
+  // поэтому они равны.
   assert(y.baz == x);
 
-  // These closures refer to different instances,
-  // so they're unequal.
+  // Эти замыкания ссылаются на разные экземпляры, поэтому они не равны.
   assert(v.baz != w.baz);
 }
 {% endprettify %}
 
 
-### Return values
+### Возврат значений
 
-All functions return a value. If no return value is specified, the
-statement `return null;` is implicitly appended to the function body.
+Все функции возвращают занчение. Если возвращаемое значение не указано,
+инструкция `return null` неявно добавляется в тело функции.
 
 <?code-excerpt "misc/test/language_tour/functions_test.dart (implicit-return-null)"?>
 {% prettify dart %}
@@ -1330,33 +1324,33 @@ assert(foo() == null);
 
 ## Operators
 
-Dart defines the operators shown in the following table.
-You can override many of these operators, as described in
-[Overridable operators](#overridable-operators).
+В Dart определены операторы, показаные в следующей таблице.
+Вы можете переопределить некоторые из этих операторов, описаные в
+[Переопределяемые операторы](#overridable-operators).
 
 |--------------------------+------------------------------------------------|
-|Description               | Operator                                       |
+|Описание                  | Оператор                                       |
 |--------------------------|------------------------------------------------|
-| unary postfix            | <code><em>expr</em>++</code>    <code><em>expr</em>--</code>    `()`    `[]`    `.`    `?.` |
-| unary prefix             | <code>-<em>expr</em></code>    <code>!<em>expr</em></code>    <code>~<em>expr</em></code>    <code>++<em>expr</em></code>    <code>--<em>expr</em></code>   |
-| multiplicative           | `*`    `/`    `%`    `~/`                      |
-| additive                 | `+`    `-`                                     |
-| shift                    | `<<`    `>>`                                   |
-| bitwise AND              | `&`                                            |
-| bitwise XOR              | `^`                                            |
-| bitwise OR               | `|`                                            |
-| relational&nbsp;and&nbsp;type&nbsp;test | `>=`    `>`    `<=`    `<`    `as`    `is`    `is!` |
-| equality                 | `==`    `!=`                                   |
-| logical AND              | `&&`                                           |
-| logical OR               | `||`                                           |
-| if null                  | `??`                                           |
-| conditional              | <code><em>expr1</em> ? <em>expr2</em> : <em>expr3</em></code> |
-| cascade                  | `..`                                           |
-| assignment               | `=`    `*=`    `/=`    `~/=`    `%=`    `+=`    `-=`    `<<=`    `>>=`    `&=`    `^=`    `|=`    `??=` |
+| унарный постфиксный      | <code><em>expr</em>++</code>    <code><em>expr</em>--</code>    `()`    `[]`    `.`    `?.` |
+| унарный префиксный             | <code>-<em>expr</em></code>    <code>!<em>expr</em></code>    <code>~<em>expr</em></code>    <code>++<em>expr</em></code>    <code>--<em>expr</em></code>   |
+| мультипликативный           | `*`    `/`    `%`    `~/`                      |
+| аддитивный                 | `+`    `-`                                     |
+| свдиг                    | `<<`    `>>`                                   |
+| побитовый AND            | `&`                                            |
+| побитовый XOR              | `^`                                            |
+| побитовый OR               | `|`                                            |
+| отношения&nbsp;и&nbsp;проверка&nbsp;типов | `>=`    `>`    `<=`    `<`    `as`    `is`    `is!` |
+| равенство                 | `==`    `!=`                                   |
+| логический AND              | `&&`                                           |
+| логический OR               | `||`                                           |
+| если null                 | `??`                                           |
+| сравнение              | <code><em>expr1</em> ? <em>expr2</em> : <em>expr3</em></code> |
+| каскад                  | `..`                                           |
+| присваивание               | `=`    `*=`    `/=`    `~/=`    `%=`    `+=`    `-=`    `<<=`    `>>=`    `&=`    `^=`    `|=`    `??=` |
 {:.table .table-striped}
 
-When you use operators, you create expressions. Here are some examples
-of operator expressions:
+Когда вы используете операторы, вы создаёте выражения. Здесь несколько
+примеров выражений с операторами:
 
 <?code-excerpt "misc/test/language_tour/operators_test.dart (expressions)" replace="/,//g"?>
 {% prettify dart %}
@@ -1368,64 +1362,62 @@ c ? a : b
 a is T
 {% endprettify %}
 
-In the [operator table](#operators),
-each operator has higher precedence than the operators in the rows
-that follow it. For example, the multiplicative operator `%` has higher
-precedence than (and thus executes before) the equality operator `==`,
-which has higher precedence than the logical AND operator `&&`. That
-precedence means that the following two lines of code execute the same
-way:
+В [таблице операторов](#operators),
+строки с операторами располагаются в порядке убывания приоритетов.
+Например, мультипликативный оператор `%` имеет более высокий приоритет (исполнится раньше) чем оператор
+равенства `==`, который в свою очередь имеет более высокий приоритет, чем логический оператор И `&&`.
+Это означает, что следующие строки кода исполняются одинаково:
 
 <?code-excerpt "misc/test/language_tour/operators_test.dart (precedence)"?>
 {% prettify dart %}
-// Parentheses improve readability.
+// Круглые скобки улучшают читабельность.
 if ((n % i == 0) && (d % i == 0)) ...
 
-// Harder to read, but equivalent.
+// Тяжелее для чтения, но аналогично предыдущему
 if (n % i == 0 && d % i == 0) ...
 {% endprettify %}
 
 <div class="alert alert-warning" markdown="1">
-**Warning:**
-For operators that work on two operands, the leftmost operand
-determines which version of the operator is used. For example, if you
-have a Vector object and a Point object, `aVector + aPoint` uses the
-Vector version of +.
+**Предупреждение:**
+Для операторов, которые работают с двумя операндами, крайний слева
+операнд определяет какая версия оператора используется Например, если у вас
+есть объект Vector (вектор) и объект Point (точка), `aVector + aPoint` использует
+версию оператора + из Vector.
 </div>
 
 
-### Arithmetic operators
+### Арифметические операторы
 
-Dart supports the usual arithmetic operators, as shown in the following table.
+Dart поддерживает обычные арифметические операторы, которые показаны
+в следующей таблице.
 
 |-----------------------------+-------------------------------------------|
-| Operator                    | Meaning                                   |
+| Оператор                    | Смысл                                   |
 |-----------------------------+-------------------------------------------|
-| `+`                         | Add
-| `–`                         | Subtract
-| <code>-<em>expr</em></code> | Unary minus, also known as negation (reverse the sign of the expression)
-| `*`                         | Multiply
-| `/`                         | Divide
-| `~/`                        | Divide, returning an integer result
-| `%`                         | Get the remainder of an integer division (modulo)
+| `+`                         | Сложение
+| `–`                         | Вычитание
+| <code>-<em>expr</em></code> | Унарный минус (меняет знак числа)
+| `*`                         | Умножение
+| `/`                         | Деление
+| `~/`                        | Деление, которое возвращает целую часть от деления
+| `%`                         | Остаток от деления
 {:.table .table-striped}
 
-Example:
+Примеры:
 
 <?code-excerpt "misc/test/language_tour/operators_test.dart (arithmetic)"?>
 {% prettify dart %}
 assert(2 + 3 == 5);
 assert(2 - 3 == -1);
 assert(2 * 3 == 6);
-assert(5 / 2 == 2.5); // Result is a double
-assert(5 ~/ 2 == 2); // Result is an int
-assert(5 % 2 == 1); // Remainder
+assert(5 / 2 == 2.5); // Результат типа double
+assert(5 ~/ 2 == 2); // Результат типа int
+assert(5 % 2 == 1); // Остаток
 
 assert('5/2 = ${5 ~/ 2} r ${5 % 2}' == '5/2 = 2 r 1');
 {% endprettify %}
 
-Dart also supports both prefix and postfix increment and decrement
-operators.
+Dart также поддерживает операторы префиксного и постфиксного инкремента.
 
 |-----------------------------+-------------------------------------------|
 | Operator                    | Meaning                                   |
