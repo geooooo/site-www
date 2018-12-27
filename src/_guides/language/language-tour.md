@@ -1624,23 +1624,22 @@ if (!done && (col == 0 || col == 3)) {
 {% endprettify %}
 
 
-### Bitwise and shift operators
+### Побитовые операторы и операторы сдвига
 
-You can manipulate the individual bits of numbers in Dart. Usually,
-you’d use these bitwise and shift operators with integers.
+Вы можете манипулировать отдельными битами чисел в Dart.
+Обычны, вы используете эти побитовые и операторы сдвига с целыми числами.
 
 |-----------------------------+-------------------------------------------|
-| Operator                    | Meaning                                   |
+| Оператор                    | Смысл                                   |
 |-----------------------------+-------------------------------------------|
-| `&`                         | AND
-| `|`                         | OR
-| `^`                         | XOR
-| <code>~<em>expr</em></code> | Unary bitwise complement (0s become 1s; 1s become 0s)
-| `<<`                        | Shift left
-| `>>`                        | Shift right
+| `&`                         | И
+| `|`                         | ИЛИ
+| `^`                         | Исключающее ИЛИ
+| <code>~<em>выражение</em></code> | Унарная побитовая инверсия (из 0 получаем 1; из 1 получим 0)
+| `<<`                        | Сдвиг влево
+| `>>`                        | Сдвиг вправо
 {:.table .table-striped}
-
-Here’s an example of using bitwise and shift operators:
+Далее примеры использования операторов сдвига и побитовых операторов:
 
 <?code-excerpt "misc/test/language_tour/operators_test.dart (op-bitwise)"?>
 {% prettify dart %}
@@ -1651,84 +1650,82 @@ assert((value & bitmask) == 0x02); // AND
 assert((value & ~bitmask) == 0x20); // AND NOT
 assert((value | bitmask) == 0x2f); // OR
 assert((value ^ bitmask) == 0x2d); // XOR
-assert((value << 4) == 0x220); // Shift left
-assert((value >> 4) == 0x02); // Shift right
+assert((value << 4) == 0x220); // Сдвиг влево
+assert((value >> 4) == 0x02); // Сдвиг вправо
 {% endprettify %}
 
 
-### Conditional expressions
+### Условные выражения
 
-Dart has two operators that let you concisely evaluate expressions
-that might otherwise require [if-else](#if-and-else) statements:
+У Dart есть два оператора, позволяющих вычислять выражения условно,
+вместо использования инструкции [if-else](#if-and-else) в отдельных случаях:
 
-<code><em>condition</em> ? <em>expr1</em> : <em>expr2</em>
-: If _condition_ is true, evaluates _expr1_ (and returns its value);
-  otherwise, evaluates and returns the value of _expr2_.
+<code><em>условие</em> ? <em>выражение1</em> : <em>выражение2</em>
+: Если _условие_ истино, вычисляется _выражение1_ (и возвращается это значение);
+  во всех остальных случаях вычисляется и возвращается значение _выражение2_.
 
-<code><em>expr1</em> ?? <em>expr2</em></code>
-: If _expr1_ is non-null, returns its value;
-  otherwise, evaluates and returns the value of _expr2_.
+<code><em>выражение1</em> ?? <em>выражение2</em></code>
+: Если _выражение1_ не null, возвращается это значение;
+  в ином случае вычисляет и возвращает значение _выражение2_.
 
-When you need to assign a value
-based on a boolean expression,
-consider using `?:`.
+Когда вам необходимо присвоить значение на основе логического
+выражения, расмотрите использование `?:`.
 
 <?code-excerpt "misc/lib/language_tour/operators.dart (if-then-else-operator)"?>
 {% prettify dart %}
 var visibility = isPublic ? 'public' : 'private';
 {% endprettify %}
 
-If the boolean expression tests for null,
-consider using `??`.
+Если логическое значение проверяет на null,
+попробуйте воспользоваться `??`.
 
 <?code-excerpt "misc/test/language_tour/operators_test.dart (if-null)"?>
 {% prettify dart %}
-String playerName(String name) => name ?? 'Guest';
+String playerName(String name) => name ?? 'Гость';
 {% endprettify %}
 
-The previous example could have been written at least two other ways,
-but not as succinctly:
+Следующий пример мог быть написан по меньшей мере двумя другими способами,
+но не так кратко:
 
 <?code-excerpt "misc/test/language_tour/operators_test.dart (if-null-alt)"?>
 {% prettify dart %}
-// Slightly longer version uses ?: operator.
-String playerName(String name) => name != null ? name : 'Guest';
+// Чуть более длинная версия использует оператор ?:
+String playerName(String name) => name != null ? name : 'Гость';
 
-// Very long version uses if-else statement.
+// Очень длинна версия использует инструкцию if-else
 String playerName(String name) {
   if (name != null) {
     return name;
   } else {
-    return 'Guest';
+    return 'Гость';
   }
 }
 {% endprettify %}
 
 <a id="cascade"></a>
-### Cascade notation (..)
+### Каскадная запись (..)
 
-Cascades (`..`) allow you to make a sequence of operations
-on the same object. In addition to function calls,
-you can also access fields on that same object.
-This often saves you the step of creating a temporary variable and
-allows you to write more fluid code.
+Каскад (`..`) позволяет вам делать последовательность операций над одним
+и тем же объектом. В дополнение к вызовам функций,
+вы также можете обращаться к полям одного и того же объекта.
+Это часто спасает вас от создания временных переменных и
+позволяет вам писать более гибкий код.
 
-Consider the following code:
+Расмотрите следующий код:
 
 <?code-excerpt "misc/test/language_tour/browser_test.dart (cascade-operator)"?>
 {% prettify dart %}
-querySelector('#confirm') // Get an object.
-  ..text = 'Confirm' // Use its members.
+querySelector('#confirm') // Получение объекта
+  ..text = 'Confirm' // Использование его поля
   ..classes.add('important')
   ..onClick.listen((e) => window.alert('Confirmed!'));
 {% endprettify %}
 
-The first method call, `querySelector()`, returns a selector object.
-The code that follows the cascade notation operates
-on this selector object, ignoring any subsequent values that
-might be returned.
+Первый вызов метода `querySelector()`, возвращает выбранный объект.
+Код, который следует за каскадной нотацией, работает с этим объектом,
+игнорируя любые последующие значения, которые могут быть возвращены.
 
-The previous example is equivalent to:
+Предыдущий пример равносилен этому:
 
 <?code-excerpt "misc/test/language_tour/browser_test.dart (cascade-operator-example-expanded)"?>
 {% prettify dart %}
@@ -1738,7 +1735,7 @@ button.classes.add('important');
 button.onClick.listen((e) => window.alert('Confirmed!'));
 {% endprettify %}
 
-You can also nest your cascades. For example:
+Вы также можете делать вложенный каскад. Например:
 
 <?code-excerpt "misc/lib/language_tour/operators.dart (nested-cascades)"?>
 {% prettify dart %}
@@ -1752,62 +1749,63 @@ final addressBook = (AddressBookBuilder()
     .build();
 {% endprettify %}
 
-Be careful to construct your cascade on a function that returns
-an actual object. For example, the following code fails:
+Будьте осторожны при создании каскада для функции,
+которая не возвращает реальный объект.
+Например, следующий код не работает:
 
 <?code-excerpt "misc/lib/language_tour/operators.dart (cannot-cascade-on-void)" plaster="none"?>
 {% prettify dart %}
 var sb = StringBuffer();
 sb.write('foo')
-  ..write('bar'); // Error: method 'write' isn't defined for 'void'.
+  ..write('bar'); // Ошибка: метод 'write' не определён для 'void'.
 {% endprettify %}
 
-The `sb.write()` call returns void,
-and you can't construct a cascade on `void`.
+Вызов `sb.write()` возвращает void,
+и вы не можете создать каскад с `void`.
 
 <div class="alert alert-info" markdown="1">
-**Note:**
-Strictly speaking,
-the "double dot" notation for cascades is not an operator.
-It's just part of the Dart syntax.
+**Замечание:**
+Строго говоря, "две точки" для каскада - не оператор.
+Это просто часть синтаксиса Dart.
 </div>
 
-### Other operators
+### Другие операторы
 
-You've seen most of the remaining operators in other examples:
+Вы видели большинство оставшихся операторов в других примерах:
 
 |----------+-------------------------------------------|
-| Operator | Name                 |          Meaning   |
+| Оператор | Имя                 |          Смысл   |
 |-----------+------------------------------------------|
-| `()`     | Function application | Represents a function call
-| `[]`     | List access          | Refers to the value at the specified index in the list
-| `.`      | Member access        | Refers to a property of an expression; example: `foo.bar` selects property `bar` from expression `foo`
-| `?.`     | Conditional member access | Like `.`, but the leftmost operand can be null; example: `foo?.bar` selects property `bar` from expression `foo` unless `foo` is null (in which case the value of `foo?.bar` is null)
+| `()`     | Применение функции | Вызов функции
+| `[]`     | Доступ к списку    | Сослаться к значению по указаному индексу в списке
+| `.`      | Доступ к члену     | Сослаться к свойству выражения, например: `foo.bar` выбирает свойство `bar` из выражения `foo`
+| `?.`     | Условный доступ к полю | Как `.`, но крайний слева операнд может быть null; например: `foo?.bar`   выбирает поле `bar` из выражения `foo` если только `foo` не null (в этом случае значение `foo?.bar` - null)
 {:.table .table-striped}
 
-For more information about the `.`, `?.`, and `..` operators, see
-[Classes](#classes).
+Для большей информации об операторах: `.`, `?.`, и `..`, смотрите
+[Классы](#classes).
 
 
-## Control flow statements
+## Иструкции управления потоком
 
-You can control the flow of your Dart code using any of the following:
+Вы можете использовать в своём коде на Dart любые из следующих конструкций
+управления потоком:
 
--   `if` and `else`
--   `for` loops
--   `while` and `do`-`while` loops
--   `break` and `continue`
--   `switch` and `case`
+-   `if` и `else`
+-   цикл `for`
+-   циклы `while` и `do`-`while`
+-   `break` и `continue`
+-   `switch` и `case`
 -   `assert`
 
-You can also affect the control flow using `try-catch` and `throw`, as
-explained in [Exceptions](#exceptions).
+Вы можете влиять на поток управления, используя `try-catch` и `throw`, как
+объясняется в [Исключениях](#exceptions).
 
 
-### If and else
+### If и else
 
-Dart supports `if` statements with optional `else` statements, as the
-next sample shows. Also see [conditional expressions](#conditional-expressions).
+Dart поддерживает инструкцию `if` с необязательной частью `else`, как будет
+показано в следующем примере. Также смотрите [условные выражения](#conditional-expressions).
 
 <?code-excerpt "misc/lib/language_tour/control_flow.dart (if-else)"?>
 {% prettify dart %}
@@ -1820,24 +1818,24 @@ if (isRaining()) {
 }
 {% endprettify %}
 
-Unlike JavaScript, conditions must use boolean values, nothing else. See
-[Booleans](#booleans) for more information.
+В отличии от JavaScript, условия должны использовать логические значения, ничего друго кроме них.
+Смотрите [Логические значения](#booleans) для большей информации.
 
 
-### For loops
+### Цикл For
 
-You can iterate with the standard `for` loop. For example:
+Вы можете итерироваться с помощью стандартного цикла `for`. Например:
 
 <?code-excerpt "misc/test/language_tour/control_flow_test.dart (for)"?>
 {% prettify dart %}
-var message = StringBuffer('Dart is fun');
+var message = StringBuffer('Dart - это весело');
 for (var i = 0; i < 5; i++) {
   message.write('!');
 }
 {% endprettify %}
 
-Closures inside of Dart’s `for` loops capture the _value_ of the index,
-avoiding a common pitfall found in JavaScript. For example, consider:
+Замыкание внутри цикла `for` в Dart захватывают _значение_ индекса,
+избегая распространённой ловушки, найденной в JavaScript. Например, рассмотрим:
 
 <?code-excerpt "misc/test/language_tour/control_flow_test.dart (for-and-closures)"?>
 {% prettify dart %}
@@ -1848,20 +1846,20 @@ for (var i = 0; i < 2; i++) {
 callbacks.forEach((c) => c());
 {% endprettify %}
 
-The output is `0` and then `1`, as expected. In contrast, the example
-would print `2` and then `2` in JavaScript.
+Выведет `0`, а потом `1` как и ожидалось. В противовес этому, в JavaScript будет
+напечатано `2`, а потом  `2`.
 
-If the object that you are iterating over is an Iterable, you can use the
-[forEach()][] method. Using `forEach()` is a good option if you don’t need to
-know the current iteration counter:
+Если объект, который вы итерируете - Iterable, вы можете использовать
+метод [forEach()][]. Использование `forEach()` хороший вариант, если вам не нужно
+знать текущий счётчик итераций:
 
 <?code-excerpt "misc/lib/language_tour/control_flow.dart (forEach)"?>
 {% prettify dart %}
 candidates.forEach((candidate) => candidate.interview());
 {% endprettify %}
 
-Iterable classes such as List and Set also support the `for-in` form of
-[iteration](/guides/libraries/library-tour#iteration):
+Итерируемые классы, такие как List и Set также поддерживают форму
+[итерации](/guides/libraries/library-tour#iteration) `for-in` :
 
 <?code-excerpt "misc/test/language_tour/control_flow_test.dart (collection)"?>
 {% prettify dart %}
@@ -1872,9 +1870,9 @@ for (var x in collection) {
 {% endprettify %}
 
 
-### While and do-while
+### While и do-while
 
-A `while` loop evaluates the condition before the loop:
+Цикл `while` вычисляет условие перед телом цикла:
 
 <?code-excerpt "misc/lib/language_tour/control_flow.dart (while)"?>
 {% prettify dart %}
@@ -1883,7 +1881,7 @@ while (!isDone()) {
 }
 {% endprettify %}
 
-A `do`-`while` loop evaluates the condition *after* the loop:
+Цикл `do`-`while` вычисляет условие *после* тела цикла:
 
 <?code-excerpt "misc/lib/language_tour/control_flow.dart (do-while)"?>
 {% prettify dart %}
@@ -1893,9 +1891,9 @@ do {
 {% endprettify %}
 
 
-### Break and continue
+### Break и continue
 
-Use `break` to stop looping:
+Используйте `break` для остановки цикла:
 
 <?code-excerpt "misc/lib/language_tour/control_flow.dart (while-break)"?>
 {% prettify dart %}
@@ -1905,7 +1903,7 @@ while (true) {
 }
 {% endprettify %}
 
-Use `continue` to skip to the next loop iteration:
+Используйте `continue` чтобы пропустить следующую итерацию цикла:
 
 <?code-excerpt "misc/lib/language_tour/control_flow.dart (for-continue)"?>
 {% prettify dart %}
@@ -1918,8 +1916,8 @@ for (int i = 0; i < candidates.length; i++) {
 }
 {% endprettify %}
 
-You might write that example differently if you’re using an
-[Iterable][] such as a list or set:
+Вы можете написать этот пример по-другому,
+если вы используете [Iterable][], такой как список или множество:
 
 <?code-excerpt "misc/lib/language_tour/control_flow.dart (where)"?>
 {% prettify dart %}
@@ -1929,25 +1927,26 @@ candidates
 {% endprettify %}
 
 
-### Switch and case
+### Switch и case
 
-Switch statements in Dart compare integer, string, or compile-time
-constants using `==`. The compared objects must all be instances of the
-same class (and not of any of its subtypes), and the class must not
-override `==`.
-[Enumerated types](#enumerated-types) work well in `switch` statements.
+Инструкция switch в Dart сравнивает целые числа, строки или константы
+времени компиляции, используя `==`. Все сравниваемые объекты должны быть
+экземплярами одного и того же класса (и не какими-либо его подтипами),
+и этот класс не должен переопределять `==`.
+[Перечислимые типы](#enumerated-types) отлично работают в инструкциях `switch`.
 
 <div class="alert alert-info" markdown="1">
-**Note:**
-Switch statements in Dart are intended for limited circumstances,
-such as in interpreters or scanners.
+**Замечание:**
+Инструкция switch в Dart служит для ограниченных случаев, таких как
+переводчики или анализаторы.
 </div>
 
-Each non-empty `case` clause ends with a `break` statement, as a rule.
-Other valid ways to end a non-empty `case` clause are a `continue`,
-`throw`, or `return` statement.
+Каждый не пустой пункт `case` заканчивается спомощью инструкции `break`, как правило.
+Другие допустимые способы для завершения не пустых пунктов `case` инструкции `continue`,
+`throw` или `return`.
 
-Use a `default` clause to execute code when no `case` clause matches:
+Используйте пункт `default` для исполнения кода, когда никакой из пунктов
+`case` не подошёл:
 
 <?code-excerpt "misc/lib/language_tour/control_flow.dart (switch)"?>
 {% prettify dart %}
