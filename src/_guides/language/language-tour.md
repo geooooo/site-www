@@ -2694,13 +2694,11 @@ class ImmutablePoint {
 
 #### Фабричные конструкторы
 
-Use the `factory` keyword when implementing a constructor that doesn’t
-always create a new instance of its class. For example, a factory
-constructor might return an instance from a cache, or it might return an
-instance of a subtype.
+Используйте ключевое слово `factory`, когда реализуете конструктор, который
+не всегда создаёт новый экземпляр своего класса. Например, фабричный конструктор может возвращать
+экземпляр из кэша или может возвращать экземпляр подкласса.
 
-The following example demonstrates a factory constructor returning
-objects from a cache:
+Следующий пример демонстрирует фабричный конструктор, возвращающий объекты из кэша:
 
 <?code-excerpt "misc/lib/language_tour/classes/logger.dart"?>
 {% prettify dart %}
@@ -2708,8 +2706,7 @@ class Logger {
   final String name;
   bool mute = false;
 
-  // _cache is library-private, thanks to
-  // the _ in front of its name.
+  // _cache приватный, благодаря символу _ спереди
   static final Map<String, Logger> _cache =
       <String, Logger>{};
 
@@ -2732,11 +2729,11 @@ class Logger {
 {% endprettify %}
 
 <div class="alert alert-info" markdown="1">
-**Note:**
-Factory constructors have no access to `this`.
+**Замечание:**
+Фабричные конструкторы не имеют доступа к `this`.
 </div>
 
-Invoke a factory constructor just like you would any other constructor:
+Вызов фабричного конструктора также прост, как и любого друго конструктора:
 
 <?code-excerpt "misc/lib/language_tour/classes/logger.dart (logger)"?>
 {% prettify dart %}
@@ -2745,15 +2742,14 @@ logger.log('Button clicked');
 {% endprettify %}
 
 
-### Methods
+### Методы
 
-Methods are functions that provide behavior for an object.
+Методы - это функции, которые предоставляют поведение для объекта.
 
-#### Instance methods
+#### Методы экземпляра
 
-Instance methods on objects can access instance variables and `this`.
-The `distanceTo()` method in the following sample is an example of an
-instance method:
+Методы экземпляра в объектах могут обращаться к переменным экземпляра и `this`.
+Метод `distanceTo()` в следующем образце - пример метода экземпляра:
 
 <?code-excerpt "misc/lib/language_tour/classes/point.dart (class-with-distanceTo)" plaster="none"?>
 {% prettify dart %}
@@ -2772,13 +2768,13 @@ class Point {
 }
 {% endprettify %}
 
-#### Getters and setters
+#### Getter'ы и setter'ы
 
-Getters and setters are special methods that provide read and write
-access to an object’s properties. Recall that each instance variable has
-an implicit getter, plus a setter if appropriate. You can create
-additional properties by implementing getters and setters, using the
-`get` and `set` keywords:
+Getter'ы and setter'ы - специальные методы, которые обеспечивают доступ к чтению
+и записи свойст объекта. Напомним, что каждая переменная экземпляра имеет неявный метод
+getter, а также, если необходимо, метод setter.
+Вы можете создать дополнительные свойства реализовав getter'ы и
+setter'ы, используя ключевые слова `get` и `set`:
 
 <?code-excerpt "misc/lib/language_tour/classes/rectangle.dart"?>
 {% prettify dart %}
@@ -2787,7 +2783,7 @@ class Rectangle {
 
   Rectangle(this.left, this.top, this.width, this.height);
 
-  // Define two calculated properties: right and bottom.
+  // Определение двух вычисляемых свойств: right и bottom.
   num get right => left + width;
   set right(num value) => left = value - width;
   num get bottom => top + height;
@@ -2802,18 +2798,19 @@ void main() {
 }
 {% endprettify %}
 
-With getters and setters, you can start with instance variables, later
-wrapping them with methods, all without changing client code.
+Благодаря getter'ам and setter'ам, вы можете начать с переменных экземпляра,
+позже обернуть их спомощью методов, и всё это без изменения клиентского кода.
 
 <div class="alert alert-info" markdown="1">
-**Note:**
-Operators such as increment (++) work in the expected way, whether or
-not a getter is explicitly defined. To avoid any unexpected side
-effects, the operator calls the getter exactly once, saving its value
-in a temporary variable.
+**Замечание:**
+Операторы, такие как инкремент (++) работают ожидаемым образом, вне зависимости от
+того, определён ли getter явно.
+Чтобы избежать неожиданных побочных эффектов,
+оператор вызывает getter ровно один раз,
+сохраняя его значение во временной переменной.
 </div>
 
-#### Abstract methods
+#### Абстрактные методы
 
 Instance, getter, and setter methods can be abstract, defining an
 interface but leaving its implementation up to other classes.
