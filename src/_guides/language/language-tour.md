@@ -2120,9 +2120,9 @@ void distanceTo(Point other) => throw UnimplementedError();
 
 ### Catch
 
-Catching, or capturing, an exception stops the exception from
-propagating (unless you rethrow the exception).
-Catching an exception gives you a chance to handle it:
+Ловля или захват исключения останавливает распространение исключения
+(только если вы не пробросите его дальше).
+Захват исключения даёт вам возможность обработать его:
 
 <?code-excerpt "misc/lib/language_tour/exceptions.dart (try)"?>
 {% prettify dart %}
@@ -2133,60 +2133,59 @@ try {
 }
 {% endprettify %}
 
-To handle code that can throw more than one type of exception, you can
-specify multiple catch clauses. The first catch clause that matches the
-thrown object’s type handles the exception. If the catch clause does not
-specify a type, that clause can handle any type of thrown object:
+Для обработки кода, который может генерировать более одного типа исключения
+вы можете указать много пунктов захвата.
+Первый пункт захвата, соответствующий типу брошенного объекта, обрабатывает исключение.
+Если у пункта захвата не указан тип, то этот пункт может обработать бросаемый объект с любыми типом.
 
 <?code-excerpt "misc/lib/language_tour/exceptions.dart (try-catch)"?>
 {% prettify dart %}
 try {
   breedMoreLlamas();
 } on OutOfLlamasException {
-  // A specific exception
+  // Тут указан тип исключения
   buyMoreLlamas();
 } on Exception catch (e) {
-  // Anything else that is an exception
-  print('Unknown exception: $e');
+  // Все остальное, что является исключением
+  print('Неизвестное исключение: $e');
 } catch (e) {
-  // No specified type, handles all
-  print('Something really unknown: $e');
+  // Не указан тип, обрабатывает всё
+  print('Что-то действительно неизвестное: $e');
 }
 {% endprettify %}
 
-As the preceding code shows, you can use either `on` or `catch` or both.
-Use `on` when you need to specify the exception type. Use `catch` when
-your exception handler needs the exception object.
+Как показано в предыдущем коде, вы можете использовать `on` или `catch` или всё вместе.
+Используйте `on`, когда вам необходимо указать тип исключения.
+Используйте `catch`, когда ваш обработчик исключения нуждается в объекте исключения.
 
-You can specify one or two parameters to `catch()`.
-The first is the exception that was thrown,
-and the second is the stack trace (a [StackTrace][] object).
+Вы можете указать один или два параметра для `catch()`.
+Первый - брошенное исключение,
+второй - трассировки стека (объект [StackTrace][]).
 
 <?code-excerpt "misc/lib/language_tour/exceptions.dart (try-catch-2)" replace="/\(e.*?\)/[!$&!]/g"?>
 {% prettify dart %}
 try {
   // ···
 } on Exception catch [!(e)!] {
-  print('Exception details:\n $e');
+  print('Подробности об исключении:\n $e');
 } catch [!(e, s)!] {
-  print('Exception details:\n $e');
-  print('Stack trace:\n $s');
+  print('Подробности об исключении:\n $e');
+  print('Трассировка стека:\n $s');
 }
 {% endprettify %}
 
-To partially handle an exception,
-while allowing it to propagate,
-use the `rethrow` keyword.
+Чтобы частично обработать исключение и разрешить его распространение,
+используйте ключевое слово `rethrow`.
 
 <?code-excerpt "misc/test/language_tour/exceptions_test.dart (rethrow)" replace="/rethrow;/[!$&!]/g"?>
 {% prettify dart %}
 void misbehave() {
   try {
     dynamic foo = true;
-    print(foo++); // Runtime error
+    print(foo++); // Ошибка времени исполнения
   } catch (e) {
-    print('misbehave() partially handled ${e.runtimeType}.');
-    [!rethrow;!] // Allow callers to see the exception.
+    print('misbehave() частично обработана ${e.runtimeType}.');
+    [!rethrow;!] // Позволяет вызывающим увидеть исключение.
   }
 }
 
@@ -2194,7 +2193,7 @@ void main() {
   try {
     misbehave();
   } catch (e) {
-    print('main() finished handling ${e.runtimeType}.');
+    print('main() завершение обработки ${e.runtimeType}.');
   }
 }
 {% endprettify %}
@@ -2202,38 +2201,38 @@ void main() {
 
 ### Finally
 
-To ensure that some code runs whether or not an exception is thrown, use
-a `finally` clause. If no `catch` clause matches the exception, the
-exception is propagated after the `finally` clause runs:
+Чтобы убедиться, что какой-то код выполняется независимо от того, выдано исключение или нет,
+используйте пункт `finally`. Если исключение не подошло ни одному пункту `catch`,
+исключение будет рапространено дальше после выполнения пункта `finally`:
 
 <?code-excerpt "misc/lib/language_tour/exceptions.dart (finally)"?>
 {% prettify dart %}
 try {
   breedMoreLlamas();
 } finally {
-  // Always clean up, even if an exception is thrown.
+  // Всегда убираться, даже если выдается исключение.
   cleanLlamaStalls();
 }
 {% endprettify %}
 
-The `finally` clause runs after any matching `catch` clauses:
+Пункт `finally` запускается после любого подошедшего пункта `catch`:
 
 <?code-excerpt "misc/lib/language_tour/exceptions.dart (try-catch-finally)"?>
 {% prettify dart %}
 try {
   breedMoreLlamas();
 } catch (e) {
-  print('Error: $e'); // Handle the exception first.
+  print('Error: $e'); // Сначала обработать исключение.
 } finally {
-  cleanLlamaStalls(); // Then clean up.
+  cleanLlamaStalls(); // Потом убраться.
 }
 {% endprettify %}
 
-Learn more by reading the
-[Exceptions](/guides/libraries/library-tour#exceptions)
-section of the library tour.
+Узнайте больше, прочитав раздел
+[Исключения](/guides/libraries/library-tour#exceptions)
+тура по библиотеке.
 
-## Classes
+## Классы
 
 Dart is an object-oriented language with classes and mixin-based
 inheritance. Every object is an instance of a class, and all classes
