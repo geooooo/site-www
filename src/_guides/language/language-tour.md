@@ -1322,7 +1322,7 @@ assert(foo() == null);
 {% endprettify %}
 
 
-## Operators
+## Операторы
 
 В Dart определены операторы, показаные в следующей таблице.
 Вы можете переопределить некоторые из этих операторов, описаные в
@@ -1972,8 +1972,7 @@ switch (command) {
 }
 {% endprettify %}
 
-The following example omits the `break` statement in a `case` clause,
-thus generating an error:
+В следующем примере в `case` пропускается инструкция `break`, что приводит к ошибке:
 
 <?code-excerpt "misc/lib/language_tour/control_flow.dart (switch-break-omitted)" plaster="none"?>
 {% prettify dart %}
@@ -1981,7 +1980,7 @@ var command = 'OPEN';
 switch (command) {
   case 'OPEN':
     executeOpen();
-    // ERROR: Missing break
+    // Ошибка: пропущен break
 
   case 'CLOSED':
     executeClosed();
@@ -1989,23 +1988,23 @@ switch (command) {
 }
 {% endprettify %}
 
-However, Dart does support empty `case` clauses, allowing a form of
-fall-through:
+Тем не менее, Dart поддерживает пустой `case`, разрешая
+делать "проваливание":
 
 <?code-excerpt "misc/lib/language_tour/control_flow.dart (switch-empty-case)"?>
 {% prettify dart %}
 var command = 'CLOSED';
 switch (command) {
-  case 'CLOSED': // Empty case falls through.
+  case 'CLOSED': // Пустой case проваливается
   case 'NOW_CLOSED':
-    // Runs for both CLOSED and NOW_CLOSED.
+    //  Запускает для CLOSED и NOW_CLOSED.
     executeNowClosed();
     break;
 }
 {% endprettify %}
 
-If you really want fall-through, you can use a `continue` statement and
-a label:
+Если вы хотите сделать "проваливание" в непустом `case`, вы можете
+использовать инструкцию `continue` и метку:
 
 <?code-excerpt "misc/lib/language_tour/control_flow.dart (switch-continue)"?>
 {% prettify dart %}
@@ -2014,91 +2013,89 @@ switch (command) {
   case 'CLOSED':
     executeClosed();
     continue nowClosed;
-  // Continues executing at the nowClosed label.
-
+  // Продолжает исполнение с метки nowClosed.
   nowClosed:
   case 'NOW_CLOSED':
-    // Runs for both CLOSED and NOW_CLOSED.
+    //  Запускает для CLOSED и NOW_CLOSED.
     executeNowClosed();
     break;
 }
 {% endprettify %}
 
-A `case` clause can have local variables, which are visible only inside
-the scope of that clause.
+Пункт `case` может иметь локальные переменные, которые видны только внутри области
+видимости этого пункта.
 
 
 ### Assert
 
-Use an `assert` statement to disrupt normal execution if a boolean
-condition is false. You can find examples of assert statements
-throughout this tour. Here are some more:
+Используйте инструкцию `assert` чтобы прервать нормальное исполнение, если
+логическое условие ложно. Вы можете найти примеры инструкции `assert` на протяжении этого тура.
+Вот ещё немного:
 
 <?code-excerpt "misc/test/language_tour/control_flow_test.dart (assert)"?>
 {% prettify dart %}
-// Make sure the variable has a non-null value.
+// Удоствериться, что значение не равно null
 assert(text != null);
 
-// Make sure the value is less than 100.
+// Удоствериться, что значение меньше 100
 assert(number < 100);
 
-// Make sure this is an https URL.
+// Удоствериться, что это URL с https
 assert(urlString.startsWith('https'));
 {% endprettify %}
 
 <div class="alert alert-info" markdown="1">
-**Note:**
-Assert statements have no effect in production code;
-they're for development only.
-Flutter enables asserts in [debug mode.][Flutter debug mode]
-Development-only tools such as [dartdevc][]
-typically support asserts by default.
-Some tools, such as [dart][] and [dart2js,][dart2js]
-support asserts through a command-line flag: `--enable-asserts`.
+**Замечание:**
+Инструкция assert не оказывает влияние на продакшен код;
+она только для разработки.
+Во Flutter assert доступен в [отладочном режиме][Flutter debug mode].
+Утилиты предназначенные только для разработки, такие как [dartdevc][]
+поддерживают assert поумолчанию.
+Некоторые инструменты, такие как [dart][] и [dart2js][dart2js],
+поддерживают assert через флаг коммандной строки: `--enable-asserts`.
 </div>
 
-To attach a message to an assert,
-add a string as the second argument.
+Чтобы добавить сообщение к assert,
+добавте строку вторым аргументом.
 
 <?code-excerpt "misc/test/language_tour/control_flow_test.dart (assert-with-message)"?>
 {% prettify dart %}
 assert(urlString.startsWith('https'),
-    'URL ($urlString) should start with "https".');
+    'URL ($urlString) должен начинаться с "https".');
 {% endprettify %}
 
-The first argument to `assert` can be any expression that
-resolves to a boolean value. If the expression’s value
-is true, the assertion succeeds and execution
-continues. If it's false, the assertion fails and an exception (an
-[AssertionError][]) is thrown.
+Первый аргумент `assert` может быть выражением, которое вычисляется в логическое значение.
+Если значение выражения - true, утверждение успешно и исполнение кода продолжается.
+Если оно - false, утверждение неуспешно и бросается исключение [AssertionError][].
 
 
-## Exceptions
+## Исключения
 
-Your Dart code can throw and catch exceptions. Exceptions are errors
-indicating that something unexpected happened. If the exception isn’t
-caught, the isolate that raised the exception is suspended, and
-typically the isolate and its program are terminated.
+Ваш код на Dart может бросать и ловить исключения. Исключения - ошибки,
+сообщающие, что произошло что-то неожиданное. Если исключение не поймано,
+изолят, который возбудил исключение - приостанавливается и обычно, изолят
+и его программа прерывается.
 
-In contrast to Java, all of Dart’s exceptions are unchecked exceptions.
-Methods do not declare which exceptions they might throw, and you are
-not required to catch any exceptions.
+В отличии от Java, все исключения в Dart - непроверяемые.
+Методы не объявляют какие исключения они могут бросить, и от вас
+не требуется отлавливать любые исключения.
 
-Dart provides [Exception][] and [Error][]
-types, as well as numerous predefined subtypes. You can, of course,
-define your own exceptions. However, Dart programs can throw any
-non-null object—not just Exception and Error objects—as an exception.
+Dart предоставляет типы [Exception][] и [Error][],
+а также многочисленные предопределенные подтипы.
+Вы можете, конечно, определить ваше собственное исключение.
+Тем неменее, Dart программы могут бросать любые не null объекты как исключения,
+не только Exception и Error.
 
 ### Throw
 
-Here’s an example of throwing, or *raising*, an exception:
+Здесь пример бросания или *возбуждение* исключения:
 
 <?code-excerpt "misc/lib/language_tour/exceptions.dart (throw-FormatException)"?>
 {% prettify dart %}
-throw FormatException('Expected at least 1 section');
+throw FormatException('Ожидается хотя бы 1 раздел');
 {% endprettify %}
 
-You can also throw arbitrary objects:
+Вы также можете бросать произвольные объекты:
 
 <?code-excerpt "misc/lib/language_tour/exceptions.dart (out-of-llamas)"?>
 {% prettify dart %}
@@ -2106,12 +2103,14 @@ throw 'Out of llamas!';
 {% endprettify %}
 
 <div class="alert alert-info" markdown="1">
-  **Note:** Production-quality code usually throws types that implement
-  [Error][] or [Exception][].
+  **Замечание:**
+  Грамотный и качественный код обычно бросает типы,
+  реализующие [Error][] или [Exception][].
 </div>
 
-Because throwing an exception is an expression, you can throw exceptions
-in =\> statements, as well as anywhere else that allows expressions:
+Поскольку генерирование исключения является выражением,
+вы можете бросать исключения в операторах =\>,
+а также в любом другом месте, где разрешены выражения:
 
 <?code-excerpt "misc/lib/language_tour/exceptions.dart (throw-is-an-expression)"?>
 {% prettify dart %}
