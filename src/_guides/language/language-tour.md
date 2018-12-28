@@ -2234,39 +2234,36 @@ try {
 
 ## Классы
 
-Dart is an object-oriented language with classes and mixin-based
-inheritance. Every object is an instance of a class, and all classes
-descend from [Object.][Object]
-*Mixin-based inheritance* means that although every class (except for
-Object) has exactly one superclass, a class body can be reused in
-multiple class hierarchies.
+Dart - объектно-ориентированный язык с классами и наследованием, основанным на миксинах.
+Каждый объект - экземпляр класса и все классы происходят от [Object][Object].
+*Наследование, основанное на миксинах* означает, что каждый класс (за исключением Object)
+имеет ровно один суперкласс, а тело класса может быть переиспользовано во множестве
+иерархией классов.
 
+### Использование членов класса
 
-### Using class members
+У объектов есть *члены*, состоящие из функций и данных (*методы* и *переменные экземпляра*, соответственно).
+Когда вы вызывает метод, вы вызываете его на объекте: метод имеет доступ к функциям
+и данным объекта.
 
-Objects have *members* consisting of functions and data (*methods* and
-*instance variables*, respectively). When you call a method, you *invoke*
-it on an object: the method has access to that object’s functions and
-data.
-
-Use a dot (`.`) to refer to an instance variable or method:
+Используйте точку (`.`) чтобы обратиться к переменной экземпляра или методу:
 
 <?code-excerpt "misc/test/language_tour/classes_test.dart (object-members)"?>
 {% prettify dart %}
 var p = Point(2, 2);
 
-// Set the value of the instance variable y.
+// Установка значения переменной экземпляра y.
 p.y = 3;
 
-// Get the value of y.
+// Получение значения y.
 assert(p.y == 3);
 
-// Invoke distanceTo() on p.
+// Вызов метода distanceTo() объекта p.
 num distance = p.distanceTo(Point(4, 4));
 {% endprettify %}
 
-Use `?.` instead of `.` to avoid an exception
-when the leftmost operand is null:
+Используйте `?.` вместо `.` чтобы избежать исключения,
+когда крайний слева операнд null:
 
 {% comment %}
 https://dartpad.dartlang.org/0cb25997742ed5382e4a
@@ -2275,18 +2272,18 @@ https://gist.github.com/0cb25997742ed5382e4a
 
 <?code-excerpt "misc/test/language_tour/classes_test.dart (safe-member-access)"?>
 {% prettify dart %}
-// If p is non-null, set its y value to 4.
+// Если p не null, установить его полю y значение 4.
 p?.y = 4;
 {% endprettify %}
 
 
-### Using constructors
+### Использование конструкторов
 
-You can create an object using a *constructor*.
-Constructor names can be either <code><em>ClassName</em></code> or
-<code><em>ClassName</em>.<em>identifier</em></code>. For example,
-the following code creates `Point` objects using the
-`Point()` and `Point.fromJson()` constructors:
+Вы можете создать объект, используя *конструктор*.
+Имя конструктора может быть либо <code><em>ИмяКласса</em></code> или
+<code><em>ИмяКласса</em>.<em>идентификатор</em></code>. Например,
+следующий код создаёт объект `Point`, используя конструкторы
+`Point()` и `Point.fromJson()`:
 
 <?code-excerpt "misc/test/language_tour/classes_test.dart (object-creation)" replace="/ as .*?;/;/g"?>
 {% prettify dart %}
@@ -2294,8 +2291,8 @@ var p1 = Point(2, 2);
 var p2 = Point.fromJson({'x': 1, 'y': 2});
 {% endprettify %}
 
-The following code has the same effect, but
-uses the optional `new` keyword before the constructor name:
+Следующий код работатет точно также, но
+использует необязательное ключевое слово `new` перед именем конструктора:
 
 <?code-excerpt "misc/test/language_tour/classes_test.dart (object-creation-new)" replace="/ as .*?;/;/g"?>
 {% prettify dart %}
@@ -2304,103 +2301,103 @@ var p2 = new Point.fromJson({'x': 1, 'y': 2});
 {% endprettify %}
 
 <aside class="alert alert-info" markdown="1">
-  **Version note:** The `new` keyword became optional in Dart 2.
+  **Замечание по версии:** Ключевое слово `new` стало опциональным в Dart 2.
 </aside>
 
-Some classes provide [constant constructors](#constant-constructors).
-To create a compile-time constant using a constant constructor,
-put the `const` keyword before the constructor name:
+Некоторые классы предоставляют [конструкторы констант](#constant-constructors).
+Для создания констант времени компиляции используется константный конструктор,
+поместите ключевое слово `const` перед именем конструктора:
 
 <?code-excerpt "misc/test/language_tour/classes_test.dart (const)"?>
 {% prettify dart %}
 var p = const ImmutablePoint(2, 2);
 {% endprettify %}
 
-Constructing two identical compile-time constants results in a single,
-canonical instance:
+Конструирование двух идентичных констант времени компиляции
+даёт в результате один и тот же экземпляр:
 
 <?code-excerpt "misc/test/language_tour/classes_test.dart (identical)"?>
 {% prettify dart %}
 var a = const ImmutablePoint(1, 1);
 var b = const ImmutablePoint(1, 1);
 
-assert(identical(a, b)); // They are the same instance!
+assert(identical(a, b)); // Один и тот же экземпляр!
 {% endprettify %}
 
-Within a _constant context_, you can omit the `const` before a constructor
-or literal. For example, look at this code, which creates a const map:
+Внутри _константного контекста_, вы можете опустить `const` перед конструктором или литералом.
+Например, посмотрите на этот код, который создаёт константную мапу:
 
 <?code-excerpt "misc/test/language_tour/classes_test.dart (const-context-withconst)" replace="/pointAndLine1/pointAndLine/g"?>
 {% prettify dart %}
-// Lots of const keywords here.
+// Здесь много ключевых слов const.
 const pointAndLine = const {
   'point': const [const ImmutablePoint(0, 0)],
   'line': const [const ImmutablePoint(1, 10), const ImmutablePoint(-2, 11)],
 };
 {% endprettify %}
 
-You can omit all but the first use of the `const` keyword:
+Вы можете опустить все, кроме первого ключевого слова `const`:
 
 <?code-excerpt "misc/test/language_tour/classes_test.dart (const-context-noconst)" replace="/pointAndLine2/pointAndLine/g"?>
 {% prettify dart %}
-// Only one const, which establishes the constant context.
+// Только один const, который устанавливает константный контекст.
 const pointAndLine = {
   'point': [ImmutablePoint(0, 0)],
   'line': [ImmutablePoint(1, 10), ImmutablePoint(-2, 11)],
 };
 {% endprettify %}
 
-If a constant constructor is outside of a constant context
-and is invoked without `const`,
-it creates a **non-constant object**:
+Если константный конструктор вне константного контекста и вызывается без `const`,
+создаётся **не константный объект**:
 
 <?code-excerpt "misc/test/language_tour/classes_test.dart (nonconst-const-constructor)"?>
 {% prettify dart %}
-var a = const ImmutablePoint(1, 1); // Creates a constant
-var b = ImmutablePoint(1, 1); // Does NOT create a constant
+var a = const ImmutablePoint(1, 1); // Создаётся константа
+var b = ImmutablePoint(1, 1); // Здесь не будет создана константа
 
-assert(!identical(a, b)); // NOT the same instance!
+assert(!identical(a, b)); // Не один и тот же экземпляр
 {% endprettify %}
 
 <aside class="alert alert-info" markdown="1">
-  **Version note:** The `const` keyword became optional
-  within a constant context in Dart 2.
+  **Замечание по версии:**
+  Ключевое слово `const` стало опциональным внутри константного
+  контекста в Dart 2.
 </aside>
 
 
-### Getting an object's type
+### Получение типа объектов
 
-To get an object's type at runtime,
-you can use Object's `runtimeType` property,
-which returns a [Type][] object.
+Чтобы получить тип объектов во время исполнения,
+вы можете использовать свойство `runtimeType`, которое
+возвращает объект [Type][].
 
 <?code-excerpt "misc/test/language_tour/classes_test.dart (runtimeType)"?>
 {% prettify dart %}
-print('The type of a is ${a.runtimeType}');
+print('Тип a: ${a.runtimeType}');
 {% endprettify %}
 
-Up to here, you've seen how to _use_ classes.
-The rest of this section shows how to _implement_ classes.
+До этого, вы видели как _использовать_ классы.
+Остальное из этого раздела показывает как классы _реализуются_.
 
 
-### Instance variables
+### Переменные экземпляра
 
-Here’s how you declare instance variables:
+Вот как объявляются переменные экземпляра:
 
 <?code-excerpt "misc/lib/language_tour/classes/point_with_main.dart (class)"?>
 {% prettify dart %}
 class Point {
-  num x; // Declare instance variable x, initially null.
-  num y; // Declare y, initially null.
-  num z = 0; // Declare z, initially 0.
+  num x; // Объявление переменной экземпляра x, исходное значение null.
+  num y; // Объявление y, исходное значение null.
+  num z = 0; // Объявление z, исходное значение 0.
 }
 {% endprettify %}
 
-All uninitialized instance variables have the value `null`.
+Все неинициализированные переменные экземпляра имеют значение `null`.
 
-All instance variables generate an implicit *getter* method. Non-final
-instance variables also generate an implicit *setter* method. For details,
-see [Getters and setters](#getters-and-setters).
+Все переменные экземпляра неявно генерируют метод *getter*.
+Не финальные переменные экземпляра также генерируют неявно метод *setter*.
+За деталями смотрите [Getter'ы and setter'ы](#getters-and-setters).
 
 <?code-excerpt "misc/lib/language_tour/classes/point_with_main.dart (class+main)" replace="/(num .*?;).*/$1/g" plaster="none"?>
 {% prettify dart %}
@@ -2411,25 +2408,24 @@ class Point {
 
 void main() {
   var point = Point();
-  point.x = 4; // Use the setter method for x.
-  assert(point.x == 4); // Use the getter method for x.
-  assert(point.y == null); // Values default to null.
+  point.x = 4; // Использование метода setter для x.
+  assert(point.x == 4); // Использование метода getter для x.
+  assert(point.y == null); // Значения поумолчанию null.
 }
 {% endprettify %}
 
-If you initialize an instance variable where it is declared (instead of
-in a constructor or method), the value is set when the instance is
-created, which is before the constructor and its initializer list
-execute.
+Если вы инициализируете переменные экземпляра, где они объявлены
+(а не в конструкторе или в методе), значение устанавливается при создании экземпляра,
+то есть перед выполнением конструктора и его списка инициализаторов.
 
 
-### Constructors
+### Конструкторы
 
-Declare a constructor by creating a function with the same name as its
-class (plus, optionally, an additional identifier as described in
-[Named constructors](#named-constructors)).
-The most common form of constructor, the generative constructor, creates
-a new instance of a class:
+Объявите конструктор спомощью создания функции с таким же именем как у класса
+(плюс, необязательно, дополнительный идентификатор как описано в
+[Именованных конструкторах](#named-constructors)).
+Наиболее распространенная форма конструктора - порождающий конструктор,
+который создает новый экземпляр класса:
 
 <?code-excerpt "misc/lib/language_tour/classes/point_alt.dart (constructor-long-way)" plaster="none"?>
 {% prettify dart %}
@@ -2437,51 +2433,49 @@ class Point {
   num x, y;
 
   Point(num x, num y) {
-    // There's a better way to do this, stay tuned.
+    // Есть более лучший способ сделать это, будте в курсе.
     this.x = x;
     this.y = y;
   }
 }
 {% endprettify %}
 
-The `this` keyword refers to the current instance.
+Ключевое слово `this` ссылается на текущий экземпляр.
 
 <div class="alert alert-info" markdown="1">
-**Note:**
-Use `this` only when there is a name conflict. Otherwise, Dart style
-omits the `this`.
+**Замечание:**
+Используйте `this` только когда есть конфликт имён.
+Во всех остальных случаях в Dart принято опускать `this`.
 </div>
 
-The pattern of assigning a constructor argument to an instance variable
-is so common, Dart has syntactic sugar to make it easy:
+Шаблон присваивания аргументов конструктора переменные экземпляра настолько распространён,
+что Dart имеет синтаксический сахар, чтобы сделать это проще:
 
 <?code-excerpt "misc/lib/language_tour/classes/point.dart (constructor-initializer)" plaster="none"?>
 {% prettify dart %}
 class Point {
   num x, y;
 
-  // Syntactic sugar for setting x and y
-  // before the constructor body runs.
+  // Синтаксический сахар для установки x и y
+  // перед исполнением тела конструктора.
   Point(this.x, this.y);
 }
 {% endprettify %}
 
-#### Default constructors
+#### Конструкторы поумолчанию
 
-If you don’t declare a constructor, a default constructor is provided
-for you. The default constructor has no arguments and invokes the
-no-argument constructor in the superclass.
+Если вы не объявите конструктор, вам будет предоставлен конструктор поумолчанию.
+Конструктор поумолчанию не имеет аргументов и вызывает конструктор без аргументов в суперклассе.
 
-#### Constructors aren’t inherited
+#### Конструкторы не наследуются
 
-Subclasses don’t inherit constructors from their superclass. A subclass
-that declares no constructors has only the default (no argument, no
-name) constructor.
+Подклассы не наследуют конструкторы из своих суперклассов.
+Подкласс, который не объявляет конструктора имеет только конструктор поумолчанию.
 
-#### Named constructors
+#### Именованные конструкторы
 
-Use a named constructor to implement multiple constructors for a class
-or to provide extra clarity:
+Используйте именованный конструктор для реализации нескольких конструкторов класса
+или чтобы обеспечить дополнительную ясность:
 
 <?code-excerpt "misc/lib/language_tour/classes/point.dart (named-constructor)" replace="/Point\.\S*/[!$&!]/g" plaster="none"?>
 {% prettify dart %}
@@ -2490,7 +2484,7 @@ class Point {
 
   Point(this.x, this.y);
 
-  // Named constructor
+  // Именованный конструктор
   [!Point.origin()!] {
     x = 0;
     y = 0;
@@ -2498,32 +2492,32 @@ class Point {
 }
 {% endprettify %}
 
-Remember that constructors are not inherited, which means that a
-superclass’s named constructor is not inherited by a subclass. If you
-want a subclass to be created with a named constructor defined in the
-superclass, you must implement that constructor in the subclass.
+Запомните, что конструкторы не наследуются, это значит, что
+подклассы не наследуют именованные конструкторы суперклассов.
+Если вы хотите создать подкласс с именнованным конструктором, определённым
+в суперклассе, вы должны реализовать этот конструктор в подклассе.
 
-#### Invoking a non-default superclass constructor
 
-By default, a constructor in a subclass calls the superclass’s unnamed,
-no-argument constructor.
-The superclass's constructor is called at the beginning of the
-constructor body. If an [initializer list](#initializer-list)
-is also being used, it executes before the superclass is called.
-In summary, the order of execution is as follows:
+#### Вызов конструктора (не поумолчанию) суперкласса
 
-1. initializer list
-1. superclass's no-arg constructor
-1. main class's no-arg constructor
+Поумолчанию, конструктор в подклассе вызывает у суперкласса безымянный
+конструктор, у которого нет аргументов.
+Конструктор суперкласса вызывается в начале тела конструктора.
+Если также используется [список инициализации](#initializer-list), он выполняется до вызова суперкласса.
+В итоге, порядок исполнения таков:
 
-If the superclass doesn’t have an unnamed, no-argument constructor,
-then you must manually call one of the constructors in the
-superclass. Specify the superclass constructor after a colon (`:`), just
-before the constructor body (if any).
+1. список инициализации
+2. конструктор без аргументов суперкласса
+3. конструктор без аргументов текущего класса
 
-In the following example, the constructor for the Employee class
-calls the named constructor for its superclass, Person.
-Click the run button {% asset red-run.png alt="" %} to execute the code.
+Если у суперкласса нет безымяного конструктора без аргументов,
+тогда вы должны вручную вызвать один из конструкторов суперкласса.
+Укажите конструктор суперкласса после двоеточия (`:`),
+просто перед телом конструктора (если имеется).
+
+В следующем пример, конструктор для класса Employee вызывает именованный конструктор
+своего суперкласса Person.
+Нажмите на кнопку запуска {% asset red-run.png alt="" %} для исполнения кода.
 
 {% comment %}
 https://gist.github.com/Sfshaza/e57aa06401e6618d4eb8
@@ -2540,8 +2534,8 @@ class Person {
 }
 
 class Employee extends Person {
-  // Person does not have a default constructor;
-  // you must call super.fromJson(data).
+  // У Person нет конструктора поумолчанию
+  // вы должны вызвать super.fromJson(data).
   Employee.fromJson(Map data) : super.fromJson(data) {
     print('in Employee');
   }
@@ -2549,12 +2543,12 @@ class Employee extends Person {
 
 void main() {
   var emp = Employee.fromJson({});
-  // Prints:
+  // Напечатает:
   // in Person
   // in Employee
 
   if (emp is Person) {
-    // Type check
+    // Проверка типа
     emp.firstName = 'Bob';
   }
   (emp as Person).firstName = 'Bob';
@@ -2569,9 +2563,8 @@ src="{{site.custom.dartpad.embed-inline-prefix}}?id=e57aa06401e6618d4eb8&vertica
     style="border: 1px solid #ccc;">
 </iframe>
 
-Because the arguments to the superclass constructor are evaluated before
-invoking the constructor, an argument can be an expression such as a
-function call:
+Так как аргументы для конструктора суперкласса вычисляются перед вызовом конструктора,
+аргументы могут быть выражениями, такими как вызов функции:
 
 <?code-excerpt "misc/lib/language_tour/classes/employee.dart (method-then-constructor)"?>
 {% prettify dart %}
@@ -2582,21 +2575,21 @@ class Employee extends Person {
 {% endprettify %}
 
 <div class="alert alert-warning" markdown="1">
-**Warning:**
-Arguments to the superclass constructor do not have access to `this`.
-For example, arguments can call static methods but not instance methods.
+**Предупреждение:**
+Аргументы для конструктора суперкласса не имеют доступа к `this`.
+Например, аргументы могут вызывать статические методы, но не методы экземпляра.
 </div>
 
-#### Initializer list
+#### Список инициализации
 
-Besides invoking a superclass constructor, you can also initialize
-instance variables before the constructor body runs. Separate
-initializers with commas.
+Кроме вызыва конструктора суперкласса, вы можете также инициализировать
+переменные экземпляра перед запуском тела конструктора.
+Разделяются инициализаторы запятой.
 
 <?code-excerpt "misc/lib/language_tour/classes/point_alt.dart (initializer-list)"?>
 {% prettify dart %}
-// Initializer list sets instance variables before
-// the constructor body runs.
+// Список инициализации задаёт
+// переменные экземпляра перед запуском тела конструктора
 Point.fromJson(Map<String, num> json)
     : x = json['x'],
       y = json['y'] {
@@ -2605,12 +2598,12 @@ Point.fromJson(Map<String, num> json)
 {% endprettify %}
 
 <div class="alert alert-warning" markdown="1">
-**Warning:**
-The right-hand side of an initializer does not have access to `this`.
+**Предупреждение:**
+Правая сторона инициализатора не имеет доступа к `this`.
 </div>
 
-During development, you can validate inputs by using `assert` in the
-initializer list.
+В течении разработки, вы можете проверять входные значения, используя `assert`
+в списке инициализации.
 
 <?code-excerpt "misc/lib/language_tour/classes/point_alt.dart (initializer-list-with-assert)" replace="/assert\(.*?\)/[!$&!]/g"?>
 {% prettify dart %}
@@ -2619,17 +2612,9 @@ Point.withAssert(this.x, this.y) : [!assert(x >= 0)!] {
 }
 {% endprettify %}
 
-{% comment %}
-[PENDING: the example could be better.
-Note that DartPad doesn't support this yet?
-
-https://github.com/dart-lang/sdk/issues/30968
-https://github.com/dart-lang/sdk/blob/master/docs/language/informal/assert-in-initializer-list.md]
-{% endcomment %}
-
-Initializer lists are handy when setting up final fields.
-The following example initializes three final fields in an initializer list.
-Click the run button {% asset red-run.png alt="" %} to execute the code.
+Список инициализации удобен, когда устанавливаются финальные поля.
+Следующий пимер инициализирует три финальных поля в списке инициализации.
+Нажмите на кнопку запуска {% asset red-run.png alt="" %} чтобы исполнить код.
 
 {% comment %}
 https://gist.github.com/Sfshaza/7a9764702c0608711e08
@@ -2665,30 +2650,30 @@ src="{{site.custom.dartpad.embed-inline-prefix}}?id=7a9764702c0608711e08&vertica
 </iframe>
 
 
-#### Redirecting constructors
+#### Перенаправление конструкторов
 
-Sometimes a constructor’s only purpose is to redirect to another
-constructor in the same class. A redirecting constructor’s body is
-empty, with the constructor call appearing after a colon (:).
+Иногда конструкторы предназначены только для перенаправления
+к другим конструкторам в том же классе. Тело перенаправляющего конструктора
+пустое, вызов конструктора появляется после двоеточия (:).
 
 <?code-excerpt "misc/lib/language_tour/classes/point_redirecting.dart"?>
 {% prettify dart %}
 class Point {
   num x, y;
 
-  // The main constructor for this class.
+  // Основной конструктор этого класса.
   Point(this.x, this.y);
 
-  // Delegates to the main constructor.
+  // Делегирует основному конструктору.
   Point.alongXAxis(num x) : this(x, 0);
 }
 {% endprettify %}
 
-#### Constant constructors
+#### Константные конструкторы
 
-If your class produces objects that never change, you can make these
-objects compile-time constants. To do this, define a `const` constructor
-and make sure that all instance variables are `final`.
+Если ваш класс производит объекты, которые никогда не изменяются,
+вы можете сделать эти объекты константами времени компиляции. Для этого
+определите конструктор с `const` и сделайте все переменные экземпляра `final`.
 
 <?code-excerpt "misc/lib/language_tour/classes/immutable_point.dart"?>
 {% prettify dart %}
@@ -2702,12 +2687,12 @@ class ImmutablePoint {
 }
 {% endprettify %}
 
-Constant constructors don't always create constants.
-For details, see the section on
-[using constructors](#using-constructors).
+Константные конструкторы не всегда создаёт константы.
+За подробностями, смотрите разедл по
+[использованию конструкторов](#using-constructors).
 
 
-#### Factory constructors
+#### Фабричные конструкторы
 
 Use the `factory` keyword when implementing a constructor that doesn’t
 always create a new instance of its class. For example, a factory
