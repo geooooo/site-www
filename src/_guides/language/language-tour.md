@@ -2812,78 +2812,78 @@ void main() {
 
 #### Абстрактные методы
 
-Instance, getter, and setter methods can be abstract, defining an
-interface but leaving its implementation up to other classes.
-Abstract methods can only exist in [abstract classes](#abstract-classes).
+Методы getter'ы, и setter'ы могут быть абстрактными,
+определяя интрефейс, но оставляя его реализацию другим классам.
+Абстрактные методы могут быть только в [абстрактных классах](#abstract-classes).
 
-To make a method abstract, use a semicolon (;) instead of a method body:
+Чтобы сделать метод абстрактным, используйте точку с запятов (;) вместо тела метода:
 
 <?code-excerpt "misc/lib/language_tour/classes/doer.dart"?>
 {% prettify dart %}
 abstract class Doer {
-  // Define instance variables and methods...
+  // Определение методов и переменных экземпляра.
 
-  void doSomething(); // Define an abstract method.
+  void doSomething(); // Определение абстрактного метода.
 }
 
 class EffectiveDoer extends Doer {
   void doSomething() {
-    // Provide an implementation, so the method is not abstract here...
+    // Реализация, так что этот метод здесь не абстрактный...
   }
 }
 {% endprettify %}
 
 
-### Abstract classes
+### Абстрактные классы
 
-Use the `abstract` modifier to define an *abstract class*—a class that
-can’t be instantiated. Abstract classes are useful for defining
-interfaces, often with some implementation. If you want your abstract
-class to appear to be instantiable, define a [factory
-constructor](#factory-constructors).
+Используйте модификатор `abstract`, чтобы определить *абстрактный класс* -
+класс, от которого нельзя создать экземпляр. Абстрактные классы полезны для
+определения интерфейсов, часто с некоторой реализацией.
+Если вы хотите, чтобы ваш абстрактный класс казался инстанцируемым,
+определите [фабричный конструктор](#factory-constructors).
 
-Abstract classes often have [abstract methods](#abstract-methods).
-Here’s an example of declaring an abstract class that has an abstract
-method:
+Абстрактные классы часто имеют [абстрактные методы](#abstract-methods).
+Здесь пример объявления абстрактного класса, у которого
+есть абстрактный метод:
 
 <?code-excerpt "misc/lib/language_tour/classes/misc.dart (abstract)"?>
 {% prettify dart %}
 // This class is declared abstract and thus
 // can't be instantiated.
 abstract class AbstractContainer {
-  // Define constructors, fields, methods...
+  // Определение полей, методов...
 
-  void updateChildren(); // Abstract method.
+  void updateChildren(); // Абстрактный метод.
 }
 {% endprettify %}
 
 
-### Implicit interfaces
+### Неявные интерфейсы
 
-Every class implicitly defines an interface containing all the instance
-members of the class and of any interfaces it implements. If you want to
-create a class A that supports class B’s API without inheriting B’s
-implementation, class A should implement the B interface.
+Каждый класс неявно определяет интерфейс, содержащий все члены экземпляра
+класса и любые интерфейсы, которые он реализует.
+Если вы хотите создать класс A, который поддерживает API класса B без
+наследования реализации B, класс A должен реализовать интерфейс B.
 
-A class implements one or more interfaces by declaring them in an
-`implements` clause and then providing the APIs required by the
-interfaces. For example:
+Класс, реализует один или более интерфейсов, объявляя их в
+предложении `implements` и предоставляя API требуемый интерфейсами.
+Например:
 
 <?code-excerpt "misc/lib/language_tour/classes/impostor.dart"?>
 {% prettify dart %}
-// A person. The implicit interface contains greet().
+// Неявный интерфейс, содержащий greet().
 class Person {
-  // In the interface, but visible only in this library.
+  // В интерфейсе, но виден только в этом классе.
   final _name;
 
-  // Not in the interface, since this is a constructor.
+  // Не в интерфейсе, поскольку это конструктор.
   Person(this._name);
 
-  // In the interface.
+  // В интерфейсе.
   String greet(String who) => 'Hello, $who. I am $_name.';
 }
 
-// An implementation of the Person interface.
+// Реализация интерфейса Person.
 class Impostor implements Person {
   get _name => '';
 
@@ -2898,8 +2898,7 @@ void main() {
 }
 {% endprettify %}
 
-Here’s an example of specifying that a class implements multiple
-interfaces:
+Здесь пример указания множественной реализации интерфейсов:
 
 <?code-excerpt "misc/lib/language_tour/classes/misc.dart (point_interfaces)"?>
 {% prettify dart %}
@@ -2907,10 +2906,9 @@ class Point implements Comparable, Location {...}
 {% endprettify %}
 
 
-### Extending a class
+### Наследование классов
 
-Use `extends` to create a subclass, and `super` to refer to the
-superclass:
+Используйте `extends` чтобы создать подкласс и `super` чтобы сослаться к суперклассу:
 
 <?code-excerpt "misc/lib/language_tour/classes/extends.dart" replace="/extends|super/[!$&!]/g"?>
 {% prettify dart %}
@@ -2934,11 +2932,11 @@ class SmartTelevision [!extends!] Television {
 {% endprettify %}
 
 
-#### Overriding members
+#### Переопределение членов класса
 
-Subclasses can override instance methods, getters, and setters.
-You can use the `@override` annotation to indicate that you are
-intentionally overriding a member:
+Подклассы могут переопределять методы экземпляра, getter'ы, setter'ы.
+Вы можете использовать аннтоацию `@override`, чтобы указать, что вы
+намеренно переопределяете член класса:
 
 <?code-excerpt "misc/lib/language_tour/metadata/television.dart (override)" replace="/@override/[!$&!]/g"?>
 {% prettify dart %}
@@ -2949,16 +2947,16 @@ class SmartTelevision extends Television {
 }
 {% endprettify %}
 
-To narrow the type of a method parameter or instance variable in code that is
-[type safe](/guides/language/sound-dart),
-you can use the [`covariant` keyword](/guides/language/sound-problems#the-covariant-keyword).
+Чтобы сузить тип параметра метода или переменной экземпляра в коде, который является
+[типо - безопасным](/guides/language/sound-dart), вы можете использовать
+[ключевое слово `covariant`](/guides/language/sound-problems#the-covariant-keyword).
 
 
-#### Overridable operators
+#### Переопределяемые операторы
 
-You can override the operators shown in the following table.
-For example, if you define a
-Vector class, you might define a `+` method to add two vectors.
+Вы можете переопределить операторы, показанные в следующей таблице.
+Например, если вы определите класс Vector,
+вы возможно определите метод `+`, чтобы складывать два вектора.
 
 `<`  | `+`  | `|`  | `[]`
 `>`  | `/`  | `^`  | `[]=`
@@ -2968,11 +2966,11 @@ Vector class, you might define a `+` method to add two vectors.
 {:.table}
 
 <div class="alert alert-info" markdown="1">
-  **Note:** You may have noticed that `!=` is not an overridable operator.
-  The expression `e1 != e2` is just syntactic sugar for `!(e1 == e2)`.
+  **Замечание:** Вы можете заметить, что `!=` не переопределяемый оператор.
+  Выражение `e1 != e2` просто синтаксический сахар для `!(e1 == e2)`.
 </div>
 
-Here’s an example of a class that overrides the `+` and `-` operators:
+Приведём пример класса, который переопределяет операторы `+` и `-`:
 
 <?code-excerpt "misc/lib/language_tour/classes/vector.dart"?>
 {% prettify dart %}
@@ -2984,7 +2982,7 @@ class Vector {
   Vector operator +(Vector v) => Vector(x + v.x, y + v.y);
   Vector operator -(Vector v) => Vector(x - v.x, y - v.y);
 
-  // Operator == and hashCode not shown. For details, see note below.
+  // Operator == и hashCode не показаны. За подробностями смотрите замечание ниже.
   // ···
 }
 
@@ -2997,24 +2995,25 @@ void main() {
 }
 {% endprettify %}
 
-If you override `==`, you should also override Object's `hashCode` getter.
-For an example of overriding `==` and `hashCode`, see
-[Implementing map keys](/guides/libraries/library-tour#implementing-map-keys).
+Если вы переопределяете `==`, вы должны также переопределить getter класса Object - `hashCode`.
+Пример переопределения `==` и `hashCode` смотрите в
+[Реализация ключей мапы](/guides/libraries/library-tour#implementing-map-keys).
 
-For more information on overriding, in general, see
-[Extending a class](#extending-a-class).
+За подробностями по переопределению в целом, смотрите
+[Наследование классов](#extending-a-class).
 
 
 #### noSuchMethod()
 
-To detect or react whenever code attempts to use a non-existent method or
-instance variable, you can override `noSuchMethod()`:
+Чтобы обнаружить или реагировать всякий раз,
+когда код пытается использовать несуществующий метод или переменную экземпляра,
+вы можете переопределить `noSuchMethod()`:
 
 <?code-excerpt "misc/lib/language_tour/classes/no_such_method.dart" replace="/noSuchMethod(?!,)/[!$&!]/g"?>
 {% prettify dart %}
 class A {
-  // Unless you override noSuchMethod, using a
-  // non-existent member results in a NoSuchMethodError.
+  // Если вы не переопределите noSuchMethod,
+  // использование не существующего члена класса, приведёт к ислючению NoSuchMethodError.
   @override
   void [!noSuchMethod!](Invocation invocation) {
     print('You tried to use a non-existent member: ' +
@@ -3023,41 +3022,38 @@ class A {
 }
 {% endprettify %}
 
-You **can't invoke** an unimplemented method unless
-**one** of the following is true:
+Вы **не можете вызвать** не реализованный метод,
+если не выполнено **одно** из следующих условий:
 
-* The receiver has the static type `dynamic`.
+* Получатель имеет статический тип `dynamic`.
 
-* The receiver has a static type that
-defines the unimplemented method (abstract is OK),
-and the dynamic type of the receiver has an implemention of `noSuchMethod()`
-that's different from the one in class `Object`.
+* Получатель имеет статический тип, который определяет не реализованный метод
+(абстрактный), и динамический тип получателя имеет
+реализацию `noSuchMethod()`, который отличается от реализации в классе `Object`.
 
-For more information, see the informal
-[noSuchMethod forwarding specification.](https://github.com/dart-lang/sdk/blob/master/docs/language/informal/nosuchmethod-forwarding.md)
+За большими подробностями, смотрите неофициальную
+[ссылку на спецификацию noSuchMethod.](https://github.com/dart-lang/sdk/blob/master/docs/language/informal/nosuchmethod-forwarding.md)
 
 
 <a id="enums"></a>
-### Enumerated types
+### Перечислимые типы
+Перечислимые типы часты называют _перечислениями_ или _enums_,
+это специальный вид класса, используемый для представления фиксированного числа
+константных значений.
 
-Enumerated types, often called _enumerations_ or _enums_,
-are a special kind of class used to represent
-a fixed number of constant values.
 
+#### Использование перечислений
 
-#### Using enums
-
-Declare an enumerated type using the `enum` keyword:
+Объявите перечислимый тип, используя ключевое слово `enum`:
 
 <?code-excerpt "misc/lib/language_tour/classes/enum.dart (enum)"?>
 {% prettify dart %}
 enum Color { red, green, blue }
 {% endprettify %}
 
-Each value in an enum has an `index` getter,
-which returns the zero-based position of the value in the enum declaration.
-For example, the first value has index 0,
-and the second value has index 1.
+Каждое значение в перечислении имеет getter `index`, который
+возвращает начинающуюся с нуля позицию в объявлении перечисления.
+Например, первое значение имеет индекс 0, а второе значение индекс 1.
 
 <?code-excerpt "misc/lib/language_tour/classes/enum.dart (index)"?>
 {% prettify dart %}
@@ -3066,8 +3062,8 @@ assert(Color.green.index == 1);
 assert(Color.blue.index == 2);
 {% endprettify %}
 
-To get a list of all of the values in the enum,
-use the enum's `values` constant.
+Чтобы получить список всех значений в перечислении, используйте
+константу `values`.
 
 <?code-excerpt "misc/lib/language_tour/classes/enum.dart (values)"?>
 {% prettify dart %}
@@ -3075,8 +3071,8 @@ List<Color> colors = Color.values;
 assert(colors[2] == Color.blue);
 {% endprettify %}
 
-You can use enums in [switch statements](#switch-and-case), and
-you'll get a warning if you don't handle all of the enum's values:
+Вы можете использовать перечислимые типы в [инструкциях switch](#switch-and-case),
+и вы получите предупреждение, если вы не обработаете все значения перечислимого типа:
 
 <?code-excerpt "misc/lib/language_tour/classes/enum.dart (switch)"?>
 {% prettify dart %}
@@ -3089,27 +3085,27 @@ switch (aColor) {
   case Color.green:
     print('Green as grass!');
     break;
-  default: // Without this, you see a WARNING.
+  default: // Без этого, вы увидите ПРЕДУПРЕЖДЕНИЕ.
     print(aColor); // 'Color.blue'
 }
 {% endprettify %}
 
-Enumerated types have the following limits:
+Перечислимые типы имеют следующие ограничения:
 
-* You can't subclass, mix in, or implement an enum.
-* You can't explicitly instantiate an enum.
+* Вы не можете создавать подклассы, делать миксины или реалзиовывать от перечислений.
+* Вы не можете явно создать экземпляр перечислимого типа.
 
-For more information, see the
-[Dart Language Specification](/guides/language/spec).
+За большей информацией, смотрите
+[Спецификацию языка Dart](/guides/language/spec).
 
 
-### Adding features to a class: mixins
+### Дополнительные возможности классов: миксины
 
-Mixins are a way of reusing a class's code in multiple class
-hierarchies.
+Миксины - способ переиспользования кода классов во множествах
+иерархий классов.
 
-To _use_ a mixin, use the `with` keyword followed by one or more mixin
-names. The following example shows two classes that use mixins:
+Чтобы _использовать_ миксин, используйте ключевое слово `with`, с следующими
+одним или более за ним именами миксинов:
 
 <?code-excerpt "misc/lib/language_tour/classes/orchestra.dart (Musician and Maestro)" replace="/(with.*) \{/[!$1!] {/g"?>
 {% prettify dart %}
@@ -3126,11 +3122,11 @@ class Maestro extends Person
 }
 {% endprettify %}
 
-To _implement_ a mixin, create a class that extends Object and
-declares no constructors.
-Unless you want your mixin to be usable as a regular class,
-use the `mixin` keyword instead of `class`.
-For example:
+Чтобы _реализовать_ миксин, создатйте класс, который наследует от Object и
+не объявляет конструктор.
+Если вы не хотите, чтобы ваш миксин был обычным классом, используйте
+ключевое слово `mixin` вместо `class`.
+Например:
 
 <?code-excerpt "misc/lib/language_tour/classes/orchestra.dart (Musical)"?>
 {% prettify dart %}
@@ -3151,9 +3147,9 @@ mixin Musical {
 }
 {% endprettify %}
 
-To specify that only certain types can use the mixin — for example,
-so your mixin can invoke a method that it doesn't define —
-use `on` to specify the required superclass:
+Чтобы указать, что только некоторые типы могут
+использовать миксин - например, чтобы ваш миксин мог вызывать метод,
+который он не определяет - используйте `on` для указания требуемого суперкласса:
 
 <?code-excerpt "misc/lib/language_tour/classes/orchestra.dart (mixin-on)"?>
 {% prettify dart %}
@@ -3167,17 +3163,17 @@ mixin MusicalPerformer on Musician {
 -->
 
 <aside class="alert alert-info" markdown="1">
-  **Version note:** Support for the `mixin` keyword was introduced in Dart 2.1.
-  Code in earlier releases usually used `abstract class` instead.
-  For more information on 2.1 mixin changes, see the
-  [Dart SDK changelog][] and [2.1 mixin specification.][]
+  **Замечание по версии:** Поддержка ключевого слова `mixin` введена в Dart 2.1.
+  Код ранних релизов обычно использовал `abstract class` вместо этого.
+  За большей информацией об изменениях миксинов в версии 2.1, смотрите
+  [Dart SDK лог изменений][] и [2.1 спецификация миксинов.][]
 </aside>
 
 [Dart SDK changelog]: https://github.com/dart-lang/sdk/blob/master/CHANGELOG.md
 [2.1 mixin specification.]: https://github.com/dart-lang/language/blob/master/accepted/2.1/super-mixins/feature-specification.md#dart-2-mixin-declarations
 
 
-### Class variables and methods
+### Переменные и методы класса
 
 Use the `static` keyword to implement class-wide variables and methods.
 
