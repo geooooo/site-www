@@ -3243,42 +3243,42 @@ void main() {
 
 ## Обобщения
 
+Если вы посмотрите документацию по API базового типа массива -
 If you look at the API documentation for the basic array type,
-[List,][List] you’ll see that the
-type is actually `List<E>`. The \<...\> notation marks List as a
-*generic* (or *parameterized*) type—a type that has formal type
-parameters. [By convention][], most type variables have single-letter names,
-such as E, T, S, K, and V.
+[Список,][List] вы увидите, что тип на самом деле `List<E>`.
+Запись \<...\> отмечает List как
+*обобщённый* (или *параметризованный*) тип - тип, который имеет
+формальные параметры типов. [По соглашению][], большинство переменных типа имеют
+однобуквенные имена, такие как E, T, S, K и V.
 
-[By convention]: /guides/language/effective-dart/design#do-follow-existing-mnemonic-conventions-when-naming-type-parameters
+[По соглашению]: /guides/language/effective-dart/design#do-follow-existing-mnemonic-conventions-when-naming-type-parameters
 
 
-### Why use generics?
+### Зачем использовать обобщения?
 
-Generics are often required for type safety, but they have more benefits
-than just allowing your code to run:
+Обобщения часто требуются для безопасности типов, но они имеют большую выгоду,
+чем просто позволить запустить ваш код:
 
-* Properly specifying generic types results in better generated code.
-* You can use generics to reduce code duplication.
+* Правильно указанные обобщённые типы приводят к лучшей генерации кода.
+* Вы можете использовать обобщения, чтобы уменьшить дублирование кода.
 
-If you intend for a list to contain only strings, you can
-declare it as `List<String>` (read that as “list of string”). That way
-you, your fellow programmers, and your tools can detect that assigning a non-string to
-the list is probably a mistake. Here’s an example:
+Если вы намерены хранить в списках только строки, вы можете
+объявить их `List<String>` (читается как "список строк").
+Таким образом вы, ваши коллеги программисты и ваши иструменты могут обнаружить, что
+присваивание не строки списку скорее всего является ошибкой. Пример:
 
 {:.fails-sa}
 <?code-excerpt "misc/lib/language_tour/generics/misc.dart (why-generics)"?>
 {% prettify dart %}
 var names = List<String>();
 names.addAll(['Seth', 'Kathy', 'Lars']);
-names.add(42); // Error
+names.add(42); // Ошибка
 {% endprettify %}
 
-Another reason for using generics is to reduce code duplication.
-Generics let you share a single interface and implementation between
-many types, while still taking advantage of static
-analysis. For example, say you create an interface for
-caching an object:
+Другая причина использования обобщений - сокращение дублирования кода.
+Обобщения позволяют вам совместно использовать единый интерфейс и
+реализацию для многих типов, но при этом использовать статический анализ.
+Например, допустим, вы создали интерфейс для кэширования объекта:
 
 <?code-excerpt "misc/lib/language_tour/generics/cache.dart (ObjectCache)"?>
 {% prettify dart %}
@@ -3288,8 +3288,8 @@ abstract class ObjectCache {
 }
 {% endprettify %}
 
-You discover that you want a string-specific version of this interface,
-so you create another interface:
+Вы обнаруживаете, что хотите версию этого интерфейса для строк,
+поэтому вы создаёте другой интерфейс:
 
 <?code-excerpt "misc/lib/language_tour/generics/cache.dart (StringCache)"?>
 {% prettify dart %}
@@ -3299,11 +3299,11 @@ abstract class StringCache {
 }
 {% endprettify %}
 
-Later, you decide you want a number-specific version of this
-interface... You get the idea.
+Позже, вы решите, что хотите версию этого интерфейса для чисел...
+У вас появляется идея.
 
-Generic types can save you the trouble of creating all these interfaces.
-Instead, you can create a single interface that takes a type parameter:
+Обобщённые типы могут спасти вас от проблем создания всех этих интерфейсов.
+Вместо этого вы можете создать один интерфейс, который получит параметр типа:
 
 <?code-excerpt "misc/lib/language_tour/generics/cache.dart (Cache)"?>
 {% prettify dart %}
@@ -3313,18 +3313,19 @@ abstract class Cache<T> {
 }
 {% endprettify %}
 
-In this code, T is the stand-in type. It’s a placeholder that you can
-think of as a type that a developer will define later.
+В этом коде T является типом дублёром.
+Это заполнитель, который вы можете рассматривать как тип, который разработчик определит позже.
 
 
-### Using collection literals
+### Использование литералов коллекций:
 
-List and map literals can be parameterized. Parameterized literals are
-just like the literals you’ve already seen, except that you add
-<code>&lt;<em>type</em>></code> (for lists) or
-<code>&lt;<em>keyType</em>, <em>valueType</em>></code> (for maps)
-before the opening bracket. Here
-is example of using typed literals:
+Литералы списков и мап могут быть параметризованы.
+Параметризованные литералы просто как литералы, которые вы уже видили,
+за исключением того, что вы добавляете
+<code>&lt;<em>тип</em>></code> (для списков) или
+<code>&lt;<em>типКлюча</em>, <em>типЗначения</em>></code> (для мап)
+перед отрывавающей скобкой.
+Здесь пример использования типизированных литералов:
 
 <?code-excerpt "misc/lib/language_tour/generics/misc.dart (collection-literals)"?>
 {% prettify dart %}
@@ -3337,10 +3338,11 @@ var pages = <String, String>{
 {% endprettify %}
 
 
-### Using parameterized types with constructors
+### Использование параметризованных типов с конструкторами
 
-To specify one or more types when using a constructor, put the types in
-angle brackets (`<...>`) just after the class name. For example:
+Чтобы указать один или более типов, когда используете конструктор, поместите
+типы в угловые скобки (`<...>`) просто после имени класса.
+Например:
 
 <?code-excerpt "misc/test/language_tour/generics_test.dart (constructor-1)"?>
 {% prettify dart %}
@@ -3349,8 +3351,7 @@ names.addAll(['Seth', 'Kathy', 'Lars']);
 var nameSet = Set<String>.from(names);
 {% endprettify %}
 
-The following code creates a map that has integer keys and values of
-type View:
+Следующий код создаёт мапу, которая имеет целочисленные ключи и значения типа View:
 
 <?code-excerpt "misc/test/language_tour/generics_test.dart (constructor-2)"?>
 {% prettify dart %}
@@ -3358,11 +3359,11 @@ var views = Map<int, View>();
 {% endprettify %}
 
 
-### Generic collections and the types they contain
+### Обобщённые коллекции и типы, которые они содержат
 
-Dart generic types are *reified*, which means that they carry their type
-information around at runtime. For example, you can test the type of a
-collection:
+Обобщённые типы Dart являются _материализованными_, что означает,
+что они переносят информацию о своих типах во время выполнения.
+Например, вы можете проверить тип коллекции:
 
 <?code-excerpt "misc/test/language_tour/generics_test.dart (generic-collections)"?>
 {% prettify dart %}
@@ -3372,30 +3373,31 @@ print(names is List<String>); // true
 {% endprettify %}
 
 <div class="alert alert-info" markdown="1">
-**Note:**
-In contrast, generics in Java use *erasure*, which means that generic
-type parameters are removed at runtime. In Java, you can test whether
-an object is a List, but you can’t test whether it’s a `List<String>`.
+**Замечание:**
+В отличие от обобщённых типов в Java используется *стирание*,
+что означает, что параметры обобщённого типа удаляются во время выполнения.
+В Java вы можете проверить, является ли объект List,
+но вы не можете проверить, является ли он `List<String>`.
 </div>
 
 
-### Restricting the parameterized type
+### Ограничение параметризованных типов
 
-When implementing a generic type,
-you might want to limit the types of its parameters.
-You can do this using `extends`.
+Когда вы реализуете обобщённый тип, вы можете захотеть
+ограничить типы его параметров.
+Вы можете использовать для этого `extends`.
 
 <?code-excerpt "misc/lib/language_tour/generics/base_class.dart" replace="/extends SomeBaseClass(?=. \{)/[!$&!]/g"?>
 {% prettify dart %}
 class Foo<T [!extends SomeBaseClass!]> {
-  // Implementation goes here...
-  String toString() => "Instance of 'Foo<$T>'";
+  // Реализация идёт здесь...
+  String toString() => "Экземпляр 'Foo<$T>'";
 }
 
 class Extender extends SomeBaseClass {...}
 {% endprettify %}
 
-It's OK to use `SomeBaseClass` or any of its subclasses as generic argument:
+Допустимо использовать `SomeBaseClass` или любой его поддит как аргумент обобщения:
 
 <?code-excerpt "misc/test/language_tour/generics_test.dart (SomeBaseClass-ok)" replace="/Foo.\w+./[!$&!]/g"?>
 {% prettify dart %}
@@ -3403,7 +3405,7 @@ var someBaseClassFoo = [!Foo<SomeBaseClass>!]();
 var extenderFoo = [!Foo<Extender>!]();
 {% endprettify %}
 
-It's also OK to specify no generic argument:
+Также допустимо не указывать аргумент обобщения:
 
 <?code-excerpt "misc/test/language_tour/generics_test.dart (no-generic-arg-ok)" replace="/expect\((.*?).toString\(\), .(.*?).\);/print($1); \/\/ $2/g"?>
 {% prettify dart %}
@@ -3411,7 +3413,7 @@ var foo = Foo();
 print(foo); // Instance of 'Foo<SomeBaseClass>'
 {% endprettify %}
 
-Specifying any non-`SomeBaseClass` type results in an error:
+Указание любого не `SomeBaseClass` типа приведёт к ошибке:
 
 {:.fails-sa}
 <?code-excerpt "misc/lib/language_tour/generics/misc.dart (Foo-Object-error)" replace="/Foo.\w+./[!$&!]/g"?>
@@ -3420,35 +3422,36 @@ var foo = [!Foo<Object>!]();
 {% endprettify %}
 
 
-### Using generic methods
+### Использование обобщённых методов
 
-Initially, Dart's generic support was limited to classes.
-A newer syntax, called _generic methods_, allows type arguments on methods and functions:
+Изначально, в Dart поддержка обобщений была ограничена только классами.
+Новый синтаксис, называемый _обобщённые методы_, разрешает использовать
+аргументы типы в методах и функциях:
 
 <!-- https://dartpad.dartlang.org/a02c53b001977efa4d803109900f21bb -->
 <!-- https://gist.github.com/a02c53b001977efa4d803109900f21bb -->
 <?code-excerpt "misc/test/language_tour/generics_test.dart (method)" replace="/<T.(?=\()|T/[!$&!]/g"?>
 {% prettify dart %}
 [!T!] first[!<T>!](List<[!T!]> ts) {
-  // Do some initial work or error checking, then...
+  // Сделать некоторую начальную работу или проверку ошибок, затем ...
   [!T!] tmp = ts[0];
-  // Do some additional checking or processing...
+  // Сделать дополнительную проверку или обработку...
   return tmp;
 }
 {% endprettify %}
 
-Here the generic type parameter on `first` (`<T>`)
-allows you to use the type argument `T` in several places:
+Здесь параметр обобщённого типа в `first` (`<T>`)
+позволяет вам использовать аргумент тип `T` в нескольких местах:
 
-* In the function's return type (`T`).
-* In the type of an argument (`List<T>`).
-* In the type of a local variable (`T tmp`).
+* В возвращаемом функцией типе (`T`).
+* В типах аргументов (`List<T>`).
+* В типах локальных переменных (`T tmp`).
 
-For more information about generics, see
-[Using Generic Methods.](https://github.com/dart-lang/sdk/blob/master/pkg/dev_compiler/doc/GENERIC_METHODS.md)
+За большей информацией о обобщённых типах, смотрите
+[Использование обобщённых методов](https://github.com/dart-lang/sdk/blob/master/pkg/dev_compiler/doc/GENERIC_METHODS.md).
 
 
-## Libraries and visibility
+## Библиотеки и видимость
 
 The `import` and `library` directives can help you create a
 modular and shareable code base. Libraries not only provide APIs, but
