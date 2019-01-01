@@ -3453,37 +3453,37 @@ var foo = [!Foo<Object>!]();
 
 ## Библиотеки и видимость
 
-The `import` and `library` directives can help you create a
-modular and shareable code base. Libraries not only provide APIs, but
-are a unit of privacy: identifiers that start with an underscore (\_)
-are visible only inside the library. *Every Dart app is a library*, even
-if it doesn’t use a `library` directive.
+Директивы `import` и `library` могут помочь вам создать
+модульную и переиспользуемую кодовую базу.
+Библиотеки не только предоставляют API, но и единицы приватности:
+идентификаторы, которые начинаются с нижнего подчёркивания (\_), видимые
+только внутри библиотеки. *Каждое Dart приложение - библиотека*, даже, если
+не использует директиву `library`.
 
-Libraries can be distributed using packages. See
-[Pub Package and Asset Manager](/tools/pub)
-for information about
-pub, a package manager included in the SDK.
+Библиотеки могут распространяться использованием пакетов.
+Смотрите [пакетный менеджер Pub](/tools/pub)
+с информацией о pub - пакетном менеджере, включенном в SDK.
 
 
-### Using libraries
+### Использование библиотек
 
-Use `import` to specify how a namespace from one library is used in the
-scope of another library.
+Используйте `import` чтобы указать, как пространство имён одной библиотеки используется
+в области видимости другой библиотеки.
 
-For example, Dart web apps generally use the [dart:html][]
-library, which they can import like this:
+Например, web приложения на Dart в основном используют
+библиотеку [dart:html][], которая может импортироваться, как здесь:
 
 <?code-excerpt "misc/test/language_tour/browser_test.dart (dart-html-import)"?>
 {% prettify dart %}
 import 'dart:html';
 {% endprettify %}
 
-The only required argument to `import` is a URI specifying the
-library.
-For built-in libraries, the URI has the special `dart:` scheme.
-For other libraries, you can use a file system path or the `package:`
-scheme. The `package:` scheme specifies libraries provided by a package
-manager such as the pub tool. For example:
+Единственный требуемый аргумент для `import` - URI, указывающий библиотеку.
+Для встроенных библиотек у URI специальная схема `dart:`.
+Для других библиотек, вы можете использовать путь файловой системы или схему `package:`.
+Схема `package:` указывает библиотеки, предоставляемые пакетным
+менеджером pub. Например:
+
 
 <?code-excerpt "misc/test/language_tour/browser_test.dart (package-import)"?>
 {% prettify dart %}
@@ -3491,68 +3491,68 @@ import 'package:test/test.dart';
 {% endprettify %}
 
 <div class="alert alert-info" markdown="1">
-**Note:**
-*URI* stands for uniform resource identifier.
-*URLs* (uniform resource locators) are a common kind of URI.
+**Замечание:**
+*URI* обозначает универсальный идентификатор ресурса.
+*URLs* (единый указатель ресурса) - самый распространнёный вид URI.
 </div>
 
 
-#### Specifying a library prefix
+#### Указание префикса библиотеки
 
-If you import two libraries that have conflicting identifiers, then you
-can specify a prefix for one or both libraries. For example, if library1
-and library2 both have an Element class, then you might have code like
-this:
+Если вы импортируете две библиотеки, которые имеют конфликтующие идентификаторы, тогда вы
+должны указать префик для одной или обеих библиотек.
+Например, если библиотека1 и библиотека2 имеют класс Element,
+вы можете написать код как здесь:
 
 <?code-excerpt "misc/lib/language_tour/libraries/import_as.dart" replace="/(lib\d)\.dart/package:$1\/$&/g"?>
 {% prettify dart %}
 import 'package:lib1/lib1.dart';
 import 'package:lib2/lib2.dart' as lib2;
 
-// Uses Element from lib1.
+// Использование Element из lib1.
 Element element1 = Element();
 
-// Uses Element from lib2.
+// Использование Element из lib2.
 lib2.Element element2 = lib2.Element();
 {% endprettify %}
 
-#### Importing only part of a library
+#### Импортирование части библиотеки
 
-If you want to use only part of a library, you can selectively import
-the library. For example:
+Если вы хотите использовать только часть библиотеки, вы можете
+выборочно импортировать библиотеку. Например:
 
 <?code-excerpt "misc/lib/language_tour/libraries/show_hide.dart" replace="/(lib\d)\.dart/package:$1\/$&/g"?>
 {% prettify dart %}
-// Import only foo.
+// Импортировать только foo.
 import 'package:lib1/lib1.dart' show foo;
 
-// Import all names EXCEPT foo.
+// Импортировать все имена, исключая foo.
 import 'package:lib2/lib2.dart' hide foo;
 {% endprettify %}
 
 <a id="deferred-loading"></a>
-#### Lazily loading a library
+#### Ленивая загрузка библиотеки
 
-_Deferred loading_ (also called _lazy loading_)
-allows an application to load a library on demand,
-if and when it's needed.
-Here are some cases when you might use deferred loading:
+_Отложенная загрузка_ (также называемая _ленивой загрузкой_)
+позволяет приложению загружать библиотеку по требованию, если и когда это необходимо.
+Здесь некоторые случаи, когда вы можете использовать отложенную загрузку:
 
-* To reduce an app's initial startup time.
-* To perform A/B testing—trying out
-  alternative implementations of an algorithm, for example.
-* To load rarely used functionality, such as optional screens and dialogs.
+* Чтобы сократить время начальной загрузки приложения.
+* Выполнить A/B тестирование, например,
+  попробовать альтернативные реализации алгоритма.
+* Для загрузки редко используемого функционала,
+  такого как необязательные экраны и диалоги.
 
-To lazily load a library, you must first
-import it using `deferred as`.
+Для ленивой загрузки библиотеки, вы должны сперва
+импортировать её, используя `deferred as`.
 
 <?code-excerpt "misc/lib/language_tour/libraries/greeter.dart (import)" replace="/hello\.dart/package:greetings\/$&/g"?>
 {% prettify dart %}
 import 'package:greetings/hello.dart' deferred as hello;
 {% endprettify %}
 
-When you need the library, invoke
-`loadLibrary()` using the library's identifier.
+Когда вам необходима библиотека, вызовите
+`loadLibrary()` исользуя идентификатор библиотеки.
 
 <?code-excerpt "misc/lib/language_tour/libraries/greeter.dart (loadLibrary)"?>
 {% prettify dart %}
@@ -3562,48 +3562,49 @@ Future greet() async {
 }
 {% endprettify %}
 
-In the preceding code,
-the `await` keyword pauses execution until the library is loaded.
-For more information about `async` and `await`,
-see [asynchrony support](#asynchrony-support).
+В предыдущем коде, ключевое слово `await` останавливает исполнение до тех пор
+пока библиотека не загрузится.
+За большей информацией о `async` и `await`, смотрите
+[поддрежка асинхронности](#asynchrony-support).
 
-You can invoke `loadLibrary()` multiple times on a library without problems.
-The library is loaded only once.
+Вы можете вызвать `loadLibrary()` множество раз без каких-то проблем.
+Библиотека загружается только единожды.
 
-Keep in mind the following when you use deferred loading:
+Учтите следующее, когда вы используете отложенную загрузку:
 
-* A deferred library's constants aren't constants in the importing file.
-  Remember, these constants don't exist until the deferred library is loaded.
-* You can't use types from a deferred library in the importing file.
-  Instead, consider moving interface types to a library imported by
-  both the deferred library and the importing file.
-* Dart implicitly inserts `loadLibrary()` into the namespace that you define
-  using <code>deferred as <em>namespace</em></code>.
-  The `loadLibrary()` function returns a [Future](/guides/libraries/library-tour#future).
+* Константы отложенной библиотеки не константы в импортирующем файле.
+  Запомните, эти константы не существуют до тех пор, пока отложенная библиотека
+  не загрузится.
+* Вы не можете использовать типы из отложенной библиотеки в импортирующем файле.
+  Вместо этого, рассмотрите перемещение интерфейсных типов в библиотеку, импортируемую
+  отложенной библиотекой и импортирующим файлом.
+* Dart неявно вставляет `loadLibrary()` в пространство имён, которое вы определяете,
+  используя <code>deferred as <em>пространство_имён</em></code>.
+  Функция `loadLibrary()` возвращает [Future](/guides/libraries/library-tour#future).
 
 <aside class="alert alert-warning" markdown="1">
-**Dart VM difference:**
-The Dart VM allows access to members of deferred libraries
-even before the call to `loadLibrary()`.
-This behavior might change, so
-**don't depend on the current VM behavior.**
-For details, see [issue #33118.](https://github.com/dart-lang/sdk/issues/33118)
+**Различия Dart VM:**
+Dart VM разрешает доступ к членам отложенных библиотек
+даже перед вызовом `loadLibrary()`.
+Это поведение может измениться, такчто
+**так что не полагайтесь на это поведение.**
+За подробностями смотрите [issue #33118.](https://github.com/dart-lang/sdk/issues/33118)
 </aside>
 
-### Implementing libraries
+### Реализация библиотек
 
-See
-[Create Library Packages](/guides/libraries/create-library-packages)
-for advice on how to implement a library package, including:
+Смотрите
+[Создание библиотечного пакета](/guides/libraries/create-library-packages)
+чтобы проконсультироваться как реализовать пакет библиотеки, включая:
 
-* How to organize library source code.
-* How to use the `export` directive.
-* When to use the `part` directive.
-* When to use the `library` directive.
+* Как организовать исходный код библиотеки.
+* Как использовать директиву `export`.
+* Когда использовать директиву `part`.
+* Когда использовать директиву `library`.
 
 
 <a id="asynchrony"></a>
-## Asynchrony support
+## Поддержка асинхронности
 
 Dart libraries are full of functions that
 return [Future][] or [Stream][] objects.
