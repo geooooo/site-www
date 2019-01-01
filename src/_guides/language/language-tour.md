@@ -3175,12 +3175,11 @@ mixin MusicalPerformer on Musician {
 
 ### Переменные и методы класса
 
-Use the `static` keyword to implement class-wide variables and methods.
+Используйте ключевое слово `static`, чтобы реализовать переменные и методы класса.
 
-#### Static variables
+#### Статические переменные
 
-Static variables (class variables) are useful for class-wide state and
-constants:
+Статические переменные (переменные класса) обычно нужны для хранения состояния класса и констант:
 
 <?code-excerpt "misc/lib/language_tour/classes/misc.dart (static-field)"?>
 {% prettify dart %}
@@ -3194,19 +3193,19 @@ void main() {
 }
 {% endprettify %}
 
-Static variables aren’t initialized until they’re used.
+Статические переменные не инициализируются до тех пор, пока не будут использваны.
 
 <div class="alert alert-info" markdown="1">
-**Note:**
-This page follows the [style guide
-recommendation](/guides/language/effective-dart/style#identifiers)
-of preferring `lowerCamelCase` for constant names.
+**Замечание:**
+Эта страница следует
+[Руководству с рекомендациями по стилю](/guides/language/effective-dart/style#identifiers),
+предпочитающй `lowerCamelCase` для имён констант.
 </div>
 
-#### Static methods
+#### Статические методы
 
-Static methods (class methods) do not operate on an instance, and thus
-do not have access to `this`. For example:
+Статические методы (методы класса) не работают с экземплярами, и поэтому не имеют доступа к `this`.
+Например:
 
 <?code-excerpt "misc/lib/language_tour/classes/point_with_distance_method.dart"?>
 {% prettify dart %}
@@ -3233,16 +3232,16 @@ void main() {
 {% endprettify %}
 
 <div class="alert alert-info" markdown="1">
-**Note:**
-Consider using top-level functions, instead of static methods, for
-common or widely used utilities and functionality.
+**Замечание:**
+Рассмотрите использование глобальных функций вместо статических методов,
+для распространнёных или широко используемых утилит и функциональности.
 </div>
 
-You can use static methods as compile-time constants. For example, you
-can pass a static method as a parameter to a constant constructor.
+Вы можете использовать статические методы как константы времени компиляции. Например, вы можете
+вставить статический метод как параметр в константный конструктор.
 
 
-## Generics
+## Обобщения
 
 If you look at the API documentation for the basic array type,
 [List,][List] you’ll see that the
