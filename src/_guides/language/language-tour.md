@@ -3799,18 +3799,18 @@ Future main() [!async!] {
 
 
 <a id="generator"></a>
-## Generators
+## Генераторы
 
-When you need to lazily produce a sequence of values,
-consider using a _generator function_.
-Dart has built-in support for two kinds of generator functions:
+Когда вам необходимо лениво производить последовательность значений,
+рассмотрите использование _функции генератора_.
+Dart имеет встроенную поддержку для двух видов функций генераторов:
 
-* **Synchronous** generator: Returns an **[Iterable]** object.
-* **Asynchronous** generator: Returns a **[Stream]** object.
+* **Синхронный** генератор: Возвращает объект **[Iterable]**.
+* **Асинхронный** генератор: Возвращает объект **[Stream]**.
 
-To implement a **synchronous** generator function,
-mark the function body as `sync*`,
-and use `yield` statements to deliver values:
+Чтобы реализовать **синхронную** функцию генератор,
+пометьте тело функции `sync*`
+и используйте инструкцию `yield` чтобы поставлять значения.
 
 <?code-excerpt "misc/test/language_tour/async_test.dart (sync-generator)"?>
 {% prettify dart %}
@@ -3820,9 +3820,9 @@ Iterable<int> naturalsTo(int n) sync* {
 }
 {% endprettify %}
 
-To implement an **asynchronous** generator function,
-mark the function body as `async*`,
-and use `yield` statements to deliver values:
+Чтобы реализовать **асинхронную** функцию генератор,
+пометьте тело функции `async*`,
+и используйте инструкцию `yield` чтобы поставлять значения.
 
 <?code-excerpt "misc/test/language_tour/async_test.dart (async-generator)"?>
 {% prettify dart %}
@@ -3832,8 +3832,9 @@ Stream<int> asynchronousNaturalsTo(int n) async* {
 }
 {% endprettify %}
 
-If your generator is recursive,
-you can improve its performance by using `yield*`:
+Если ваш генератор рекурсивный,
+вы можете улучшить его производительность с помощью
+использования `yield*`:
 
 <?code-excerpt "misc/test/language_tour/async_test.dart (recursive-generator)"?>
 {% prettify dart %}
@@ -3845,19 +3846,19 @@ Iterable<int> naturalsDownFrom(int n) sync* {
 }
 {% endprettify %}
 
-For more information about generators, see the article
-[Dart Language Asynchrony Support: Phase 2](/articles/language/beyond-async).
+За большей информацией о генераторах, смотрите статью
+[Язык Dart поддрежка асинхронности: Фаза 2](/articles/language/beyond-async).
 
 
-## Callable classes
+## Вызываемые классы
 
-To allow your Dart class to be called like a function,
-implement the `call()` method.
+Чтобы разрешить вашему классу в Dart вызываться как функция,
+реализуйте метод `call()`.
 
-In the following example, the `WannabeFunction` class defines
-a call() function that takes three strings and concatenates them,
-separating each with a space, and appending an exclamation.
-Click the run button {% asset red-run.png alt="" %} to execute the code.
+В следующем примере, класс `WannabeFunction` определяет
+функцию call(), которая получает три строки и конкатенирует их,
+разделяя их пробелами и добавляя восклицительный знак.
+Нажмите кнопку запуска {% asset red-run.png alt="" %} чтобы исполнить код.
 
 {% comment %}
 https://gist.github.com/405379bacf30335f3aed
@@ -3883,32 +3884,33 @@ src="{{site.custom.dartpad.embed-inline-prefix}}?id=405379bacf30335f3aed&vertica
     style="border: 1px solid #ccc;">
 </iframe>
 
-For more information on treating classes like functions, see
-[Emulating Functions in Dart](/articles/language/emulating-functions).
+За большей информацией об обращении с классами как с функциями, смотрите
+[Эмуляция функций в Dart](/articles/language/emulating-functions).
 
-## Isolates
+## Изоляты
 
-Most computers, even on mobile platforms, have multi-core CPUs.
-To take advantage of all those cores, developers traditionally use
-shared-memory threads running concurrently. However, shared-state
-concurrency is error prone and can lead to complicated code.
+Большинство компьютеров, даже мобильные платформы имеют многоядерные
+процессоры. Чтобы получить преимущество от всех ядер,
+разработчики традиционно используют разделяемую память потоков,
+запущенных конкурентно. Однако конкурентность общего состояния подвержена ошибкам
+и может привести к сложному коду.
 
-Instead of threads, all Dart code runs inside of *isolates*. Each
-isolate has its own memory heap, ensuring that no isolate’s state is
-accessible from any other isolate.
+Вместо потоков, весь Dart код запускается внутри *изолятов*.
+Каждый изолят имет свою собственную память, обеспечивающую, чтобы
+один изолят не имел доступа к памяти другого.
 
-For more information, see the
-[dart:isolate library documentation.][dart:isolate]
+За большей информацией, смотрите
+[документация библиотеки dart:isolate][dart:isolate].
 
 
-## Typedefs
+## Определение типов
 
-In Dart, functions are objects, just like strings and numbers are
-objects. A *typedef*, or *function-type alias*, gives a function type a
-name that you can use when declaring fields and return types. A typedef
-retains type information when a function type is assigned to a variable.
+В Dart функции - объекты, такие же объекты как и строки и числа.
+*typedef* или *псевдоним типа функции*, даёт типу функции имя, которое
+вы можете использовать, когда объявляете поля и возвращаемые значения.
+Определение типа сохраняет информацию о типе, когда тип функции присваивается переменной.
 
-Consider the following code, which doesn't use a typedef:
+Рассмотрите следующией код, который не использует определение типа:
 
 <?code-excerpt "misc/lib/language_tour/typedefs/sorted_collection_1.dart"?>
 {% prettify dart %}
@@ -3920,23 +3922,23 @@ class SortedCollection {
   }
 }
 
-// Initial, broken implementation.
+// Без реализации
 int sort(Object a, Object b) => 0;
 
 void main() {
   SortedCollection coll = SortedCollection(sort);
 
-  // All we know is that compare is a function,
-  // but what type of function?
+  // Все мы знаем, что compare - функция,
+  // но какое тип этой функции ?
   assert(coll.compare is Function);
 }
 {% endprettify %}
 
-Type information is lost when assigning `f` to `compare`. The type of
-`f` is `(Object, ``Object)` → `int` (where → means returns), yet the
-type of `compare` is Function. If we change the code to use explicit
-names and retain type information, both developers and tools can use
-that information.
+Информация о типе теряется, когда `f` присваивается `compare`.
+Тип `f` - `(Object, ``Object)` → `int` (где → обозначает возвращаемый тип),
+всё же тип `compare` - Function.
+Если мы изменим код, чтобы использовать явные имена и сохраним информацию о типе,
+разработчики, и инструменты могут использовать эту информацию.
 
 <?code-excerpt "misc/lib/language_tour/typedefs/sorted_collection_2.dart"?>
 {% prettify dart %}
@@ -3948,7 +3950,7 @@ class SortedCollection {
   SortedCollection(this.compare);
 }
 
-// Initial, broken implementation.
+// Без реализации
 int sort(Object a, Object b) => 0;
 
 void main() {
@@ -3959,13 +3961,13 @@ void main() {
 {% endprettify %}
 
 <aside class="alert alert-info" markdown="1">
-**Note:**
-Currently, typedefs are restricted to function types. We expect this
-to change.
+**Замечание:**
+На данный момент, определения типов ограничены типами функций.
+Мы ожидаем, что это измениться.
 </aside>
 
-Because typedefs are simply aliases, they offer a way to check the type
-of any function. For example:
+Так как определения типов обычные псевдонимы, они предлагают способ проверки
+типа любых функций. Например:
 
 <?code-excerpt "misc/lib/language_tour/typedefs/misc.dart (compare)"?>
 {% prettify dart %}
@@ -3978,7 +3980,7 @@ void main() {
 }
 {% endprettify %}
 
-## Metadata
+## Метаданные
 
 Use metadata to give additional information about your code. A metadata
 annotation begins with the character `@`, followed by either a reference
