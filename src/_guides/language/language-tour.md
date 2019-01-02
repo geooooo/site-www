@@ -3587,7 +3587,7 @@ Future greet() async {
 Dart VM разрешает доступ к членам отложенных библиотек
 даже перед вызовом `loadLibrary()`.
 Это поведение может измениться, такчто
-**так что не полагайтесь на это поведение.**
+**не полагайтесь на это поведение**.
 За подробностями смотрите [issue #33118.](https://github.com/dart-lang/sdk/issues/33118)
 </aside>
 
@@ -3606,76 +3606,71 @@ Dart VM разрешает доступ к членам отложенных б�
 <a id="asynchrony"></a>
 ## Поддержка асинхронности
 
-Dart libraries are full of functions that
-return [Future][] or [Stream][] objects.
-These functions are _asynchronous_:
-they return after setting up
-a possibly time-consuming operation
-(such as I/O),
-without waiting for that operation to complete.
+В библиотеках Dart полно функций, возвращающих объекты
+[Future][] или [Stream][].
+Эти функции _асинхронные_:
+они возвращают результат после длительной по времени операции (такой как ввод/вывод),
+без ожидания завершения операции.
 
-The `async` and `await` keywords support asynchronous programming,
-letting you write asynchronous code that
-looks similar to synchronous code.
+Ключевые слова `async` и `await` поддерживают асинхронное программирование,
+позволяют вам писать асинхронный код, который выглядит как синхронный.
 
 
 <a id="await"></a>
-### Handling Futures
+### Обработка Future
 
-When you need the result of a completed Future,
-you have two options:
+Когда вам необходим результат завершённоё Future,
+у вас есть два варианта:
 
-* Use `async` and `await`.
-* Use the Future API, as described
-  [in the library tour](/guides/libraries/library-tour#future).
+* Использовать `async` и `await`.
+* Использовать Future API, описанный
+  [в туре по библиотекам](/guides/libraries/library-tour#future).
 
-Code that uses `async` and `await` is asynchronous,
-but it looks a lot like synchronous code.
-For example, here's some code that uses `await`
-to wait for the result of an asynchronous function:
+Код, который использует `async` и `await` - асинхронный,
+но он выглядит похоже на синхронный код.
+Например, здесь некоторый код, который использует `await`,
+чтобы дождаться результата асинхронной функции:
 
 <?code-excerpt "misc/lib/language_tour/async.dart (await-lookUpVersion)"?>
 {% prettify dart %}
 await lookUpVersion();
 {% endprettify %}
 
-To use `await`, code must be in an _async function_—a
-function marked as `async`:
+Чтобы использовать `await`, код должен быть в _асинхронной функции_ -
+функции, помеченной `async`:
 
 <?code-excerpt "misc/lib/language_tour/async.dart (checkVersion)" replace="/async|await/[!$&!]/g"?>
 {% prettify dart %}
 Future checkVersion() [!async!] {
   var version = [!await!] lookUpVersion();
-  // Do something with version
+  // Сделать что-нибудь с версией
 }
 {% endprettify %}
 
 <aside class="alert alert-info" markdown="1">
-**Note:**
-Although an async function might perform time-consuming operations,
-it doesn't wait for those operations.
-Instead, the async function executes only until it encounters
-its first `await` expression
-([details][synchronous-async-start]).
-Then it returns a Future object,
-resuming execution only after the `await` expression completes.
+**Замечание:**
+Хотя в асинхронной функция может выполняться длительная по времени операция,
+она не ждёт этих операций.
+Вместо этого, асинхронная функция исполняется только до тех пора, пока она
+не встретит первое выражение с `await` ([детали][synchronous-async-start]).
+Потом она возвращает объект Future, возобнавляя исполнение только
+после завершения выражения с `await`.
 </aside>
 
-Use `try`, `catch`, and `finally`
-to handle errors and cleanup in code that uses `await`:
+Используйте `try`, `catch`, и `finally` чтобы
+обработать ошибки и навести порядок в коде, использующий `await`:
 
 <?code-excerpt "misc/lib/language_tour/async.dart (try-catch)"?>
 {% prettify dart %}
 try {
   version = await lookUpVersion();
 } catch (e) {
-  // React to inability to look up the version
+  // Реакция на невозможность просмотреть версию
 }
 {% endprettify %}
 
-You can use `await` multiple times in an async function.
-For example, the following code waits three times
-for the results of functions:
+Вы можете использовать `await` множество раз в асинхронной функции.
+Например, следующий код ждёт три раза результат от функций:
 
 <?code-excerpt "misc/lib/language_tour/async.dart (repeated-await)"?>
 {% prettify dart %}
@@ -3684,17 +3679,17 @@ var exitCode = await runExecutable(entrypoint, args);
 await flushThenExit(exitCode);
 {% endprettify %}
 
-In <code>await <em>expression</em></code>,
-the value of <code><em>expression</em></code> is usually a Future;
-if it isn't, then the value is automatically wrapped in a Future.
-This Future object indicates a promise to return an object.
-The value of <code>await <em>expression</em></code> is that returned object.
-The await expression makes execution pause until that object is available.
+В <code>await <em>выражения</em></code>,
+значение <code><em>выражения</em></code> обычно - Future;
+Если нет, тогда значение автоматически оборачивается в Future.
+Этот объект Future сообщает об обещании вернуть объект.
+Значение <code>await <em>выражения</em></code> - возвращаемый объект.
+Выражение с await приостанавливает исполнение до тех пор, пока объект не станет доступным.
 
-**If you get a compile-time error when using `await`,
-make sure `await` is in an async function.**
-For example, to use `await` in your app's `main()` function,
-the body of `main()` must be marked as `async`:
+**Если вы получили ошибку времени компиляции, когда используете `await`,
+убедитесь, что используете `await` в асинхронной функции.**
+Например, чтобы использовать `await` в функции `main()` вашего приложения,
+тело `main()` должно быть помечено `async`:
 
 <?code-excerpt "misc/lib/language_tour/async.dart (main)" replace="/async|await/[!$&!]/g"?>
 {% prettify dart %}
@@ -3706,86 +3701,80 @@ Future main() [!async!] {
 
 
 <a id="async"></a>
-### Declaring async functions
+### Объявление асинхронных функций
 
-An _async function_ is a function whose body is marked with
-the `async` modifier.
+_Асинхронная функция_ - функция, чьё тело помечено модификатором `async`.
 
-Adding the `async` keyword to a function makes it return a Future.
-For example, consider this synchronous function,
-which returns a String:
+Добавляя ключевое слово `async` к функции, сделайте её возвращаемое значение Future.
+Например, рассмотрите эту синхронную функцию, которая возвращает String:
 
 <?code-excerpt "misc/lib/language_tour/async.dart (sync-lookUpVersion)"?>
 {% prettify dart %}
 String lookUpVersion() => '1.0.0';
 {% endprettify %}
 
-If you change it to be an async function—for example,
-because a future implementation will be time consuming—the
-returned value is a Future:
+Если вы измените её на асинхронную функцию - например,
+потому что будущая реализация может занять много времени -
+возвращаемое значение будет Future:
 
 <?code-excerpt "misc/lib/language_tour/async.dart (async-lookUpVersion)"?>
 {% prettify dart %}
 Future<String> lookUpVersion() async => '1.0.0';
 {% endprettify %}
 
-Note that the function's body doesn't need to use the Future API.
-Dart creates the Future object if necessary.
+Заметьте, что тело функции не нуждается в использовании Future API.
+Dart создаст объект Future, если необходимо.
 
-If your function doesn't return a useful value,
-make its return type `Future<void>`.
-
-{% comment %}
-PENDING: add example here
-
-Where else should we cover generalized void?
-{% endcomment %}
+Если ваша функция не возвращает используемое значение, сделайте
+её возвращаемый тип `Future<void>`.
 
 
 <a id="await-for"></a>
-### Handling Streams
+### Обработка Stream
 
-When you need to get values from a Stream,
-you have two options:
+Когда вам необходимо получить значения из Stream,
+у вас есть два варианта:
 
-* Use `async` and an _asynchronous for loop_ (`await for`).
-* Use the Stream API, as described
-  [in the library tour](/guides/libraries/library-tour#stream).
+* Использовать `async` и _асинхронный цикл for_ (`await for`).
+* Использовать Stream API, описанный
+  [в туре по библиотекам](/guides/libraries/library-tour#stream).
 
 <aside class="alert alert-warning" markdown="1">
-**Note:**
-Before using `await for`, be sure that it makes the code clearer
-and that you really do want to wait for all of the stream's results.
-For example, you usually should **not** use `await for` for UI event listeners,
-because UI frameworks send endless streams of events.
+**Замечание:**
+Перед использованием `await for`, убедитесь, что это делает код более понятным,
+и что вы действительно хотите дождаться всех результатов Stream.
+Например, вы обычно **не** должны использовать `await for`
+для обработчиков событий UI, поскольку
+UI фреймворки отправляют бесконечные потоки событий.
 </aside>
 
-An asynchronous for loop has the following form:
+Асинхронный цикл for имеет следующую форму:
 
 <?code-excerpt "misc/lib/language_tour/async.dart (await-for)"?>
 {% prettify dart %}
 await for (varOrType identifier in expression) {
-  // Executes each time the stream emits a value.
+  // Исполняется каждый раз, когда Stream даёт значение.
 }
 {% endprettify %}
 
-The value of <code><em>expression</em></code> must have type Stream.
-Execution proceeds as follows:
+Значение <code><em>expression</em></code> должно иметь тип Stream.
+Процесс исполнения следующий:
 
-1. Wait until the stream emits a value.
-2. Execute the body of the for loop,
-   with the variable set to that emitted value.
-3. Repeat 1 and 2 until the stream is closed.
+1. Дождаться, пока Stream даст значение.
+2. Исполнение тела цикла for, с переменной, которая получает значение.
+3. Повторение 1 и 2 до тех пор, пока Stream не будет закрыт.
 
-To stop listening to the stream,
-you can use a `break` or `return` statement,
-which breaks out of the for loop
-and unsubscribes from the stream.
+Чтобы остановить прослушивание Stream,
+вы можете использовать инструкцию
+`break` или `return`,
+которые выпригивают из цикла for и
+отписываются от Stream.
 
-**If you get a compile-time error when implementing an asynchronous for loop,
-make sure the `await for` is in an async function.**
-For example, to use an asynchronous for loop in your app's `main()` function,
-the body of `main()` must be marked as `async`:
+**Если вы получаете ошибку времени компиляции когда
+реализуете асинхронный цикл for, убедитесь, что
+`await for` находится в асинхронной функции.**
+Например, чтобы использовать асинхронный цикл for в вашей функции `main()`,
+тело `main()` должно быть помечено `async`:
 
 <?code-excerpt "misc/lib/language_tour/async.dart (number_thinker)" replace="/async|await for/[!$&!]/g"?>
 {% prettify dart %}
@@ -3798,14 +3787,15 @@ Future main() [!async!] {
 }
 {% endprettify %}
 
-For more information about asynchronous programming, in general, see the
-[dart:async](/guides/libraries/library-tour#dartasync---asynchronous-programming)
-section of the library tour.
-Also see the articles
-[Dart Language Asynchrony Support: Phase 1](/articles/language/await-async)
-and
-[Dart Language Asynchrony Support: Phase 2](/articles/language/beyond-async),
-and the [Dart language specification](/guides/language/spec).
+За большей информацией об асинхронном программирование в целом, смотрите
+раздел [dart:async](/guides/libraries/library-tour#dartasync---asynchronous-programming)
+тура по библиотекам.
+
+Также смотрите статьи
+[Язык Dart поддержка асинхронности: Фаза 1](/articles/language/await-async)
+и
+[Язык Dart поддержка асинхронности: Фаза 2](/articles/language/beyond-async),
+и [спецификацию языка Dart](/guides/language/spec).
 
 
 <a id="generator"></a>
