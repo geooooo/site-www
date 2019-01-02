@@ -3982,33 +3982,32 @@ void main() {
 
 ## Метаданные
 
-Use metadata to give additional information about your code. A metadata
-annotation begins with the character `@`, followed by either a reference
-to a compile-time constant (such as `deprecated`) or a call to a
-constant constructor.
+Использование метаданных даёт дополнительную информацию о вашем коде.
+Анотации метаданных начинаются с символа `@`,
+далее следует любая ссылка на константу времени компиляции
+(такая как `deprecated`) или вызов константного конструктора.
 
-Two annotations are available to all Dart code: `@deprecated` and
-`@override`. For examples of using `@override`,
-see [Extending a class](#extending-a-class).
-Here’s an example of using the `@deprecated`
-annotation:
+Две аннотации доступны для любого кода на Dart: `@deprecated` и
+`@override`. Пример использования `@override`,
+смотрите [Наследование классов](#extending-a-class).
+Здесь пример использования аннотации `@deprecated`:
 
 <?code-excerpt "misc/lib/language_tour/metadata/television.dart (deprecated)" replace="/@deprecated/[!$&!]/g"?>
 {% prettify dart %}
 class Television {
-  /// _Deprecated: Use [turnOn] instead._
+  /// _Нежелательно: лучше используйте [turnOn]._
   [!@deprecated!]
   void activate() {
     turnOn();
   }
 
-  /// Turns the TV's power on.
+  /// Включить TV
   void turnOn() {...}
 }
 {% endprettify %}
 
-You can define your own metadata annotations. Here’s an example of
-defining a @todo annotation that takes two arguments:
+Вы можете определить вашу собственную аннотацию с метаданными.
+Здесь пример определения анотации @todo, которая принимает два аргумента:
 
 <?code-excerpt "misc/lib/language_tour/metadata/todo.dart"?>
 {% prettify dart %}
@@ -4034,38 +4033,38 @@ void doSomething() {
 }
 {% endprettify %}
 
-Metadata can appear before a library, class, typedef, type parameter,
-constructor, factory, function, field, parameter, or variable
-declaration and before an import or export directive. You can
-retrieve metadata at runtime using reflection.
+Метаданные могут появляться перед библиотекой, классом, определением типа,
+типами параметров, конструктором, factory, функцией, полем, параметром или
+обяъвлением переменной и перед директивой import и export. Вы можете
+извлечь метаданные во время исполнения, используя рефлексию.
 
 
-## Comments
+## Комментарии
 
-Dart supports single-line comments, multi-line comments, and
-documentation comments.
+Dart поддерживает однострочные комментарии, многострочные комментарии и
+документирующие комментарии.
 
 
-### Single-line comments
+### Однострочные комментарии
 
-A single-line comment begins with `//`. Everything between `//` and the
-end of line is ignored by the Dart compiler.
+Однострочные комментарии начинаются с `//`. Всё что между `//` и
+концом строки игнорируется компилятором Dart.
 
 <?code-excerpt "misc/lib/language_tour/comments.dart (single-line-comments)"?>
 {% prettify dart %}
 void main() {
-  // TODO: refactor into an AbstractLlamaGreetingFactory?
+  // TODO: отрефакторить в AbstractLlamaGreetingFactory?
   print('Welcome to my Llama farm!');
 }
 {% endprettify %}
 
 
-### Multi-line comments
+### Многострочные комментарии
 
-A multi-line comment begins with `/*` and ends with `*/`. Everything
-between `/*` and `*/` is ignored by the Dart compiler (unless the
-comment is a documentation comment; see the next section). Multi-line
-comments can nest.
+Многострочные комментарии начинаются с `/*` и заканчиваются `*/`.
+Всё что между `/*` и `*/` игнорируется компилятором Dart (если только
+это не документирующий комментарий; смотрите следующий раздел).
+Многострочные комментарии могут вкладываться.
 
 <?code-excerpt "misc/lib/language_tour/comments.dart (multi-line-comments)"?>
 {% prettify dart %}
@@ -4082,20 +4081,19 @@ void main() {
 {% endprettify %}
 
 
-### Documentation comments
+### Документирующие комментарии
 
-Documentation comments are multi-line or single-line comments that begin
-with `///` or `/**`. Using `///` on consecutive lines has the same
-effect as a multi-line doc comment.
+Документирующие комментарии - многострочные или однострочные комментарии, которые
+начинаются с `///` или `/**`. Использование последовательности строк с  `///` имеет такой же эффект,
+как многострочный документирующий комментарий.
 
-Inside a documentation comment, the Dart compiler ignores all text
-unless it is enclosed in brackets. Using brackets, you can refer to
-classes, methods, fields, top-level variables, functions, and
-parameters. The names in brackets are resolved in the lexical scope of
-the documented program element.
+Внутри документирующих комментариев, компилятор Dart игнорирует весь текст, если только он не заключён
+в скобки. Используя скобки, вы можете сослаться к классу, методу, полю, глобальной
+переменной, функции и параметру. Имена в скобках разрешаются в лексической
+области видимости документируемого программного элемента.
 
-Here is an example of documentation comments with references to other
-classes and arguments:
+Здесь пример документирующих комментариев с ссылкой на другие
+классы и аргументы:
 
 <?code-excerpt "misc/lib/language_tour/comments.dart (doc-comments)"?>
 {% prettify dart %}
@@ -4121,27 +4119,26 @@ class Llama {
 }
 {% endprettify %}
 
-In the generated documentation, `[Food]` becomes a link to the API docs
-for the Food class.
+В сгенерированной документации `[Food]` становится ссылкой к документу
+с API для класса Food.
 
-To parse Dart code and generate HTML documentation, you can use the SDK’s
-[documentation generation tool.](https://github.com/dart-lang/dartdoc#dartdoc)
-For an example of generated documentation, see the [Dart API
-documentation.]({{site.dart_api}}/{{site.data.pkg-vers.SDK.channel}}) For advice on how to structure
-your comments, see
-[Guidelines for Dart Doc Comments.](/guides/language/effective-dart/documentation)
+Чтобы распарсить код на Dart и сгенерировать HTML документацию, вы можете использовать
+[иструменты генерации документации](https://github.com/dart-lang/dartdoc#dartdoc).
+За примерами сгенерированной документации, смотрите
+[документацию Dart API]({{site.dart_api}}/{{site.data.pkg-vers.SDK.channel}}).
+За советами о том, как структурировать ваши комментарии, смотрите
+[Методические рекомендации для документационных комментариев в Dart](guides/language/effective-dart/documentation).
 
 
-## Summary
+## Резюме
 
-This page summarized the commonly used features in the Dart language.
-More features are being implemented, but we expect that they won’t break
-existing code. For more information, see the [Dart Language
-Specification](/guides/language/spec) and
-[Effective Dart](/guides/language/effective-dart).
+Эта странница собирает наиболее используемые возможности в языке Dart.
+Реализуются дополнительные функции, но мы ожидаем, что они не нарушат существующий код.
+За большей информацией, смотрите [Спецификацию языка Dart](/guides/language/spec) и
+[Эффективный Dart](/guides/language/effective-dart).
 
-To learn more about Dart's core libraries, see
-[A Tour of the Dart Libraries](/guides/libraries/library-tour).
+Чтобы узнать больше о стандартной библиотеке Dart, смотрите
+[Тур по библиотекам Dart](/guides/libraries/library-tour).
 
 [AssertionError]: {{site.dart_api}}/{{site.data.pkg-vers.SDK.channel}}/dart-core/AssertionError-class.html
 [dart2js]: {{site.webdev}}/tools/dart2js
