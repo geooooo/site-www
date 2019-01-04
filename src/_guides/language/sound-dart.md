@@ -274,54 +274,54 @@ void main() {
 
 ## Вывод типов
 
-The analyzer can infer types for fields, methods, local variables,
-and most generic type arguments.
-When the analyzer doesn't have enough information to infer
-a specific type, it uses the `dynamic` type.
+Анализатор может выводить типы для полей, методов, локальных переменных и
+большинства аргументов типов обобщений.
+Когда анализатор не имеет достаточно информации для вывода конкретного типа,
+он использует тип `dynamic`.
 
-Here's an example of how type inference works with generics.
-In this example, a variable named `arguments` holds a map that
-pairs string keys with values of various types.
+Здесь пример того, как работает вывод типов с обобщениями.
+В этом пример переменная, называемая `arguments`
+содержит мапу строк в качестве ключей и значений различных типов.
 
-If you explicitly type the variable, you might write this:
+Если вы явно вводите переменную, вы можете написать это:
 
 <?code-excerpt "strong/lib/strong_analysis.dart (type-inference-1-orig)" replace="/Map<String, dynamic\x3E/[!$&!]/g"?>
 {% prettify dart %}
 [!Map<String, dynamic>!] arguments = {'argA': 'hello', 'argB': 42};
 {% endprettify %}
 
-Alternatively, you can use `var` and let Dart infer the type:
+Вместо этого, вы можете использовать `var` и предоставить Dart вывод типа:
 
 <?code-excerpt "strong/lib/strong_analysis.dart (type-inference-1)" replace="/var/[!$&!]/g"?>
 {% prettify dart %}
 [!var!] arguments = {'argA': 'hello', 'argB': 42}; // Map<String, Object>
 {% endprettify %}
 
-The map literal infers its type from its entries,
-and then the variable infers its type from the map literal's type.
-In this map, the keys are both strings, but the values have different
-types (String and int, which have the upper bound Object).
-So the map literal has the type `Map<String, Object>`,
-and so does the `arguments` variable.
+Литерал мапы выводит свой тип из типа своих элементов,
+а затем переменная выводит свой тип из типа литерала мапы.
+В этой мапе, ключи - строки, но значения имеют различные типы
+(Строки и целые числа, которые имеют верхнюю границу Object).
+Так литерал мапы имеет тип `Map<String, Object>` и тот же самый
+переменная `arguments`.
 
 
-### Field and method inference
+### Вывод поля и метода
 
-A field or method that has no specified type and that overrides
-a field or method from the superclass, inherits the type of the
-superclass method or field.
+Поле или метод, который не имеет указанного типа и которое
+переопределяет поле или метод суперкласса, наследует тип поля или метода суперкласса.
 
-A field that does not have a declared or inherited type but that is declared
-with an initial value, gets an inferred type based on the initial value.
+Поле, которое не имеет объявленного или унаследованного типа, но которое объявлено с начальным значением,
+получает выводимый тип на основе начального значения.
 
-### Static field inference
 
-Static fields and variables get their types inferred from their
-initializer. Note that inference fails if it encounters a cycle
-(that is, inferring a type for the variable depends on knowing the
-type of that variable).
+### Вывод статических полей
 
-### Local variable inference
+Статические поля и переменные получают вывод их типов из их инициализаторов.
+Обратите внимание, что вывод завершается неудачей,
+если он встречает цикл (то есть вывод типа для переменной зависит от знания типа этой переменной).
+
+
+### Вывод локальных переменных
 
 Local variable types are inferred from their initializer, if any.
 Subsequent assignments are not taken into account.
