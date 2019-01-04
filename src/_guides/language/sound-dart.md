@@ -1,37 +1,37 @@
 ---
-title: Dart's Type System
-description: Why and how to write sound Dart code.
+title: Система типов Dart
+description: Зачем и как писать звучный код на Dart.
 ---
 <?code-excerpt replace="/([A-Z]\w*)\d\b/$1/g; /\b(main)\d\b/$1/g"?>
 
-Dart is type safe: it uses a combination of static type checking and
-[runtime checks](#runtime-checks) to
-ensure that a variable's value always matches the variable's static type.
-Although _types_ are mandatory, type _annotations_ are optional
-because Dart performs [type inference](#type-inference).
+Dart - типо безопасен: он использует комбинацию статической проверки типов и
+[проверки во время исполнения](#runtime-checks), обеспечивая, чтобы значения
+переменных всегда соответствовали статическим типам переменных.
+Хотя _типы_ обязательные, _аннотация_ типов опциональна, так как Dart выполняет
+[вывод типов](#type-inference).
 
-This page concentrates on the type safety features added in Dart 2.
-For a full introduction to the Dart language, including types, see the
-[language tour](/guides/language/language-tour).
+Эта страница концентрирует внимание на безопасности типов - возможности, добавленной в Dart 2.
+Для полного введения в язык Dart, включая типы, смотрите
+[тур по языку](/guides/language/language-tour).
 
 <aside class="alert alert-info" markdown="1">
-  **Terminology note:**
-  The terms **sound** Dart and **type safe** Dart
-  are often used interchangeably.
-  You might also see the term **strong mode**.
-  Strong mode was an opt-in Dart 1.x feature
-  that provided partial support for type safety.
+  **Замечание по термонологии:**
+  Термин **надёжность (sound)** в Dart и **безопасность типов** в Dart
+  часто используется взаимозаменяемо.
+  Вы также могли видеть термин **строгий режим**.
+  Строгий режим был опциональной возможностью Dart 1.x,
+  которая предоставляла частичную поддержку безопасности типов.
 </aside>
 
-One benefit of static type checking is the ability to find bugs
-at compile time using Dart's [static analyzer.][analyzer]
+Одна из выгод статической проверки типов - способность находить баги во
+время компиляции, используя [статический анализатор][analyzer] Dart.
 
-You can fix most static analysis errors by adding type annotations to generic
-classes. The most common generic classes are the collection types
-`List<T>` and `Map<K,V>`.
+Вы можете исправить большинство ошибок статического анализа с помощью добавления
+аннотаций типов для обобщённых классов. Большинство распространнёных обобщённых классов
+- типы коллекций `List<T>` и `Map<K,V>`.
 
-For example, in the following code the `printInts()` function prints an integer list,
-and `main()` creates a list and passes it to `printInts()`.
+Например, в следующем коде функция `printInts()` печатает список целых чисел,
+а `main()` создаёт список и вставляет его в `printInts()`.
 
 {:.fails-sa}
 <?code-excerpt "strong/lib/strong_analysis.dart (opening-example)" replace="/list(?=\))/[!$&!]/g"?>
@@ -46,8 +46,8 @@ void main() {
 }
 {% endprettify %}
 
-The preceding code results in a type error on `list` (highlighted
-above) at the call of `printInts(list)`:
+Предыдущий код приводит к ошибке типов в `list` (подсвечено выше)
+при вызове `printInts(list)`:
 
 {:.console-output}
 <?code-excerpt "strong/analyzer-2-results.txt" retain="/List.*strong_analysis.*argument_type_not_assignable/" replace="/ at (lib|test)\/\w+\.dart:\d+:\d+//g"?>
@@ -55,17 +55,16 @@ above) at the call of `printInts(list)`:
 error • The argument type 'List' can't be assigned to the parameter type 'List<int>' • argument_type_not_assignable
 ```
 
-The error highlights an unsound implicit cast from `List<dynamic>` to `List<int>`.
-The `list` variable has static type `List<dynamic>`. This is because the
-initializing declaration `var list = []` doesn't provide the analyzer with
-enough information for it to infer a type argument more specific than `dynamic`.
-The `printInts()` function expects a parameter of type `List<int>`,
-causing a mismatch of types.
+Ошибка выделяет неправильное неявное приведение типов из `List<dynamic>` в `List<int>`.
+Переменная `list` имеет статический тип `List<dynamic>`.
+Так как инициализируещее объявление `var list = []`
+не предоставляет анализатору достаточно информации для вывода типа более конкретного, чем `dynamic`.
+Функция `printInts()` ождиает параметр с типом `List<int>`,
+вызывая несоответствие типов.
 
-When adding a type annotation (`<int>`) on creation of the list
-(highlighted below) the analyzer complains that a string argument can't be assigned to
-an `int` parameter. Removing the quotes in `list.add("2")` results
-in code that passes static analysis and runs with no errors or warnings.
+Если добавить аннотацию типа (`<int>`) при создании списка (выделено ниже)
+анализатор пожалуется, что строковый аргумент не может быть присвоен параметру `int`.
+Удалив кавычки в `list.add("2")`, получим код, проходящий статический анализ и запускающийся без ошибок и предупреждений.
 
 {:.passes-sa}
 <?code-excerpt "strong/test/strong_test.dart (opening-example)" replace="/<int.(?=\[)|2/[!$&!]/g"?>
@@ -87,28 +86,27 @@ void main() {
 
 [Try it in DartPad](https://dartpad.dartlang.org/f64e963cb5f894e2146c2b28d5efa4ed).
 
-## What is soundness?
+## Что такое надёжность (soundness)?
 
-*Soundness* is about ensuring your program can't get into certain
-invalid states. A sound *type system* means you can never get into
-a state where an expression evaluates to a value that doesn't match
-the expression's static type. For example, if an expression's static
-type is `String`, at runtime you are guaranteed to only get a string
-when you evaluate it.
+*Надёжность (Soundness)* означает, что ваша программа не может войти в определенные недопустимые состояния.
+*Надёжная (sound) система типов* означает, что вы никогда не попадете в состояние,
+в котором выражение вычисляется как значение, которое не соответствует статическому типу выражения.
+Например, если статический тип выражения - `String`,
+во время выполнения вы гарантированно получите только строку при ее вычислении.
 
-Dart's type system, like the type systems in Java and C#, is sound. It
-enforces that soundness using a combination of static checking
-(compile-time errors) and runtime checks. For example, assigning a `String`
-to `int` is a compile-time error. Casting an `Object` to a string using
-`as String` fails with a runtime error if the object isn't a
-string.
+Система типов Dart, как система типов в Java и C# - надёжная (sound).
+Это приводит к тому, что надёжность (soundness) использует комбинацию статической проверки
+(ошибки времени компиляции) и проверки во время исполнения. Например, присваивание
+Приведение `Object` в строку, используя `as String`, потерпит неудачу во время исполнения, если
+объект не является строкой.
 
 
-## The benefits of soundness
+## Выгоды от надёжности (soundness)
 
-A sound type system has several benefits:
+Надёжная (sound) система типов имеет несколько преимуществ:
 
-* Revealing type-related bugs at compile time.<br>
+* Показывает ошибки времени компиляции, связанные с типами.<br>
+  Надёжная (sound) система типов
   A sound type system forces code to be unambiguous about its types,
   so type-related bugs that might be tricky to find at runtime are
   revealed at compile time.
