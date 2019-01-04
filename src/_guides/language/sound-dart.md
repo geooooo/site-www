@@ -94,57 +94,52 @@ void main() {
 Например, если статический тип выражения - `String`,
 во время выполнения вы гарантированно получите только строку при ее вычислении.
 
-Система типов Dart, как система типов в Java и C# - надёжная (sound).
-Это приводит к тому, что надёжность (soundness) использует комбинацию статической проверки
+Система типов Dart, как система типов в Java и C# - надёжная.
+Это приводит к тому, что надёжность использует комбинацию статической проверки
 (ошибки времени компиляции) и проверки во время исполнения. Например, присваивание
 Приведение `Object` в строку, используя `as String`, потерпит неудачу во время исполнения, если
 объект не является строкой.
 
 
-## Выгоды от надёжности (soundness)
+## Выгоды от надёжности
 
-Надёжная (sound) система типов имеет несколько преимуществ:
+Надёжная система типов имеет несколько преимуществ:
 
 * Показывает ошибки времени компиляции, связанные с типами.<br>
-  Надёжная (sound) система типов
-  A sound type system forces code to be unambiguous about its types,
-  so type-related bugs that might be tricky to find at runtime are
-  revealed at compile time.
+  Надёжная система типов заставляет код быть однозначным относительно его типов,<br>
+  поэтому связанные с типом ошибки, которые сложно найти во время выполнения,
 
-* More readable code.<br>
-  Code is easier to read because you can rely on a value actually having
-  the specified type. In sound Dart, types can't lie.
+* Более читабельный код.<br>
+  Код легче читать, потому что вы можете полагаться на значение, имеющее указанный тип.<br>
+  В надёжном Dart, типы не могут лгать.
 
-* More maintainable code.<br>
-  With a sound type system, when you change one piece of code, the
-  type system can warn you about the other pieces
-  of code that just broke.
+* Более поддерживаемый код.<br>
+  С надёжной системой типов, когда вы изменяете одну часть кода,<br>
+  система типов может уведомить вас о других частях кода, которые просто сломались.
 
-* Better ahead of time (AOT) compilation.<br>
-  While AOT compilation is possible without types, the generated
-  code is much less efficient.
+* Лучшая ahead of time (AOT) компиляция.<br>
+  Хотя AOT компиляция возможна без типов, сгенерированный код гораздо менее эффективен.
 
 
-## Tips for passing static analysis
+## Подсказки для прохождения статического анализа
 
-Most of the rules for static types are easy to understand.
-Here are some of the less obvious rules:
+Большинство правил для статических типов просты для понимания.
+Здесь некоторый из менее очевидных правил:
 
-* Use sound return types when overriding methods.
-* Use sound parameter types when overriding methods.
-* Don't use a dynamic list as a typed list.
+* Используйте надёжные типы возвращаемых значений
+* Используйте надёжные типы параметров, когда переопределяете методы.
+* Не используйте список dynamic как типизированный список.
 
-Let's see these rules in detail, with examples that use the following
-type hierarchy:
+Посмотрим эти правила в деталалях с примерами,
+которые используют следующую иерархию типов:
 
-<img src="images/type-hierarchy.png" alt="a hierarchy of animals where the supertype is Animal and the subtypes are Alligator, Cat, and HoneyBadger. Cat has the subtypes of Lion and MaineCoon">
+<img src="images/type-hierarchy.png" alt="иерархия животных, где супертип - Animal и подтипы: Alligator, Cat, и HoneyBadger. Cat имеет подтипы: Lion и MaineCoon">
 
 <a name="use-proper-return-types"></a>
-### Use sound return types when overriding methods
+### Использование надёжных типов возвращаемых значений при переопределении методов
 
-The return type of a method in a subclass must be the same type or a
-subtype of the return type of the method in the superclass. Consider
-the getter method in the Animal class:
+Возвращаемый тип метода в подклассе должен быть такого же типа или
+подтипом возвращаемого типа метода в суперклассе. Рассмотрим метод getter в классе Animal:
 
 <?code-excerpt "strong/lib/animal.dart (Animal)" replace="/Animal get.*/[!$&!]/g"?>
 {% prettify dart %}
@@ -154,9 +149,9 @@ class Animal {
 }
 {% endprettify %}
 
-The `parent` getter method returns an Animal. In the HoneyBadger subclass,
-you can replace the getter's return type with HoneyBadger (or any other subtype
-of Animal), but an unrelated type is not allowed.
+Метод getter `parent` возвращает Animal. В подклассе HoneyBadger вы можете заменить
+возвращаемый тип getter'а на HoneyBadger (или любой другой подтип Animal),
+но не связанный тип не допустим.
 
 {:.passes-sa}
 <?code-excerpt "strong/lib/animal.dart (HoneyBadger)" replace="/(\w+)(?= get)/[!$&!]/g"?>
@@ -177,19 +172,19 @@ class HoneyBadger extends Animal {
 {% endprettify %}
 
 <a name="use-proper-param-types"></a>
-### Use sound parameter types when overriding methods
+### Использование надёжных типов параметров при переопределении методов:
 
-The parameter of an overridden method must have either the same type
-or a supertype of the corresponding parameter in the superclass.
-Don't "tighten" the parameter type by replacing the type with a
-subtype of the original parameter.
+Параметр переопределяемого метода должен иметь либо такой же тип, либо
+супертипа соответствующего параметра в суперклассе.
+Не "сужайте" тип параметра путём замены типа подтипом оригинального параметра.
 
 <aside class="alert alert-info" markdown="1">
-  **Note:** If you have a valid reason to use a subtype, you can use the
-  [`covariant` keyword](/guides/language/sound-problems#the-covariant-keyword).
+  **Замечание:**
+  Если у вас есть реальная необходимость использовать подтип,
+  вы можете использовать [ключевое слово `covariant`](/guides/language/sound-problems#the-covariant-keyword).
 </aside>
 
-Consider the `chase(Animal)` method for the Animal class:
+Рассмотрим метод `chase(Animal)` класса Animal:
 
 <?code-excerpt "strong/lib/animal.dart (Animal)" replace="/void chase.*/[!$&!]/g"?>
 {% prettify dart %}
@@ -199,8 +194,8 @@ class Animal {
 }
 {% endprettify %}
 
-The `chase()` method takes an Animal. A HoneyBadger chases anything.
-It's OK to override the `chase()` method to take anything (Object).
+Метод `chase()` принимает параметр Animal. Класс HoneyBadger иной (Object).
+Допустимо переопределить метод `chase()`, чтобы тот принимал Object.
 
 {:.passes-sa}
 <?code-excerpt "strong/lib/animal.dart (chase-Object)" replace="/Object/[!$&!]/g"?>
@@ -211,8 +206,8 @@ class HoneyBadger extends Animal {
 }
 {% endprettify %}
 
-The following code tightens the parameter on the `chase()` method
-from Animal to Mouse, a subclass of Animal.
+Следующий код сужает тип параметра метода `chase()`
+с Animal до Mouse - подкласса Animal.
 
 {:.fails-sa}
 <?code-excerpt "strong/lib/animal_bad.dart (chase-Mouse)" replace="/(\w+)(?= x)/[!$&!]/g"?>
@@ -224,8 +219,11 @@ class Cat extends Animal {
 }
 {% endprettify %}
 
-This code is not type safe because it would then be possible to define
-a cat and send it after an alligator:
+{% comment %}
+NOTE: непонятно о чём и к чему это
+{% endcomment %}
+
+This code is not type safe because it would then be possible to define a cat and send it after an alligator:
 
 <?code-excerpt "strong/lib/animal_bad.dart (chase-Alligator)" replace="/Alligator/[!$&!]/g"?>
 {% prettify dart %}
@@ -233,16 +231,15 @@ Animal a = Cat();
 a.chase([!Alligator!]()); // Not type safe or feline safe
 {% endprettify %}
 
-### Don't use a dynamic list as a typed list
+### Не используйте список dynamic как типизированный список
 
-A dynamic list is good when you want to have a list with
-different kinds of things in it. However, you can't use a
-dynamic list as a typed list.
+Список dynamic хорош, когда вы хотите иметь список с различным содержимым.
+Тем не менее вы не можете использовать список с dynamic как типизированный список.
 
-This rule also applies to instances of generic types.
+Это правило также применимо к экземплярам обобщённых типов.
 
-The following code creates a dynamic list of Dog, and assigns it to
-a list of type Cat, which generates an error during static analysis.
+Следующий код создаёт список с dynamic из данных с типом Dog и присваивает его списку с Cat,
+код генерирует ошибку во время статического анализа.
 
 {:.fails-sa}
 <?code-excerpt "strong/lib/animal_bad.dart (dynamic-list)" replace="/.dynamic.(?!.*OK)/[!$&!]/g"?>
@@ -252,18 +249,18 @@ class Cat extends Animal { ... }
 class Dog extends Animal { ... }
 
 void main() {
-  List<Cat> foo = [!<dynamic>!][Dog()]; // Error
+  List<Cat> foo = [!<dynamic>!][Dog()]; // Ошибка
   List<dynamic> bar = <dynamic>[Dog(), Cat()]; // OK
 }
 {% endprettify %}
 
-## Runtime checks
+## Проверки во время исполнения
 
-Runtime checks in tools like the [Dart VM][] and [dartdevc][]
-deal with type safety issues that the analyzer can't catch.
+Проверки во время исполнения в таких утилитах, как [Dart VM][] и [dartdevc][]
+имеют дело с проблемами безопасности типов, которые анализатор не может отловить.
 
-For example, the following code throws an exception at runtime because it is an error
-to assign a list of Dogs to a list of Cats:
+Например, следующий код бросает исключение во время исполнения, так как
+ошибочно присваивать список собак списку кошек:
 
 {:.runtime-fail}
 <?code-excerpt "strong/test/strong_test.dart (runtime-checks)" replace="/cats[^;]*/[!$&!]/g"?>
@@ -275,7 +272,7 @@ void main() {
 {% endprettify %}
 
 
-## Type inference
+## Вывод типов
 
 The analyzer can infer types for fields, methods, local variables,
 and most generic type arguments.
