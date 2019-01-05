@@ -318,99 +318,98 @@ void main() {
 
 Статические поля и переменные получают вывод их типов из их инициализаторов.
 Обратите внимание, что вывод завершается неудачей,
-если он встречает цикл (то есть вывод типа для переменной зависит от знания типа этой переменной).
+если он встречает цикл (то есть вывод типа переменной зависит от знания типа этой переменной).
 
 
 ### Вывод локальных переменных
 
-Local variable types are inferred from their initializer, if any.
-Subsequent assignments are not taken into account.
-This may mean that too precise a type may be inferred.
-If so, you can add a type annotation.
+Тип локальной переменной выводится из её инициализатора, если он имеется.
+Последующие присваивания не беруться во внимание.
+Это означает, что может быть выведен слишком точный тип.
+Если это так, вы можете добавить аннотацию типа.
 
 {:.fails-sa}
 <?code-excerpt "strong/lib/strong_analysis.dart (local-var-type-inference-error)"?>
 {% prettify dart %}
-var x = 3; // x is inferred as an int
+var x = 3; // x выводится как int
 x = 4.0;
 {% endprettify %}
 
 {:.passes-sa}
 <?code-excerpt "strong/lib/strong_analysis.dart (local-var-type-inference-ok)"?>
 {% prettify dart %}
-num y = 3; // a num can be double or int
+num y = 3; // num может быть double или int
 y = 4.0;
 {% endprettify %}
 
-### Type argument inference
+### Вывод аргументов типов
 
-Type arguments to constructor calls and
-[generic method](/guides/language/language-tour#using-generic-methods) invocations are
-inferred based on a combination of downward information from the context
-of occurrence, and upward information from the arguments to the constructor
-or generic method. If inference is not doing what you want or expect,
-you can always explicitly specify the type arguments.
+Аргументы типы в вызовах конструктора и в
+вызовах [обобщённых методов](/guides/language/language-tour#using-generic-methods)
+выводятся на основе комбинации
+нисходящей информации из контекста вхождения и
+восходящей информации из аргументов в конструкторе или обобщённом методе.
+Если вывод не такой, какой вы хотели или ожидали, вы всегда можете явно
+указать аргументы типы.
 
 {:.passes-sa}
 <?code-excerpt "strong/lib/strong_analysis.dart (type-arg-inference)"?>
 {% prettify dart %}
-// Inferred as if you wrote <int>[].
+// Выведет, как если бы вы написали <int>[].
 List<int> listOfInt = [];
 
-// Inferred as if you wrote <double>[3.0].
+// Выведет, как если бы вы написали <double>[3.0].
 var listOfDouble = [3.0];
 
-// Inferred as Iterable<int>
+// Выведет как Iterable<int>
 var ints = listOfDouble.map((x) => x.toInt());
 {% endprettify %}
 
-In the last example, `x` is inferred as `double` using downward information.
-The return type of the closure is inferred as `int` using upward information.
-Dart uses this return type as upward information when inferring the `map()`
-method's type argument: `<int>`.
+В последнем примере `x` выведется как `double`, используя нисходящую информацию.
+Возвращаемый тип замыкания выведется как `int`, используя восходящую информацию.
+Dart использует этот возвращаемый тип `<int>` как восходящую информацию
+при выводе аргумента типа метода `map()`.
 
 
-## Substituting types
+## Подстановка типов
 
-When you override a method, you are replacing something of one type (in the
-old method) with something that might have a new type (in the new method).
-Similarly, when you pass an argument to a function,
-you are replacing something that has one type (a parameter
-with a declared type) with something that has another type
-(the actual argument). When can you replace something that
-has one type with something that has a subtype or a supertype?
+Когда вы переопределяете метод, вы заменяете что-то одного типа (в старом методе)
+на что-то, что может иметь новый тип (в новом методе).
+Точно так же, когда вы передаете аргумент функции,
+вы заменяете что-то, имеющее один тип (параметр с объявленным типом),
+чем-то, имеющим другой тип (фактический аргумент).
+Когда вы можете заменить что-то,
+имеющее один тип, чем-то его подтипа или супертипа?
 
-When substituting types, it helps to think in terms of _consumers_
-and _producers_. A consumer absorbs a type and a producer generates a type.
+При подстановке типов, удобно рассуждать в терминах _потребителей_
+и _поставщиков_. Потребитель поглащает тип, а поставщик генерирует тип.
 
-**You can replace a consumer's type with a supertype and a producer's
-type with a subtype.**
+**Вы можете заменить тип потребителя на супертип, а
+тип поставщика на подтип.**
 
-Let's look at examples of simple type assignment and assignment with
-generic types.
+Взгляните на пример простого присваивания типа и присваивания с обобщёнными типами.
 
-### Simple type assignment
 
-When assigning objects to objects, when can you replace a type with a
-different type? The answer depends on whether the object is a consumer
-or a producer.
+### Простое присваивание типа
 
-Consider the following type hierarchy:
+При присваивание объектов объектам, когда вы можете заменить тип на
+другой тип? Ответ зависит от того, является ли объект потребителем или поставщиком.
 
-<img src="images/type-hierarchy.png" alt="a hierarchy of animals where the supertype is Animal and the subtypes are Alligator, Cat, and HoneyBadger. Cat has the subtypes of Lion and MaineCoon">
+Рассмотрите следующую иерархию типов:
 
-Consider the following simple assignment where `Cat c` is a _consumer_ and `Cat()`
-is a _producer_:
+<img src="images/type-hierarchy.png" alt="иерархия животных, где супертип - Animal, а подтипы: Alligator, Cat, и HoneyBadger. Cat имеет подтипы: Lion и MaineCoon">
+
+Рассмотрим следующее простое присваивание, где `Cat c` - _потребитель_, а `Cat()`
+- _поставщик_:
 
 <?code-excerpt "strong/lib/strong_analysis.dart (Cat-Cat-ok)"?>
 {% prettify dart %}
 Cat c = Cat();
 {% endprettify %}
 
-In a consuming position, it's safe to replace something that consumes a
-specific type (`Cat`) with something that consumes anything (`Animal`),
-so replacing `Cat c` with `Animal c` is allowed, because Animal is
-a supertype of Cat.
+На месте потребителя, безопасно заменить тип (`Cat`)
+на другой тип (`Animal`),
+заменить `Cat c` на `Animal c` допустимо, так как Animal - супертип Cat.
 
 {:.passes-sa}
 <?code-excerpt "strong/lib/strong_analysis.dart (Animal-Cat-ok)"?>
@@ -418,9 +417,8 @@ a supertype of Cat.
 Animal c = Cat();
 {% endprettify %}
 
-But replacing `Cat c` with `MaineCoon c` breaks type safety, because the
-superclass may provide a type of Cat with different behaviors, such
-as Lion:
+Но замена `Cat c` на `MaineCoon c` сломает безопасность типов, так как
+суперкласс может предоставить тип от Cat с отличающимся поведением, таким как Lion:
 
 {:.fails-sa}
 <?code-excerpt "strong/lib/strong_analysis.dart (MaineCoon-Cat-err)"?>
@@ -428,9 +426,8 @@ as Lion:
 MaineCoon c = Cat();
 {% endprettify %}
 
-In a producing position, it's safe to replace something that produces a
-type (Cat) with a more specific type (MaineCoon). So, the following
-is allowed:
+На месте поставщика, безопасно заменить тип (Cat) на более конкретный тип (MaineCoon).
+Так что, следующее допустимо:
 
 {:.passes-sa}
 <?code-excerpt "strong/lib/strong_analysis.dart (Cat-MaineCoon-ok)"?>
@@ -438,7 +435,8 @@ is allowed:
 Cat c = MaineCoon();
 {% endprettify %}
 
-### Generic type assignment
+
+### Присваивание обобщённого типа
 
 Are the rules the same for generic types? Yes. Consider the hierarchy
 of lists of animals&mdash;a List of Cat is a subtype of a List of
