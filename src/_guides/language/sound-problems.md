@@ -1,35 +1,34 @@
 ---
-title: "Fixing Common Type Problems"
-description: Common type issues you may have and how to fix them.
+title: "Исправление распространёных проблем с типами"
+description: Распространёные проблемы, с которыми вы можете столкнуться и как их исправить.
 ---
 {% comment %}Don't show exact file names in analyzer error output.{% endcomment %}
 <?code-excerpt replace="/ at (lib|test)\/\w+\.dart:\d+:\d+//g"?>
 <?code-excerpt plaster="none"?>
 
-If you're having problems with type checks,
-this page can help. To learn more, read
-[Dart's Type System](/guides/language/sound-dart)
-and [other resources](/guides/language/sound-dart#other-resources).
+Если у вас есть проблемы с проверками типа, эта страница может помочь.
+Чтобы узнать больше, читайте
+[Система типов Dart](/guides/language/sound-dart)
+и [другие ресурсы](/guides/language/sound-dart#other-resources).
 
 <aside class="alert alert-info" markdown="1">
-**Help us improve this page!**
-If you encounter a warning or error that isn't listed here,
-please file an issue by clicking the **bug icon** at the top right.
-Include the **warning or error message** and,
-if possible, the code for both a small reproducible case
-and its correct equivalent.
+**Помогите нам улучшить эту страницу!**
+Если вы встретите предупреждение или ошибку, которая не перечислена здесь,
+пожалуйста, сообщите о проблеме, нажав **иконку с жучком** сверху справа.
+Приложите **сообщение об предупреждении или ошибке** и,
+если возможно, небольшой код, чтобы воспроизвести ситуацию и его правильный эквивалент.
 </aside>
 
 
-## Troubleshooting
+## Поиск проблем
 
 <a name="am-i-using-strong-mode"></a>
-### Am I really using type-safe Dart?
+### Я и в правду использую типо-безопасный Dart?
 
-If you're not seeing expected errors or warnings,
-make sure that you're using the latest version of Dart.
+Если вы не увидели ожидаемую ошибку или предупреждение,
+убедитесь, что вы используете последнюю версию Dart.
 
-Alternatively, try adding the following code to a file:
+Для альтернативы, попробуйте добавить следующий код в файл:
 
 {:.fails-sa}
 <?code-excerpt "strong/lib/common_problems_analysis.dart (is-strong-mode-enabled)"?>
@@ -37,7 +36,7 @@ Alternatively, try adding the following code to a file:
 bool b = [0][0];
 {% endprettify %}
 
-With type-safe Dart, the analyzer produces the following error:
+С типо-безопасным Dart, анализатор выдаст следующую ошибку:
 
 {:.console-output}
 <?code-excerpt "strong/analyzer-2-results.txt" retain="/'int' can't be .* 'bool'.*common_problems/"?>
@@ -47,31 +46,34 @@ error • A value of type 'int' can't be assigned to a variable of type 'bool' �
 
 
 <a name="common-errors"></a>
-## Static errors and warnings
+## Статические ошибки и предупреждения
 
-This section shows how to fix some of the errors and warnings
-you might see from the analyzer or an IDE.
+Этот раздел показывает, как исправить некоторые из ошибок и предупрждений, которые
+вы можете увидеть из анализатора или в IDE.
 
-Static analysis can't catch all errors.
-For help fixing errors that appear only at runtime,
-see [Runtime errors](#common-errors-and-warnings).
+Статический анализатор не может отловить все ошибки.
+Для помощи по исправлению ошибок, которые получаются только во
+время исполнения, смотрите
+[Ошибки времени исполнения](#common-errors-and-warnings).
 
-### Undefined member
+### Неопределённые члены
 
 <?code-excerpt "strong/analyzer-2-results.txt" retain="/isn't defined for the class.*common_problems/" replace="/getter/<member\x3E/g; /'\w+'/'...'/g"?>
 ```nocode
 error • The <member> '...' isn't defined for the class '...' • undefined_<member>
 ```
 
-These errors can appear under the following conditions:
+Эти ошибки могут появляться при следующих условиях:
 
+- Статически известно, что переменная является неким супертипом,
+  но код предполагает использование подтипа.
 - A variable is statically known to be some supertype, but the code assumes a subtype.
-- A generic class has a bounded type parameter, but an instance creation
-  expression of the class omits the type argument.
+- Обобщённый класс имеет ограниченный тип параметра,
+  но в выражении создания экземпляра класса отсутствует тип аргумента.
 
-#### Example 1: A variable is statically known to be some supertype, but the code assumes a subtype
+#### Пример 1: Статически известно, что переменная является неким супертипом, но код предполагает использование подтипа.
 
-In the following code, the analyzer complains that `context2D` is undefined:
+В следующем коде, анализатор жалуется, что `context2D` не определён:
 
 {:.fails-sa}
 <?code-excerpt "strong/lib/common_problems_analysis.dart (canvas-error)" replace="/context2D/[!$&!]/g"?>
@@ -86,17 +88,17 @@ canvas.[!context2D!].lineTo(x, y);
 error • The getter 'context2D' isn't defined for the class 'Element' • undefined_getter
 ```
 
-#### Fix: Replace the definition of the member with an explicit type declaration or a downcast
+#### Исправление: Заменить определение члена на явное объявление типа или понижение
 
-The `querySelector()` method statically returns an Element,
-but the code assumes it returns the subtype CanvasElement
-where `context2D` is defined.
-The `canvas` field is declared as `var` which,
-in Dart 1.x versions without strong mode,
-types it as `dynamic` and silences all errors.
-Dart infers `canvas` to be an Element.
+Метод `querySelector()` статически возвращает Element,
+но код предполагает его возвращаемый подтип CanvasElement,
+где `context2D` определён.
+Поле `canvas` объявлено как как `var`,
+которое в версиях Dart 1.x без строгого режима
+вводит его как `dynamic` и умолчаивает обо всех ошибках.
+Dart выведет `canvas` как Element.
 
-You can fix this error with an explicit type declaration:
+Вы можете исправить эту ошибку путём явного объявления типа:
 
 {:.passes-sa}
 <?code-excerpt "strong/lib/common_fixes_analysis.dart (canvas-ok)" replace="/CanvasElement/[!$&!]/g"?>
@@ -105,9 +107,9 @@ You can fix this error with an explicit type declaration:
 canvas.context2D.lineTo(x, y);
 {% endprettify %}
 
-The code above passes static analysis when [implicit casts][] are permitted.
+Код выше пройдёт статический анализ при разрешённом [неявном приведении][].
 
-You can also use an explicit downcast:
+Вы также можете использовать явное понижение:
 
 {:.passes-sa}
 <?code-excerpt "strong/lib/common_fixes_analysis.dart (canvas-as)" replace="/as \w+/[!$&!]/g"?>
@@ -116,7 +118,8 @@ var canvas = querySelector('canvas') [!as CanvasElement!];
 canvas.context2D.lineTo(x, y);
 {% endprettify %}
 
-Otherwise, use `dynamic` in situations where you cannot use a single type:
+Во всех остальных случаях, используйте `dynamic` в ситуациях,
+когда вы не можете использовать один тип:
 
 {:.passes-sa}
 <?code-excerpt "strong/lib/common_fixes_analysis.dart (canvas-dynamic)" replace="/dynamic/[!$&!]/g"?>
@@ -125,10 +128,10 @@ Otherwise, use `dynamic` in situations where you cannot use a single type:
 var width = canvasOrImg.width;
 {% endprettify %}
 
-#### Example 2: Omitted type parameters default to their type bounds
+#### Пример 2: Параметры пропущенных типов по умолчанию соответствуют границам их типов
 
-Consider the following **generic class** with a **bounded type parameter** that extends
-`Iterable`:
+Рассмотрим следующий **обобщённый класс** с **ограниченным типом параметра**,
+который наследует `Iterable`:
 
 <?code-excerpt "strong/lib/bounded/my_collection.dart"?>
 {% prettify dart %}
@@ -138,8 +141,8 @@ class C<T extends Iterable> {
 }
 {% endprettify %}
 
-The following code creates a new instance of this class (omitting the type
-argument) and accesses its `collection` member:
+Следующий код создаёт новый экземпляр этого класса (опуская тип аргумента)
+и обращаясь к его члену `collection`:
 
 {:.fails-sa}
 <?code-excerpt "strong/lib/bounded/instantiate_to_bound.dart (undefined_method)" replace="/c\..*;/[!$&!]/g"?>
@@ -154,25 +157,24 @@ var c = C(Iterable.empty()).collection;
 error • The method 'add' isn't defined for the class 'Iterable' at lib/bounded/instantiate_to_bound.dart:7:5 • undefined_method
 ```
 
-While the [List][] type has an `add()` method, [Iterable][] does not.
+В то время как тип [List][] имеет метод `add()`, [Iterable][] - нет.
 
-#### Fix: Specify type arguments or fix downstream errors
+#### Исправление: указание типа аргументов или исправление ошибок downstream
 
-In Dart 1.x, when a generic class is instantiated without explicit type
-arguments, `dynamic` is assumed. That is why, in the code excerpt above, `c` is
-of type `dynamic` and no error is reported for `c.add()`.
+В Dart 1.x, при создании обобщёного класса без явных типов аргументов предполагается `dynamic`.
+Поэтому в отрывке кода выше, `c` имеет тип `dynamic` и не будет сообщения об ошибке для `c.add()`.
 
-In Dart 2, when a generic class is instantiated without explicit type arguments,
-each type parameter defaults to its type bound (`Iterable` in this example) if
-one is explicitly given, or `dynamic` otherwise.
+В Dart 2, при создании обобщённого класса без явных типов аргументов,
+каждый тип параметра по умолчанию привязан к своему типу (в этом пример `Iterable`)
+если он явно задан или во всех остальных случаях `dynamic`.
 
-You need to approach fixing such errors on a case-by-case basis. It helps to
-have a good understanding of the original design intent.
+Вам необходимо подходить к исправлению таких ошибок индивидуально в каждом случае.
+Это помогает хорошо понять оригинальный замысел конструкции.
 
-Explicitly passing type arguments is an effective way to help identify type
-errors. For example, if you change the code to specify `List` as a type
-argument, the analyzer can detect the type mismatch in the constructor argument.
-Fix the error by providing a constructor argument of the appropriate type:
+Явная вставка типа аргументов - эффективный путь помочь идентифицировать тип ошибок.
+Например, если вы измените код, чтобы указать `List` как тип аргумента, анализатор
+сможет обнаружить несоответствие типа в аргументе конструктора.
+Исправьте ошибку, указав аргумент конструктора соответствующего типа:
 
 {:.passes-sa}
 <?code-excerpt "strong/test/strong_test.dart (add-type-arg)" replace="/.List.|\[\]/[!$&!]/g"?>
@@ -181,42 +183,30 @@ var c = C[!<List>!]([![]!]).collection;
 c.add(2);
 {% endprettify %}
 
-{% comment %}
-TODO: remove this commentted out code once Kathy gives a thumbs up. Also remove the code excerpt from the original source.
-
-If you actually meant `collection` to be an `Iterable`, then subsequent uses of
-`c` are an error and need to be fixed:
-
-{:.passes-sa}
-<?code-excerpt "strong/test/strong_test.dart (use-iterable)" replace="/Use.*\.\.\./[!$&!]/g"?>
-{% prettify dart %}
-var c = C(Iterable.empty()).collection;
-// [!Use c as an iterable...!]
-{% endprettify %}
-{% endcomment %}
 
 <hr>
 
-### Invalid method override
+### Неправильное переопределение метода
 
 <?code-excerpt "strong/analyzer-2-results.txt" retain="/isn't a valid override of.*num.*common_problems/" replace="/'[\w\.]+'/'...'/g; /\('.*?'\)//g"?>
 ```nocode
 error • '...'  isn't a valid override of '...'  • invalid_override
 ```
 
-These errors typically occur when a subclass tightens up a method's
-parameter types by specifying a subclass of the original class.
+Эти ошибки обычно происходят, когда подкласс сужает типы параметров метода,
+путём указания подкласса исходного класса.
 
 <aside class="alert alert-info" markdown="1">
-**Note:** This issue can also occur when a generic subclass neglects
-to specify a type. For more information, see
-[Missing type arguments](#missing-type-arguments).
+**Замечание:**
+Эта проблема может также происходить, когда обобщённый подкласс
+пренебрегает указанию типа. За большей информацией смотрите
+[Потеря типа аргуметнов](#missing-type-arguments).
 </aside>
 
-#### Example
+#### Пример
 
-In the following example, the parameters to the `add()` method are of type `int`,
-a subtype of `num`, which is the parameter type used in the parent class.
+В следующем примере параметры метода `add()` имеют тип `int` - подтип `num`, который
+является типом параметра, используемый в родительском классе.
 
 {:.fails-sa}
 <?code-excerpt "strong/lib/common_problems_analysis.dart (invalid-method-override)" replace="/int(?= \w\b)/[!$&!]/g"?>
@@ -235,9 +225,7 @@ class MyAdder extends NumberAdder {
 ```nocode
 error • 'MyAdder.add' ('(int, int) → int') isn't a valid override of 'NumberAdder.add' ('(num, num) → num') • invalid_override
 ```
-
-Consider the following scenario where floating
-point values are passed to an MyAdder:
+Рассмотрим следующий сценарий, где значение с плавающей точкой помещается в MyAdder:
 
 {:.runtime-fail}
 <?code-excerpt "strong/lib/common_problems_analysis.dart (unsafe-method-call)" replace="/\d[\d\.]+/[!$&!]/g"?>
@@ -246,14 +234,13 @@ NumberAdder adder = MyAdder();
 adder.add([!1.2!], [!3.4!]);
 {% endprettify %}
 
-If the override were allowed, the code would raise an error at runtime.
+Если переопределение было бы разрешено, код выдал ошибку во время исполнения.
 
-#### Fix: Widen the method's parameter types
+#### Исправление: Расширение типов параметров метода
 
-The subclass's method should accept every
-object that the superclass's method takes.
+Метод подкласса должен принимать каждый объект, который получает метод суперкласса.
 
-Fix the example by widening the types in the subclass:
+Исправте пример, с помощью расширения типов в подклассе:
 
 {:.passes-sa}
 <?code-excerpt "strong/lib/common_fixes_analysis.dart (valid-method-override)" replace="/num(?= \w\b.*=)/[!$&!]/g"?>
@@ -267,27 +254,29 @@ class MyAdder extends NumberAdder {
 }
 {% endprettify %}
 
-For more information, see [Use proper input parameter types when overriding methods](/guides/language/sound-dart#use-proper-param-types).
+Большую информацию смотрите
+[Используйте правильные типы входных параметров при переопределении методов](/guides/language/sound-dart#use-proper-param-types).
 
 <aside class="alert alert-info" markdown="1">
-  **Note:** If you have a valid reason to use a subtype, you can use the
-  [covariant keyword](#the-covariant-keyword).
+  **Замечание:**
+  Если у вас есть хороший повод, чтобы использовать подтип,
+  вы можете использовать [ключевое слово covariant](#the-covariant-keyword).
 </aside>
 
 <hr>
 
-### Missing type arguments
+### Потеря типа аргументов
 
 <?code-excerpt "strong/analyzer-2-results.txt" retain="/isn't a valid override of.*dynamic.*common_problems/" replace="/'\S+'/'...'/g; /\('.*?'\)//g"?>
 ```nocode
 error • '...'  isn't a valid override of '...'  • invalid_override
 ```
 
-#### Example
+#### Пример
 
-In the following example, `Subclass` extends `Superclass<T>` but doesn't
-specify a type argument. The analyzer infers `Subclass<dynamic>`,
-which results in an invalid override error on `method(int)`.
+В следующем примере `Subclass` наследует `Superclass<T>` но не указывает
+тип аргумента. Анализатор выведет `Subclass<dynamic>`, который приведёт
+к ошибке неправильности переопределения у `method(int)`.
 
 {:.fails-sa}
 <?code-excerpt "strong/lib/common_problems_analysis.dart (missing-type-arguments)" replace="/int(?= \w\b)/[!$&!]/g"?>
@@ -307,13 +296,12 @@ class Subclass extends Superclass {
 error • 'Subclass.method' ('(int) → void') isn't a valid override of 'Superclass.method' ('(dynamic) → void') • invalid_override
 ```
 
-#### Fix: Specify type arguments for the generic subclass
+#### Исправление: Указание типа аргументов для обобщёного подкласса
 
-When a generic subclass neglects to specify a type argument,
-the analyzer infers the `dynamic` type. This is likely to cause
-errors.
+При пропуске указания типа аргумента в обобщёном подклассе,
+анализатор выведет тип `dynamic`. Это скорее всего приведёт к ошибкам.
 
-You can fix the example by specifying the type on the subclass:
+Вы можете исправить пример, указав тип в подклассе:
 
 {:.passes-sa}
 <?code-excerpt "strong/lib/common_fixes_analysis.dart (type-arguments)" replace="/<int\x3E/[!$&!]/g"?>

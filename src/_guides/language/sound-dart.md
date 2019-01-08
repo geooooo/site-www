@@ -219,16 +219,12 @@ class Cat extends Animal {
 }
 {% endprettify %}
 
-{% comment %}
-NOTE: непонятно о чём и к чему это
-{% endcomment %}
-
-This code is not type safe because it would then be possible to define a cat and send it after an alligator:
+Этот код не типо безопасен, потомучто тогда будет возможно определить кошку и после отправить ей аллигатора:
 
 <?code-excerpt "strong/lib/animal_bad.dart (chase-Alligator)" replace="/Alligator/[!$&!]/g"?>
 {% prettify dart %}
 Animal a = Cat();
-a.chase([!Alligator!]()); // Not type safe or feline safe
+a.chase([!Alligator!]()); // Не типо безопасно или не безопасно для кошки
 {% endprettify %}
 
 ### Не используйте список dynamic как типизированный список
@@ -438,14 +434,13 @@ Cat c = MaineCoon();
 
 ### Присваивание обобщённого типа
 
-Are the rules the same for generic types? Yes. Consider the hierarchy
-of lists of animals&mdash;a List of Cat is a subtype of a List of
-Animal, and a supertype of a List of MaineCoon:
+Являются ли правила такими же для обобщённых типов? Да. Рассмотрим иерархию
+списка животных&mdash; список Cat - подтип списка Animal и супертип списка MaineCoon:
 
 <img src="images/type-hierarchy-generics.png" alt="List<Animal> -> List<Cat> -> List<MaineCoon>">
 
-In the following example, you can assign a `MaineCoon` list to `myCats` because
-`List<MaineCoon>` is a subtype of `List<Cat>`:
+В следующем пример, вы можете присвоить список `MaineCoon` переменной `myCats`, потомучто
+`List<MaineCoon>` - подтип `List<Cat>`:
 
 {:.passes-sa}
 <?code-excerpt "strong/lib/strong_analysis.dart (generic-type-assignment-MaineCoon)" replace="/MaineCoon/[!$&!]/g"?>
@@ -460,7 +455,7 @@ DartPad: https://dartpad.dartlang.org/4a2a9bc2242042ba5338533d091213c0
 [Try it in DartPad](https://dartpad.dartlang.org/4a2a9bc2242042ba5338533d091213c0).
 {% endcomment %}
 
-What about going in the other direction? Can you assign an `Animal` list to a `List<Cat>`?
+Как насчет идти в другом направлении? Можете ли вы список `Animal` присвоить `List<Cat>`?
 
 {:.passes-sa}
 <?code-excerpt "strong/lib/strong_analysis.dart (generic-type-assignment-Animal)" replace="/Animal/[!$&!]/g"?>
@@ -468,6 +463,8 @@ What about going in the other direction? Can you assign an `Animal` list to a `L
 List<Cat> myCats = List<[!Animal!]>();
 {% endprettify %}
 
+Это присваивание пройдёт статический анализ, но оно
+создаст неявное приведение типов. Это эквивалентно:
 This assignment passes static analysis,
 but it creates an implicit cast. It is equivalent to:
 
@@ -476,38 +473,35 @@ but it creates an implicit cast. It is equivalent to:
 List<Cat> myCats = List<Animal>() [!as List<Cat>!];
 {% endprettify %}
 
-The code may fail at runtime. You can disallow implicit casts
-by specifying `implicit-casts: false` in the [analysis options file.][analysis_options.yaml]
+Код может упасть во время исполнения. Вы можете запретить неявное приведение типов,
+указав `implicit-casts: false` в [файле опций анализа.][analysis_options.yaml]
 
 
-### Methods
+### Методы
 
-When overriding a method, the producer and consumer rules still apply.
-For example:
+При переопределении метода правила производителя и потребителя все еще в силе.
+Например:
 
 <img src="images/consumer-producer-methods.png" alt="Animal class showing the chase method as the consumer and the parent getter as the producer">
 
-For a consumer (such as the `chase(Animal)` method), you can replace
-the parameter type with a supertype. For a producer (such as
-the `parent` getter method), you can replace the return type with
-a subtype.
+Для потребителя (такой метод как `chase(Animal)`), вы можете
+заменить тип параметра на супертип. Для производителя (такой метод getter как `parent`),
+вы можете заменить возвращаемый тип на подтип.
 
-For more information, see
-[Use sound return types when overriding methods](#use-proper-return-types)
-and [Use sound parameter types when overriding methods](#use-proper-param-types).
+За большей информацией смотрите
+[Использование надёжных возвращаемых типов при переопределении методов](#use-proper-return-types)
+и [Использование надёжных типов параметров при переопределении методов](#use-proper-param-types).
 
 
-## Other resources
+## Другие ресурсы
 
-The following resources have further information on sound Dart:
+Следующие ресурсы имеют сопутствующую информацию о надёжности Dart:
 
-* [Fixing Common Type Problems](/guides/language/sound-problems) -
-  Errors you may encounter when
-  writing sound Dart code, and how to fix them.
-* [Dart 2](/dart-2) - How to update Dart 1.x code to Dart 2.
-* [Customize Static Analysis](/guides/language/analysis-options) - How
-  to set up and customize the analyzer and linter using an analysis
-  options file.
+* [Исправление распространнёных проблем с типами](/guides/language/sound-problems) -
+  Ошибки с которыми вы можете столкнуться при написании надёжного кода на Dart, и как их исправить.
+* [Dart 2](/dart-2) - Как обновить код на Dart 1.x до Dart 2.
+* [Настройка статического анализа](/guides/language/analysis-options) -
+  Как установить и настроить анализатор и линтер, используя файл опций анализа.
 
 
 [analysis_options.yaml]: /guides/language/analysis-options
