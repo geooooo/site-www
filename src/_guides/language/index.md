@@ -1,61 +1,62 @@
 ---
 layout: default
-title: "Overview: The Dart Language"
+title: "Обзор: Язык Dart"
 permalink: /guides/language
-short-title: "Dart Language"
+short-title: "Язык Dart"
 toc: false
 ---
 
-These two resources are popular with both beginning Dartisans and experts.
+Эти два ресурса популярны как для начинающих Дартзинов так и для экспертов.
 
 <div class="card-grid">
   <div class="card">
-    <h3><a href="/guides/language/language-tour">A Tour of the Dart Language</a></h3>
-    <p>A walk through all of Dart's major language features.</p>
+    <h3><a href="/guides/language/language-tour">Тур по языку Dart</a></h3>
+    <p>Пройтись по всем основным возможностям языка Dart.</p>
   </div>
   <div class="card">
-    <h3><a href="/guides/language/effective-dart">Effective Dart</a></h3>
-    <p>A set of guides that show you how to write the best Dart code
-    possible. There are guides on Dart style, documentation, usage,
-    and design.</p>
+    <h3><a href="/guides/language/effective-dart">Эффективный Dart</a></h3>
+    <p>Множество руководств, в которых показно, как возможно на Dart писать код лучше.
+    Имеются руководства по стилю кодирования на Dart, документации,
+    использованию, дизайну и проектированию.</p>
   </div>
 </div>
 
 ## Other resources
 
 <ul markdown="1">
-<li markdown="1"> [Dart's Type System](/guides/language/sound-dart)<br>
-    Learn about Dart's sound type system.
+<li markdown="1"> [Система типов Dart](/guides/language/sound-dart)<br>
+    Изучите безопасную систему типов Dart.
 </li>
 
 <ul markdown="1">
-<li markdown="1"> [Fixing Common Type Problems](/guides/language/sound-problems)<br>
-   How to fix errors and warnings you may encounter.
+<li markdown="1"> [Исправление распространённых проблем с типами](/guides/language/sound-problems)<br>
+   Как исправлять ошибки и предупреждения, с которыми вы можете встретиться.
 </li>
 </ul>
 
-<li markdown="1"> [Customize Static Analysis](/guides/language/analysis-options)<br>
-    A guide on customizing the analyzer using an analysis options file.
+<li markdown="1"> [Настройка статического анализа](/guides/language/analysis-options)<br>
+    Руководство по настройке анализатора, используя файл настроек анализа.
 </li>
 
-<li markdown="1">Asynchronous programming
+<li markdown="1">Асинхронное программирование
 
 <ul markdown="1">
 <li markdown="1">[Futures](/tutorials/language/futures)<br>
-    A beginner's guide to handling asynchronous programming in Dart.
+    Руководство для начинающих по асинхронному программированию в Dart.
 </li>
 
 <li markdown="1">[Streams](/tutorials/language/streams)<br>
-    A beginner's guide to handling sequences of asynchronous events.
+    Руководство для начинающих по обработке последовательности
+    асинхронных событий.
 </li>
 </ul>
 </li>
 
-<li markdown="1">[Language articles](/articles/language)<br>
-    Articles about language features such as mixins and asynchrony support.
+<li markdown="1">[Статьи по языку](/articles/language)<br>
+    Статьи о возможностях языка, таких как миксины и поддержка асинхроности.
 </li>
 
-<li markdown="1">[Specification](/guides/language/spec)<br>
-    A definitive, highly technical description of the Dart language.
+<li markdown="1">[Спецификация](/guides/language/spec)<br>
+    Точное и высоко-техничное описание языка Dart.
 </li>
 </ul>

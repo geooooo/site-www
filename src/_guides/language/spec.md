@@ -1,34 +1,32 @@
 ---
-title: Dart Language Specification
-description: The formal specification for the Dart language.
+title: Спецификация языка Dart
+description: Официальная спецификация для языка Dart.
 ---
 
-Use this page to find the formal Dart language specification.
-For a gentler introduction to Dart, see the
-[language tour](/guides/language/language-tour).
+Используйте эту страницу, чтобы найти официальную спецификацию
+языка Dart. Для мягкого введения в Dart смотрите
+[тур по языку](/guides/language/language-tour).
 
 ## Dart 2
 
-Dart 2 has changed the Dart language in many ways,
-some of which are not backward-compatible.
-For details, see the [Dart 2 page](/dart-2).
+Dart 2 изменил язык во многих направлениях, некоторые из которых не обратно-совместимые.
+Детали смотрите на [странице Dart 2](/dart-2).
 
-The formal language specification is not yet up-to-date.
-For information about Dart 2 changes, see the following resources.
+Официальная спецификация языка сейчас не обновляется.
+За информацией об изменениях Dart 2 смотрите следующие ресурсы.
 
-* Feature specifications in the dart-lang/sdk repo:
+* Будущие спецификации в репозитории dart-lang/sdk:
   * [docs/language/informal](https://github.com/dart-lang/sdk/tree/master/docs/language/informal)
-* Feature specifications in the dart-lang/language repo:
+* Будущие спецификации в репозитории dart-lang/language:
   * [accepted](https://github.com/dart-lang/language/tree/master/accepted)
   * [working](https://github.com/dart-lang/language/tree/master/working)
-* Dart language specification work in progress:
-  * [Source file (LaTeX format)](https://github.com/dart-lang/sdk/blob/master/docs/language/dartLangSpec.tex)
-  * [Community-contributed PDF built from the source file](https://github.com/chalin/dart-spec-and-grammar/blob/master/doc/dartLangSpec.pdf)
+* Рабочая спецификация языка Dart в прогрессе:
+  * [Исходный файл (LaTeX формат)](https://github.com/dart-lang/sdk/blob/master/docs/language/dartLangSpec.tex)
+  * [Созданый при содействии сообщества PDF, собранный из исходного файла](https://github.com/chalin/dart-spec-and-grammar/blob/master/doc/dartLangSpec.pdf)
 
 ## Dart 1.x
 
-Download the formal language specification from the Ecma International
-website:
+Загрузить официальную спецификацию языка с вебсайта Ecma International:
 
 * <a href="http://www.ecma-international.org/publications/files/ECMA-ST/ECMA-408.pdf"
-   target="_blank" rel="noopener">Dart Programming Language Specification, 4<sup>th</sup> Edition</a>
+   target="_blank" rel="noopener">Спецификация языка программирования Dart, 4 Редакция</a>
