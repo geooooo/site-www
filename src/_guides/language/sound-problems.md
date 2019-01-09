@@ -493,9 +493,10 @@ Dart исключает это статически. В можете посмо�
 Ошибки, обсуждаемые в оставшейся части этого раздела сообщаются во
 [время исполнения](sound-dart#runtime-checks).
 
-### Invalid casts
+### Неправильное приведение типов
 
-To ensure type safety, Dart needs to insert _runtime_ checks in some cases. Consider:
+Для того, чтобы обеспечить безопасность типов, Dart необходимо вставлять проверки
+_во время исполнения_ в некоторых случаях. Рассмотрим:
 
 {:.passes-sa}
 <?code-excerpt "strong/test/strong_test.dart (downcast-check)" replace="/string = objects/[!$&!]/g"?>
@@ -506,11 +507,11 @@ assumeStrings(List<Object> objects) {
 }
 {% endprettify %}
 
-The assignment to `strings` is _downcasting_ the `List<Object>` to `List<String>`
-implicitly (as if you wrote `as List<String>`), so if the value you pass in
-`objects` at runtime is a `List<String>`, then the cast succeeds.
+В присваивание к переменной `strings` - _downcasting_ `List<Object>` к `List<String>`
+неявно (как если бы вы написали `as List<String>`), так если значение, вставленое вами в
+`objects` во время исполнения `List<String>`, тогда приведение типов завершиться успехом.
 
-Otherwise, the cast will fail at runtime:
+Во всех остальных случаях приведение типов может быть неудачным во время исполнения:
 
 {:.runtime-fail}
 <?code-excerpt "strong/test/strong_test.dart (fail-downcast-check)" replace="/\[.*\]/[!$&!]/g"?>
@@ -524,11 +525,12 @@ assumeStrings(<int>[![1, 2, 3]!]);
 Exception: type 'List<int>' is not a subtype of type 'List<String>'
 ```
 
-#### Fix: Tighten or correct types
+#### Исправление: Сузить или поправить типы
 
-Sometimes, lack of a type, especially with empty collections, means that a `<dynamic>`
-collection is created, instead of the typed one you intended. Adding an explicit
-type argument can help:
+Иногда отсутствие типа, особенно с пустыми коллекциями,
+означает, что вместо типизированной коллекции, которую вы намеревались создать,
+создается коллекция `dynamic`.
+Добавление явного типа аргумента может помочь:
 
 {:.runtime-success}
 <?code-excerpt "strong/test/strong_test.dart (typed-list-lit)" replace="/<String\x3E/[!$&!]/g"?>
@@ -539,7 +541,7 @@ list.add('another');
 assumeStrings(list);
 {% endprettify %}
 
-You can also more precisely type the local variable, and let inference help:
+Вы также можете укзать более точный тип локальной переменной, а вывод типов поможет:
 
 {:.runtime-success}
 <?code-excerpt "strong/test/strong_test.dart (typed-list)" replace="/<String\x3E/[!$&!]/g"?>
@@ -550,12 +552,12 @@ list.add('another');
 assumeStrings(list);
 {% endprettify %}
 
-In cases where you are working with a collection that you don't create, such
-as from JSON or an external data source, you can use the
-[cast()]({{site.dart_api}}/{{site.data.pkg-vers.SDK.channel}}/dart-core/List/cast.html) method
-provided by `List` and other collection classes.
+В случаях, когда вы работаете с коллекцией, которую вы не создавали, такой как
+JSON или внешний источник данных, вы можете использовать метод
+[cast()]({{site.dart_api}}/{{site.data.pkg-vers.SDK.channel}}/dart-core/List/cast.html),
+предоставленный `List` и другими классами коллекций.
 
-Here's an example of the preferred solution: tightening the object's type.
+Вот пример предпочтительного решения: сужение типа объектов:
 
 {:.runtime-success}
 <?code-excerpt "strong/test/strong_test.dart (cast)" replace="/cast/[!$&!]/g"?>
@@ -566,45 +568,41 @@ assumeStrings(names.[!cast!]<String>());
 {% endprettify %}
 
 <aside class="alert alert-info" markdown="1">
-  **Version note:**
-  The `cast()` method was introduced in 2.0.0-dev.22.0.
+  **Замечание по версии:**
+  Метод `cast()` был введён в 2.0.0-dev.22.0.
 </aside>
 
-If you can't tighten the type or use `cast`, you can copy the object
-in a different way. For example:
+Если вы не можете сузить тип или использовать `cast`,
+вы можете скопировать объект дргим путём.
+Например:
 
 {:.runtime-success}
 <?code-excerpt "strong/test/strong_test.dart (create-new-object)" replace="/\.map.*\.toList../[!$&!]/g"?>
 {% prettify dart %}
 Map<String, dynamic> json = getFromExternalSource();
 var names = json['names'] as List;
-// Use `as` and `toList` until 2.0.0-dev.22.0, when `cast` is available:
+// До 2.0.0-dev.22.0 используйте `as` и `toList` до, или `cast`, если доступен:
 assumeStrings(names[!.map((name) => name as String).toList()!]);
 {% endprettify %}
 
-{% comment %}
-## Known issues
-Do we have any known issues or bugs to list here?
-{% endcomment %}
+## Приложение
 
-## Appendix
+### Ключевое слово covariant
 
-### The covariant keyword
-
-Some (rarely used) coding patterns rely on tightening a type
-by overriding a parameter's type with a subtype, which is invalid.
-In this case, you can use the `covariant` keyword to
-tell the analyzer that you are doing this intentionally.
-This removes the static error and instead checks for an invalid
-argument type at runtime.
+Некоторые (редко используемые) паттерны кодирования полагаются на сужение типа,
+путём переопределения типа параметра на его подтип, который недопустим.
+В этом случае, вы можете использовать ключевое слово `covariant`, чтобы сказать
+анализатору, что вы делаете это намерено.
+Это убирает статические ошибки и вместо этого, проверяет
+правильность типов аргументов во время исполнения.
 
 <aside class="alert alert-info" markdown="1">
-  **Version note:**
-  The `covariant` keyword was introduced in 1.22.
-  It replaces the `@checked` annotation.
+  **Замечание по версии:**
+  Ключевое слово `covariant` было введено в 1.22.
+  Это замена аннотации `@checked`.
 </aside>
 
-The following shows how you might use `covariant`:
+Далее показывается, как вы можете использовать `covariant`:
 
 {:.passes-sa}
 <?code-excerpt "strong/lib/covariant.dart" replace="/covariant/[!$&!]/g"?>
@@ -620,12 +618,12 @@ class Cat extends Animal {
 }
 {% endprettify %}
 
-Although this example shows using `covariant` in the subtype,
-the `covariant` keyword can be placed in either the superclass
-or the subclass method.
-Usually the superclass method is the best place to put it.
-The `covariant` keyword applies to a single parameter and is
-also supported on setters and fields.
+Хотя этот пример показывает использование `covariant` в подтипе,
+Ключевое слово `covariant` может быть помещено либо в методе суперкласса,
+либо в методе подкласса.
+Обычно метод супекласса - лучшее место, чтобы его разместить.
+Ключевое слово `covariant` применяет единственный параметр
+и также поддерживается в setter'ах и полях.
 
 [bottom type]: https://en.wikipedia.org/wiki/Bottom_type
 [dartanalyzer README]: https://github.com/dart-lang/sdk/tree/master/pkg/analyzer_cli#dartanalyzer
