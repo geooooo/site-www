@@ -1,70 +1,69 @@
 ---
-title: Customize Static Analysis
-description: Customize static analysis using an analysis options file.
+title: Настройка статического анализаCustomize Static Analysis
+description: Настройка статического анализа, используя файл с опциями анализатора.
 ---
 
-Static analysis allows you to find problems before
-executing a single line of code. It's a powerful tool
-used to prevent bugs and ensure that code conforms to style
-guidelines. With the help of the analyzer, you can find
-simple typos. For example, perhaps an accidental semicolon
-made its way into an `if` statement:
+Статический анализ позволяет вам найти проблемы перед
+исполнением строк кода. Его мощный инструмент, используется для
+предотвращения багов и обеспечения следованию руководствам по стилю.
+С помощью анализатора, вы можете найти простые ошибки.
+Например, случайно поставленная таким образом точка с запятой в
+инструкции `if`:
 
 {% asset guides/avoid-empty-statements.png alt="`if (count < 10);` results in a hint: Avoid empty statements." %}
 
-The analyzer can also help you find more subtle problems.
-For example, perhaps you've forgotten to close a sink method:
+Анализатор может также помощь вам найти больше тонких проблем.
+Например, вы возможно забыли закрыть метод sink:
 
 {% asset guides/close-sinks.png alt="`_controller = new StreamController()` results in a hint: Close instances of `dart.core.Sink`." %}
 
-In the Dart ecosystem,
-the Dart Analysis Server and other tools use the
-[analyzer package](https://pub.dartlang.org/packages/analyzer)
-to perform static analysis.
+В экосистеме Dart, Сервер Анализа Dart и другие утилиты используют
+[пакет analyzer](https://pub.dartlang.org/packages/analyzer),
+чтобы выполнять статический анализ.
 
-You can customize static analysis to look for a variety of potential
-problems, including errors and warnings specified in the
-[Dart language spec](/guides/language/spec).
-You can also configure the linter, one of the analyzer's plugins,
-to ensure that your code complies with the
-[Dart Style Guide](/guides/language/effective-dart/style)
-and other suggested guidelines in
-[Effective Dart](/guides/language/effective-dart). Dart tools such as the
-[Dart dev compiler (dartdevc),]({{site.webdev}}/tools/dartdevc)
+Вы можете настроить статический анализ для поиска потенциальных проблем,
+включая ошибки и предупреждения, указаные в
+[спецификации языка Dart](/guides/language/spec).
+Вы также можете конфигурировать линтер - один из плагинов
+анализатора, который обеспечивает следование вашего кода
+[Руководству по стилю Dart](/guides/language/effective-dart/style)
+и другие предложениям в руководстве
+[Эффективный Dart](/guides/language/effective-dart).
+Утилиты Dart, такие как
+[компилятор для разработки на Dart (dartdevc),]({{site.webdev}}/tools/dartdevc)
 [`dartanalyzer`,](https://github.com/dart-lang/sdk/tree/master/pkg/analyzer_cli#dartanalyzer)
 [`flutter analyze`,](https://flutter.io/debugging/#the-dart-analyzer)
-and [JetBrains IDEs](/tools/jetbrains-plugin)
-use the analyzer package to evaluate your code.
+и [JetBrains IDEs](/tools/jetbrains-plugin)
+используют анализатор для оценки вашего кода.
 
-This document explains how to customize the behavior of the analyzer
-using an analysis options file. If you want to
-add static analysis to your tool, see the
-[analyzer package](https://pub.dartlang.org/packages/analyzer) docs and the
-[Analysis Server API Specification.](https://htmlpreview.github.io/?https://github.com/dart-lang/sdk/blob/master/pkg/analysis_server/doc/api.html)
+Этот документ объясняет как настроить поведение анализатора, используя
+файл опций анализа. Если вы хотите добавить статический анализ в вашу утилиту,
+смотрите  документацию к [пакету analyzer](https://pub.dartlang.org/packages/analyzer) и
+[Спецификацию API Сервера Анализа](https://htmlpreview.github.io/?https://github.com/dart-lang/sdk/blob/master/pkg/analysis_server/doc/api.html).
 
 <aside class="alert alert-info" markdown="1">
-**Note:**
-The analyzer error codes are listed in the [Dart SDK
-repo.](https://github.com/dart-lang/sdk/blob/master/pkg/analyzer/lib/error/error.dart)
+**Замечание:**
+Коды ошибок анализатора перечислены в [репозитории Dart SDK.](https://github.com/dart-lang/sdk/blob/master/pkg/analyzer/lib/error/error.dart)
 </aside>
 
-## The analysis options file
+## Файл опций анализа
 
-Place the analysis options file, `analysis_options.yaml`,
-at the root of the package, in the same directory as the pubspec file.
+Место файла опций анализа `analysis_options.yaml`
+в корне пакета, в той же директории, что и файл pubspec.
 
 <aside class="alert alert-warning" markdown="1">
-  **Breaking change:** The conventional name for the analysis options file
-  used to be `.analysis_options` (note the leading dot and missing `.yaml` suffix).
-  We expect support for the `.analysis_options` name to go away in a future
-  release, so we recommend that you **rename your `.analysis_options` files to
-  `analysis_options.yaml`.**
+  **Несовместимые изменения:**
+  По конвенции имя файла с опциями анализа было `.analysis_options`
+  (заметьте идущую в начале точку и пропущенный суффикс `.yaml`).
+  Мы ожидаем, что поддержка для имени `.analysis_options` в будущих релизах
+  будет прекращена, так что мы рекомендуем **вам переименовать файлы `.analysis_options`
+  в `analysis_options.yaml`.**
   {% comment %}
   Tracking issue: https://github.com/dart-lang/sdk/issues/28385
   {% endcomment %}
 </aside>
 
-Here's a sample analysis options file:
+Вот пример файл с опциями анализа:
 
 {% prettify yaml %}
 analyzer:
@@ -85,25 +84,26 @@ linter:
     - unnecessary_new
 {% endprettify %}
 
-YAML is sensitive to whitespace&mdash;don't use tabs in a YAML file,
-and use 2 spaces to denote each level of indentation.
+YAML чувствителен к пробелам &mdash; не используйте табуляции в файле YAML,
+и используйте 2 пробела, чтобы обозначить каждый уровень вложености.
 
 <aside class="alert alert-info" markdown="1">
-**Note**: You might come across a `language:` tag in an analysis options file.
-This tag is used for testing experimental features. You can ignore it.
+**Замечание**:
+Вы можете встретить тег `language:` в файле опций анализа.
+Этот тег используется для тестирования эксперементальных возможностей.
+Вы можете игнорировать их.
 </aside>
 
-If the analyzer can't find an analysis options file at the package root,
-it walks up the directory tree, looking for one.
-If no file is available, the analyzer defaults to standard checks.
+Если анализатор не может найти файл с опциями в корне пакета,
+он идёт вверх по дереву директорий в поисках его.
+Если нет доступного файла, анализатор использует стандартные проверки.
 
-Consider the following directory structure for a large project:
+Рассмортим следующую структуру директории для большого проекта:
 
 {% asset guides/analysis-options-directory-structure.png alt="project root contains analysis_options.yaml (#1) and 3 packages, one of which (my_package) contains an analysis_options.yaml file (#2)." %}
 
-The analyzer will use file #1 to analyze the code in `my_other_package`
-and `my_other_other_package`, and file #2 to analyze the code in
-`my_package`.
+Анализатор будет использовать файл #1, чтобы анализировать код в `my_other_package`
+и `my_other_other_package`, а файл #2, чтобы анализировать код в `my_package`.
 
 
 ## Enabling additional type checks
