@@ -318,30 +318,31 @@ class Subclass extends Superclass[!<int>!] {
 <hr>
 
 <a id ="assigning-mismatched-types"></a>
-### Unexpected collection element type
+### Неожиданный тип элемента коллекции
 
 <?code-excerpt "strong/analyzer-2-results.txt" retain="/'double' can't be assigned to a variable of type 'int'.*common_problems/" replace="/'\S+'/'...'/g"?>
 ```nocode
 error • A value of type '...' can't be assigned to a variable of type '...' • invalid_assignment
 ```
 
-This sometimes happens when you create a simple dynamic collection
-and the analyzer infers the type in a way you didn't expect.
-When you later add values of a different type, the analyzer reports an issue.
+Это иногда происходит при создании простой динамической коллекции и
+анализатор выводит тип, которые вы не ожидали.
+Когда вы позже добавите значение другого типа, анализатор сообщит об проблеме.
 
-#### Example
 
-The following code initializes a map with several
-(String, int) pairs. The analyzer infers that map to be of type
-`<String, int>` but the code seems to assume either `<String, dynamic>` or `<String, num>`.
-When the code adds a (String, float) pair, the analyzer complains:
+#### Пример
+
+Следующий код инициализирует мапу с несколькими парами (String, int).
+Анализатор выведет, что мапа должна быть типа `<String, int>`,
+но кажется, что код предполагает или `<String, dynamic>` или `<String, num>`.
+Когда код добавляет пару (String, float), анализатор пожалуется:
 
 {:.fails-sa}
 <?code-excerpt "strong/lib/common_problems_analysis.dart (inferred-collection-types)" replace="/1.5/[!$&!]/g"?>
 {% prettify dart %}
 // Inferred as Map<String, int>
 var map = {'a': 1, 'b': 2, 'c': 3};
-map['d'] = [!1.5!]; // a double is not an int
+map['d'] = [!1.5!]; // double не является int
 {% endprettify %}
 
 {:.console-output}
@@ -350,10 +351,10 @@ map['d'] = [!1.5!]; // a double is not an int
 error • A value of type 'double' can't be assigned to a variable of type 'int' • invalid_assignment
 ```
 
-#### Fix: Specify the type explicitly
+#### Исправление: Явное указание типа
 
-The example can be fixed by explicitly defining the map's type to be
-`<String, num>`.
+Пример может быть исправлен, путём явного определения типа мапы,
+чтобы он был `<String, num>`.
 
 {:.passes-sa}
 <?code-excerpt "strong/lib/common_fixes_analysis.dart (inferred-collection-types)" replace="/<.*?\x3E/[!$&!]/g"?>
@@ -362,22 +363,23 @@ var map = [!<String, num>!]{'a': 1, 'b': 2, 'c': 3};
 map['d'] = 1.5;
 {% endprettify %}
 
-Alternatively, if you want this map to accept any value, specify the type as `<String, dynamic>`.
+В другом случае, если вы хотите, чтобы эта мапа принимала любые значения,
+укажите тип `<String, dynamic>`.
 
 <hr>
 
 <a id="constructor-initialization-list"></a>
-### Constructor initialization list super() call
+### Вызов super() в списке инициализации конструктора
 
 <?code-excerpt "strong/analyzer-2-results.txt" retain="/super call must be last.*common_problems/" replace="/'\S+'/'...'/g"?>
 ```nocode
 error • super call must be last in an initializer list (see https://goo.gl/EY6hDP): '...' • strong_mode_invalid_super_invocation
 ```
 
-This error occurs when the `super()` call is not last in a constructor's
-initialization list.
+Эта ошибка происходит, когда вызов `super()` - не стоит в конце списка
+инициализации конструктора.
 
-#### Example
+#### Пример
 
 {:.fails-sa}
 <?code-excerpt "strong/lib/common_problems_analysis.dart (super-goes-last)" replace="/super/[!$&!]/g"?>
@@ -393,11 +395,11 @@ HoneyBadger(Eats food, String name)
 error • super call must be last in an initializer list (see https://goo.gl/EY6hDP): 'super(food)' • strong_mode_invalid_super_invocation
 ```
 
-#### Fix: Put the `super()` call last
+#### Исправление: поместите вызов `super()` в конец
 
-The compiler can generate simpler code if it relies on the `super()` call appearing last.
+Компилятор может генерировать более простой код, если вызов `super()` происходит в конце.
 
-Fix this error by moving the `super()` call:
+Исправте эту ошибку, переместив вызов `super()`:
 
 {:.passes-sa}
 <?code-excerpt "strong/lib/common_fixes_analysis.dart (super-goes-last)" replace="/super/[!$&!]/g"?>
@@ -410,24 +412,23 @@ HoneyBadger(Eats food, String name)
 <hr>
 
 <a name="uses-dynamic-as-bottom"></a>
-### A function of type ... can't be assigned
+### Функция типа ... не может быть присвоена
 
 <?code-excerpt "strong/analyzer-2-results.txt" retain="/The function expression type.*common_problems/" replace="/'\S+ → \S+'/'...'/g"?>
 ```nocode
 error • The function expression type '...' isn't of type '...'. This means its parameter or return type does not match what is expected. Consider changing parameter type(s) or the returned type(s) • strong_mode_invalid_cast_function_expr
 ```
 
-In Dart 1.x `dynamic` was both a [top type][] (supertype of all types) and a
-[bottom type][]  (subtype of all types)
-depending on the context. This meant it was valid to assign, for example,
-a function with a parameter of type `String` to a place that expected a
-function type with a parameter of `dynamic`.
+В Dart 1.x `dynamic` был [верхним типом][] (супертип всех типов)
+и [нижним типом][] (подтип всех типов) в зависимости от контекста.
+Это означало, что было бы правильно присвоить, например, функцию с параметром типа `String` в место,
+где ожидался тип функции с параметром `dynamic`.
 
-However, in Dart 2 passing something other than `dynamic` (or another _top_
-type, such as `Object`, or a specific bottom type, such as `Null`) results
-in a compile-time error.
+Тем не менее, в Dart 2 вставка чего-то отличного от `dynamic`
+(или другого _верхнего_ типа, такого как `Object`, или указание _нижнего_ типа, такого как `Null`)
+приведёт к ошибке времени компиляции.
 
-#### Example
+#### Пример
 
 {:.fails-sa}
 <?code-excerpt "strong/lib/common_problems_analysis.dart (func-dynamic)" replace="/String/[!$&!]/g"?>
@@ -443,9 +444,9 @@ error • A value of type '(String) → bool' can't be assigned to a variable of
 error • The function expression type '(String) → bool' isn't of type '(dynamic) → bool'. This means its parameter or return type does not match what is expected. Consider changing parameter type(s) or the returned type(s) • strong_mode_invalid_cast_function_expr
 ```
 
-#### Fix: Add type parameters _or_ cast from dynamic explicitly
+#### Исправление: добавте параметрам тип _или_ приведите тип из dynamic явно
 
-When possible, avoid this error by adding type parameters:
+Когда возможно, избегайте этой ошибки, добавляя параметрам тип:
 
 {:.passes-sa}
 <?code-excerpt "strong/lib/common_fixes_analysis.dart (func-T)" replace="/<\w+\x3E/[!$&!]/g"?>
@@ -454,7 +455,7 @@ typedef Filter[!<T>!] = bool Function(T any);
 Filter[!<String>!] filter = (String x) => x.contains('Hello');
 {% endprettify %}
 
-Otherwise use casting:
+Во всех остальных случаях используйте приведение типов:
 
 {:.passes-sa}
 <?code-excerpt "strong/lib/common_fixes_analysis.dart (func-cast)" replace="/([Ff]ilter)1/$1/g; /as \w+/[!$&!]/g"?>
@@ -466,16 +467,17 @@ Filter filter = (x) => (x [!as String!]).contains('Hello');
 <hr>
 
 <a id="common-errors-and-warnings"></a>
-## Runtime errors
+## Ошибки времени исполнения
 
-Unlike Dart 1.x, Dart 2 enforces a sound type system. Roughly, this means
-you can't get into a situation where the value stored in a variable is
-different than the variable's static type. Like most modern statically
-typed languages, Dart accomplishes this with a combination of static
-(compile-time) and dynamic (runtime) checking.
+В отличии от Dart 1.x, Dart 2 обеспечивает надёжную систему типов.
+Грубо говоря, это значит, что вы не можете получить ситуацию, когда значение,
+хранящееся в переменной отличается от статического типа этой переменной.
+Как и большинство современных статически типизированных языков,
+Dart осуществляет это засчёт комбинации статической (времени компиляции) и
+динамической (во время исполнения) проверкок.
 
-For example, the following type error is detected at compile-time
-(when the [implicit casts][] option is disabled):
+Например, следующая ошибка типов обнаруживается во время компиляции
+(когда отключена опция [неявного приведения типов][]):
 
 {:.fails-sa}
 <?code-excerpt "strong/lib/common_problems_analysis.dart (int-not-string)" replace="/string[^;]*/[!$&!]/g"?>
@@ -484,12 +486,12 @@ List<int> numbers = [1, 2, 3];
 List<String> [!string = numbers!];
 {% endprettify %}
 
-Since neither `List<int>` nor `List<String>` is a subtype of the other,
-Dart rules this out statically. You can see other examples of these
-static analysis errors in [Unexpected collection element type](#unexpected-collection-element-type).
+Поскольку ни `List<int>`, ни `List<String>` не являются подтипами друг друга,
+Dart исключает это статически. В можете посмотреть другие примеры этих
+ошибок статического анализа в [Неожиданный тип элемента коллекции](#unexpected-collection-element-type).
 
-The errors discussed in the remainder of this section are reported at
-[runtime](sound-dart#runtime-checks).
+Ошибки, обсуждаемые в оставшейся части этого раздела сообщаются во
+[время исполнения](sound-dart#runtime-checks).
 
 ### Invalid casts
 
