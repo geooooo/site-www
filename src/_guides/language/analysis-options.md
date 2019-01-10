@@ -1,5 +1,5 @@
 ---
-title: Настройка статического анализаCustomize Static Analysis
+title: Настройка статического анализа
 description: Настройка статического анализа, используя файл с опциями анализатора.
 ---
 
@@ -91,7 +91,7 @@ YAML чувствителен к пробелам &mdash; не использу�
 **Замечание**:
 Вы можете встретить тег `language:` в файле опций анализа.
 Этот тег используется для тестирования эксперементальных возможностей.
-Вы можете игнорировать их.
+Вы можете игнорировать его.
 </aside>
 
 Если анализатор не может найти файл с опциями в корне пакета,
@@ -106,11 +106,11 @@ YAML чувствителен к пробелам &mdash; не использу�
 и `my_other_other_package`, а файл #2, чтобы анализировать код в `my_package`.
 
 
-## Enabling additional type checks
+## Включение дополнительных проверок типов
 
-If you want stricter static checks than
-the [Dart type system][sound-dart] requires,
-consider using the `implicit-casts` and `implicit-dynamic` flags:
+Если вы хотите сделать статические проверки строже, чем
+требует [система типов Dart][sound-dart],
+рассмотрите использование флагов `implicit-casts` и `implicit-dynamic`:
 
 {% prettify yaml %}
 analyzer:
@@ -119,10 +119,8 @@ analyzer:
     implicit-dynamic: false
 {% endprettify %}
 
-You can use the flags together or separately;
-both default to `true`.
-The presence of either flag, regardless of value, enables
-the Dart 2 type system.
+Вы можете использовать флаги вместе или раздельно; оба поумолчанию `true`.
+Наличие любого флага, независимо от значения, включает систему типов Dart 2.
 
 {% comment %}
 **PENDING:
@@ -132,40 +130,41 @@ Should we mention related command-line flags
 {% endcomment %}
 
 `implicit-casts: <bool>`
-: A value of `false` ensures that the type inference engine never
-  implicitly casts to a more specific type.
-  The following valid Dart code
-  includes an implicit downcast that would be caught by this flag:
+: Значение `false` гарантирует, что механизм вывода типов
+  никогда не приводит к неявному приведению к более конкретному типу.
+  Следующий правильный код на Dart включает в себя неявный downcast,
+  который будет пойман этим флагом:
 
 {% prettify dart %}
 Object o = ...;
-String s = o;  // Implicit downcast
+String s = o;  // Неявный downcast
 String s2 = s.substring(1);
 {% endprettify %}
 
 `implicit-dynamic: <bool>`
-: A value of `false` ensures that the type inference engine never chooses
-  the `dynamic` type when it can't determine a static type.
+: Значение `false` гарантирует, что механизм вывода типов никогда
+  не выбирает тип `dynamic`, когда он не может определить статический тип.
 
 {% comment %}
 TODO: Clarify that description, and insert an example here.
 {% endcomment %}
 
 
-## Enabling linter rules
+## Включение правил линтера
 
-The analyzer package also provides a code linter. A wide variety of
-[linter rules](http://dart-lang.github.io/linter/lints/)
-are available. Linters tend to be
-nondenominational&mdash;rules don't have to agree with each other.
-For example, some rules are more appropriate for library packages
-and others are designed for Flutter apps.
-Note that linter rules can have false positives, unlike static analysis.
+Пакет анализатора также предоставляет линтер кода.
+Доступно большое разнаообразие [правил линтера](http://dart-lang.github.io/linter/lints/)
+Линтеры, как правило, не деноминационные - правила не должны согласовываться друг с другом.
+Например, некоторые правила больше подходят для пакетов библиотек, а
+другие спроектированы для приложений на Flutter.
+Заметьте, что правила линтера приводят к ложному результату в отличии от статического анализа
+{% comment %}
+TODO: Не совсем понял как правильно перевести последнее предложение выше.
+{% endcomment %}
 
-To enable a linter rule, add `linter:` to the analysis options file,
-followed by `rules:`.
-On subsequent lines, specify the rules that you want to apply,
-prefixed with dashes. For example:
+Чтобы активировать правило линтера, добавте `linter:` в файл опций анализа,
+а затем `rules:`. Далее укажите правила, которые вы хотите применить,
+указывая префикс - тире. Например:
 
 {% prettify yaml %}
 linter:
@@ -189,12 +188,12 @@ In future, related lint rules may be coalesced into meta rules. See
 for more information.
 {% endcomment %}
 
-## Excluding files
+## Исключение файлов
 
-Perhaps you rely on code generated from a package that
-you don't own&mdash;the generated code works,
-but produces errors during static analysis.
-You can exclude files from static analysis using the `exclude:` field.
+Возможно вы полагаетесь на код, сгенерированый пакетом, который
+вам не принадлежит&mdash;сгенерированый код работает,
+но выдаёт ошибки во время статического анализа.
+Вы можете исключить файлы из статического анализа, используя поле `exclude:`.
 
 {% prettify yaml %}
 analyzer:
@@ -202,8 +201,8 @@ analyzer:
     - lib/client/piratesapi.dart
 {% endprettify %}
 
-You can specify a group of files using
-[glob](https://pub.dartlang.org/packages/glob) syntax:
+Вы можете указать группу файлов, используя
+синтаксис [glob](https://pub.dartlang.org/packages/glob):
 
 {% prettify yaml %}
 analyzer:
@@ -212,46 +211,47 @@ analyzer:
     - test/*_example.dart
 {% endprettify %}
 
-## Excluding lines within a file
+## Исключение строк файла
 
-Perhaps one of the linter rules causes a false positive and you
-want to suppress that warning.
-To suppress a specific rule on a specific line of code,
-preceed that line with a comment using the following format:
+Возможно одно из правил линтера приводит к ошибке линтинга и вы
+хотите подавить это предупрждение.
+Чтобы подавить конкретное правило на конкретной строке кода,
+Предварите эту строку коментарием, используя следующий формат:
 
 {% prettify dart %}
 // ignore: <linter rule>
 {% endprettify %}
 
-For example:
+Например:
 
 {% prettify dart %}
 // ignore: invalid_assignment
 int x = '';
 {% endprettify %}
 
+Если вы хотите подавить больше, чем одно правило, вставте список, через запятую
 If you want to suppress more than one rule, supply a comma-separated list.
-For example:
+Например:
 
 {% prettify dart %}
 // ignore: invalid_assignment, const_initialized_with_non_constant_value
 const x = y;
 {% endprettify %}
 
-Alternatively, you can append the ignore rule to the line that it applies to.
-For example:
+Другим образом, вы можете добавить игнорируемое правило к строке, к которой его применяете.
+Например:
 
 {% prettify dart %}
 int x = ''; // ignore: invalid_assignment
 {% endprettify %}
 
-## Ignoring specific analysis rules
+## Игнорирование конкретных правил анализа
 
-Sometimes your code doesn't fit perfectly within the standard
-analysis guidelines, or violates a rule here or there, for
-reasons you'd rather not get into. You can ignore specific
-rules during analysis using the `errors:` field. List the
-rule, followed by `: ignore`. For example:
+Иногда ваш код не совсем вписывается в стандартные правила анализа
+или нарушает правила тут или там, по причинам, которым вы не хотите.
+Вы можете игнорировать указаные правила во время анализа, используя
+поле `errors:`. Запишите правило, затем `: ignore`.
+Например:
 
 {% prettify yaml %}
 analyzer:
@@ -259,30 +259,31 @@ analyzer:
     todo: ignore
 {% endprettify %}
 
-This analysis options file instructs the analysis tools to ignore
-the TODO rule.
+Этот файл с опциями анализа указывает утилитам анализа игнорировать правило TODO.
 
-Alternatively, as of Dart 1.24 you can ignore a specific rule for a
-specific file using an `ignore_for_file` comment:
+Другим образом, как в Dart 1.24 вы можете игнорировать указаное правило для
+конкретного файла, используя комментарий: `ignore_for_file`:
 
 {% prettify dart %}
 // ignore_for_file: unused_import
 {% endprettify %}
 
-This acts for the whole file, before or after the comment, and is
-particularly useful for generated code. A comma-separated list may be
-used to suppress more than one rule:
+Это действует для всего файла, перед и после комментария и особо полезно
+для сгенерированного кода. Список через запятую может быть использован,
+чтобы подавить больше чем одно правило:
 
 {% prettify dart %}
 // ignore_for_file: unused_import, invalid_assignment
 {% endprettify %}
 
-## Changing the severity of analysis rules
 
-Using the same mechanism, you can also globally change the severity
-of a particular rule using one of the following values: `warning`,
-`error`, or `info`. This works for regular analysis issues as well as
-for lints. For example:
+## Изменение строгости правил анализа
+
+Используя такой механизм, вы можете также глобально изменить строгость
+конкретного правила, используя одно из следующих значений:
+`warning`, `error` или `info`.
+Это работает для регулярных проблем анализа также хорошо, как и для лингинга.
+Например:
 
 {% prettify yaml %}
 analyzer:
@@ -292,11 +293,13 @@ analyzer:
     dead_code: info
 {% endprettify %}
 
-This analysis options file instructs the analysis tools to
-ignore unused local variables, treat invalid assignments as warnings and
-missing returns as errors, and only provide information about dead code.
+Этот файла опций анализа указывает утилитам анализа, чтобы они
+игнорировали неиспользуемые локальные переменные,
+рассматривали неправильные присваивания как предупреждения
+и пропущенные инструкции return как ошибки и предоставлять информацию только о мёртвом коде.
 
-## Resources
+
+## Ресурсы
 
 {% comment %}
 Join the discussion list for linter enthusiasts:
@@ -304,7 +307,7 @@ Join the discussion list for linter enthusiasts:
 * [linter-discuss (TBD)](xxx)  Doesn't exist yet...
 {% endcomment %}
 
-Use the following resources to learn more about static analysis in Dart:
+Используйте следующие ресурсы, чтобы узнать больше о статическом анализе в Dart:
 
 * [Dart's Type System][sound-dart]
 * [Dart linter](https://github.com/dart-lang/linter#linter-for-dart)
