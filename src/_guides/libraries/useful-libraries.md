@@ -1,6 +1,6 @@
 ---
 layout: default
-title: "Commonly Used Dart Libraries"
+title: "Наиболее используемые библиотеки DartCommonly Used Dart Libraries"
 description: "What are some of the most useful and popular Dart libraries and where can you learn more?"
 ---
 

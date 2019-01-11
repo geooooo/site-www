@@ -1,43 +1,42 @@
 ---
-title: "Effective Dart: Style"
-description: Formatting and naming rules for consistent, readable code.
+title: "Эффективный Dart: Стиль кодирования"
+description: Правила форматирования и именования для консистентности и читаемоести кода.
 nextpage:
   url: /guides/language/effective-dart/documentation
-  title: Documentation
+  title: Документация
 prevpage:
   url: /guides/language/effective-dart
-  title: Overview
+  title: Обзор
 ---
 <?code-excerpt plaster="none"?>
 
-A surprisingly important part of good code is good style. Consistent naming,
-ordering, and formatting helps code that *is* the same *look* the same. It takes
-advantage of the powerful pattern-matching hardware most of us have in our
-ocular systems.  If we use a consistent style across the entire Dart ecosystem,
-it makes it easier for all of us to learn from and contribute to each others'
-code.
+Удивительно важной частью хорошего кода - хороший стиль кодирования.
+Последовательное именование, упорядочивание и форматирование помогают одинаковому коду
+*выглядеть* одинаково. Это даёт преимущество от мощной аппартной системы сопоставления
+шаблонов, которую мы имеем в своей зрительной системе.
+Если мы используем последовательный стиль кодирования на всей экосистеме Dart,
+всем нам становиться легче учиться и вносить вклад в код друг друга.
 
 * TOC
 {:toc}
 
-## Identifiers
+## Идентификаторы
 
-Identifiers come in three flavors in Dart.
+Идентификаторы в Dart представлены в трёх видах.
 
-*   `UpperCamelCase` names capitalize the first letter of each word, including
-    the first.
+*   `UpperCamelCase` имена с заглавной буквы в каждом слове, включая первое.
 
-*   `lowerCamelCase` names capitalize the first letter of each word, *except*
-    the first which is always lowercase, even if it's an acronym.
+*   `lowerCamelCase` имена с заглавной буквы в каждом слове, за *исключением* первого,
+    которое всегда должно начинаться с маленькой, если это не акроним.
 
-*   `lowercase_with_underscores` use only lowercase letters, even for acronyms,
-    and separate words with `_`.
+*   `lowercase_with_underscores` использует только маленькие буквы, даже для акронимов,
+    для разделения слов используется `_`.
 
 
-### DO name types using `UpperCamelCase`.
+### ДЕЛАТЬ имена типов, используя `UpperCamelCase`.
 
-Classes, enums, typedefs, and type parameters should capitalize the first letter
-of each word (including the first word), and use no separators.
+Классы, перечислимые типы, объеявления типов и параметры типы должны
+соответствовать виду: `UpperCamelCase`.
 
 {:.good-style}
 <?code-excerpt "misc/lib/effective_dart/style_good.dart (type-names)"?>
@@ -49,7 +48,7 @@ class HttpRequest { ... }
 typedef Predicate<T> = bool Function(T value);
 {% endprettify %}
 
-This even includes classes intended to be used in metadata annotations.
+Это даже включает классы, предназначенные для использования в аннотациях метаданных.
 
 {:.good-style}
 <?code-excerpt "misc/lib/effective_dart/style_good.dart (annotation-type-names)"?>
@@ -65,8 +64,8 @@ class A { ... }
 class B { ... }
 {% endprettify %}
 
-If the annotation class's constructor takes no parameters, you might want to
-create a separate `lowerCamelCase` constant for it.
+Если конструктор класса аннотации не получает параметры,
+вы можете создать отдельную константу `lowerCamelCase` для него.
 
 {:.good-style}
 <?code-excerpt "misc/lib/effective_dart/style_good.dart (annotation-const)"?>
@@ -78,13 +77,13 @@ class C { ... }
 {% endprettify %}
 
 
-### DO name libraries and source files using `lowercase_with_underscores`.
+### ДЕЛАТЬ имена библиотек и исходных файлов, используя формат `lowercase_with_underscores`.
 
-Some file systems are not case-sensitive, so many projects require filenames to
-be all lowercase. Using a separating character allows names to still be readable
-in that form. Using underscores as the separator ensures that the name is still
-a valid Dart identifier, which may be helpful if the language later supports
-symbolic imports.
+Некоторые файловые системы не регистро-зависимы, так многие проекты требуют, чтобы
+все имена файлов были в нижнем регистре. Использование разделительного символа
+позволяет именам оставаться в читаемом виде. Использование нижних подчёркиваний, как
+разеделителя гарантирует, что имена остаются валидными идентификаторами Dart,
+что может быть полезно, если позже язык будет поддерживать символьный импорт.
 
 {:.good-style}
 <?code-excerpt "misc/lib/effective_dart/style_lib_good.dart" replace="/foo\///g"?>
@@ -105,12 +104,13 @@ import 'SliderMenu.dart';
 {% endprettify %}
 
 <aside class="alert alert-info" markdown="1">
-  **Note:** This guideline specifies *how* to name a library *if you choose to
-  name it*. It is fine to _omit_ the library directive in a file if you want.
+  **Замечание:**
+  Это руководство указывает *как* назвать библиотеку, *если вы выбираете для неё имя*.
+  Вы можете *опустить* директиву библиотеки в файле, если хотите.
 </aside>
 
 
-### DO name import prefixes using `lowercase_with_underscores`.
+### ДЕЛАТЬ имя префикса импорта, ипользуя форму `lowercase_with_underscores`.
 
 {:.good-style}
 <?code-excerpt "misc/lib/effective_dart/style_lib_good.dart (import-as)" replace="/(package):examples[^']*/$1:angular_components\/angular_components/g"?>
@@ -131,11 +131,10 @@ import 'package:js/js.dart' as JS;
 {% endprettify %}
 
 
-### DO name other identifiers using `lowerCamelCase`.
+### ДЕЛАТЬ имя других идентификаторов, используя `lowerCamelCase`.
 
-Class members, top-level definitions, variables, parameters, and named
-parameters should capitalize the first letter of each word *except* the first
-word, and use no separators.
+Члены класса, глобальные идентификаторы, переменные, параметры и именованные параметры
+должны следовать форме `lowerCamelCase`.
 
 {:.good-style}
 <?code-excerpt "misc/lib/effective_dart/style_good.dart (misc-names)"?>
@@ -150,11 +149,11 @@ void align(bool clearItems) {
 {% endprettify %}
 
 
-### PREFER using `lowerCamelCase` for constant names.
+### ПРЕДПОЧИТАТЬ использовать `lowerCamelCase` для имён констант.
 
-In new code, use `lowerCamelCase` for constant variables, including enum values.
-In existing code that uses `SCREAMING_CAPS`, you may continue to use all caps to
-stay consistent.
+В новом годе, используйте `lowerCamelCase` для переменных констант, включая перечислимые значения.
+В существующем коде, который использует `SCREAMING_CAPS`, вы можете продолжить использовать такой формат, чтобы
+код оставлся однообразным.
 
 {:.good-style}
 <?code-excerpt "misc/lib/effective_dart/style_good.dart (const-names)"?>
@@ -181,28 +180,29 @@ class Dice {
 {% endprettify %}
 
 <aside class="alert alert-info" markdown="1">
-  **Note:** We initially used Java's `SCREAMING_CAPS` style for constants. We
-  changed because:
+  **Замечание:**
+  Изначально мы использовали запись `SCREAMING_CAPS` для констант.
+  Мы изменили этот стиль, потому что:
 
-  *   `SCREAMING_CAPS` looks bad for many cases, particularly enum values for
-      things like CSS colors.
-  *   Constants are often changed to final non-const variables, which would
-      necessitate a name change.
-  *   The `values` property automatically defined on an enum type is const and
-      lowercase.
+  *   `SCREAMING_CAPS` плохо выглядит в большинстве случаев, в частности
+      значений перечислимого типа, для таких вещей как CSS цвета.
+  *   Константы часто меняются на финальные не константные значения, которые
+      потребуют изменения имени.
+  *   Свойсво `values` автоматически определено в перечислимом типе,
+      оно является константой и в нижнем регистре.
 </aside>
 
 
-### DO capitalize acronyms and abbreviations longer than two letters like words.
+### ДЕЛАТЬ прописными акронимы и аббревиатуры, длинее, чем две буквы, как слова.
 
-Capitalized acronyms can be hard to read, and
-multiple adjacent acronyms can lead to ambiguous names.
-For example, given a name that starts with `HTTPSFTP`, there's no way
-to tell if it's referring to HTTPS FTP or HTTP SFTP.
+Акронимы, записанные большими буквами могут быть сложны для чтения
+и множество смежных акронимов может привести к двусмысленным именам.
+Например, дано имя, начинающееся с `HTTPSFTP`, нельзя точно сказать,
+значит ли оно HTTPS FTP  или HTTP SFTP.
 
-To avoid this, acronyms and abbreviations are capitalized like regular words,
-except for two-letter acronyms. (Two-letter *abbreviations* like
-ID and Mr. are still capitalized like words.)
+Чтобы этого избежать, акронимы и аббревиатуры записываются прописными буквами,
+как обычные слова, за исключенимем  дву-буквенных акронимов. (дву-буквенные *аббревиатуры*,
+как ID и Mr. остаются записанными с большой буквы как слова.)
 
 {:.good-style}
 <?code-excerpt "misc/lib/effective_dart/style_good.dart (acronyms and abbreviations)" replace="/,//g"?>
@@ -226,13 +226,13 @@ Db
 {% endprettify %}
 
 
-### DON’T use prefix letters
+### НЕ НАДО использовать префиксные буквы
 
-[Hungarian notation](https://en.wikipedia.org/wiki/Hungarian_notation) and
-other schemes arose in the time of BCPL, when the compiler didn't do much to
-help you understand your code. Because Dart can tell you the type, scope,
-mutability, and other properties of your declarations, there's no reason to
-encode those properties in identifier names.
+[Венгерская нотация](https://en.wikipedia.org/wiki/Hungarian_notation) и
+другие схемы возникли во времена BCPL, когда компиляторы не могли помочь
+понять ваш код в значительной мере. Так как Dart может сказать вам тип,
+область видимости, изменяемость и другие свойства ваших объявлений, не
+имеет неободимости, кодировать эти свойства в имена идентификаторов.
 
 {:.good-style}
 {% prettify dart %}
@@ -245,13 +245,14 @@ kDefaultTimeout
 {% endprettify %}
 
 
-## Ordering
+## Упорядочивание
 
-To keep the preamble of your file tidy, we have a prescribed order that
-directives should appear in. Each "section" should be separated by a blank line.
+Чтобы держать начало вашего файла в порядке,
+у нас есть предписанный порядок, в котором должны появляться директивы.
+Каждый "раздел" должен отделяться пустой строкой.
 
 
-### DO place "dart:" imports before other imports.
+### ДЕЛАТЬ поместите импорты "dart:" перед другими импортами.
 
 {:.good-style}
 <?code-excerpt "misc/lib/effective_dart/style_lib_good.dart (dart-import-first)" replace="/\w+\/effective_dart\///g"?>
@@ -264,7 +265,7 @@ import 'package:foo/foo.dart';
 {% endprettify %}
 
 
-### DO place "package:" imports before relative imports.
+### ДЕЛАТЬ поместите импорты "package:" перед относительными импортами.
 
 {:.good-style}
 <?code-excerpt "misc/lib/effective_dart/style_lib_good.dart (pkg-import-before-local)" replace="/\w+\/effective_dart\///g;/'foo/'util/g"?>
@@ -276,10 +277,10 @@ import 'util.dart';
 {% endprettify %}
 
 
-### PREFER placing "third-party" "package:" imports before other imports.
+### ПРЕДПОЧИТАТЬ размещение импорты "третьих сторон" "package:" перед другими импортами.
 
-If you have a number of "package:" imports for your own package along with other
-third-party packages, place yours in a separate section after the external ones.
+Если у вас есть несколько импортов "package:" для вашего собственного пакета вместе с другими сторонними пакетами,
+поместите ваши в отдельном разделе после внешних.
 
 {:.good-style}
 <?code-excerpt "misc/lib/effective_dart/style_lib_good.dart (third-party)" replace="/\w+\/effective_dart\///g;/(package):foo(.dart)/$1:my_package\/util$2/g"?>
@@ -291,7 +292,7 @@ import 'package:my_package/util.dart';
 {% endprettify %}
 
 
-### DO specify exports in a separate section after all imports.
+### ДЕЛАТЬ укажите экспорты в отдельном разделе после всех импортов.
 
 {:.good-style}
 <?code-excerpt "misc/lib/effective_dart/style_lib_good.dart (export)"?>
@@ -311,7 +312,7 @@ import 'src/foo_bar.dart';
 {% endprettify %}
 
 
-### DO sort sections alphabetically.
+### ДЕЛАТЬ сортируйте разделы в алфавитном порядке.
 
 {:.good-style}
 <?code-excerpt "misc/lib/effective_dart/style_lib_good.dart (sorted)" replace="/\w+\/effective_dart\///g"?>
@@ -334,7 +335,7 @@ import 'foo.dart';
 {% endprettify %}
 
 
-## Formatting
+## Форматирование
 
 Like many languages, Dart ignores whitespace. However, *humans* don't. Having a
 consistent whitespace style helps ensure that human readers see code the same
