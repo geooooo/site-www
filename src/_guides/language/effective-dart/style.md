@@ -192,8 +192,11 @@ class Dice {
       оно является константой и в нижнем регистре.
 </aside>
 
+{% comment %}
+NOTE: Какой-то не совсем понятный раздел ниже
+{% endcomment %}
 
-### ДЕЛАТЬ прописными акронимы и аббревиатуры, длинее, чем две буквы, как слова.
+### ДЕЛАТЬ привильно записывать регистр букв акронимов и аббревиатур.
 
 Акронимы, записанные большими буквами могут быть сложны для чтения
 и множество смежных акронимов может привести к двусмысленным именам.
@@ -337,67 +340,68 @@ import 'foo.dart';
 
 ## Форматирование
 
-Like many languages, Dart ignores whitespace. However, *humans* don't. Having a
-consistent whitespace style helps ensure that human readers see code the same
-way the compiler does.
+Как и многие языки, Dart игнорирует пробелы, Однако, *люди* не игнорируют их.
+Наличие последовательного стиля расстановки пробелов помогает гарантировать, чтобы
+люди, читающие код, видели его также как и компилятор.
 
 
-### DO format your code using `dartfmt`.
+### ДЕЛАТЬ форматируйте ваш код, используя `dartfmt`.
 
-Formatting is tedious work and is particularly time-consuming during
-refactoring. Fortunately, you don't have to worry about it. We provide a
-sophisticated automated code formatter called [dartfmt][] that does do it for
-you. We have [some documentation][dartfmt docs] on the rules it applies, but the
-official whitespace-handling rules for Dart are *whatever dartfmt produces*.
+Форматирование - утомительная работа и в частности во время рефакторинга отимает много времени.
+К счастью, вы можете не беспокоиться об этом.
+Мы предоставили утончённый автоматизированный форматировщик кода, называемый [dartfmt][],
+который делает это для вас. У нас есть  п
+У нас есть некоторая [документация][dartfmt docs] по правилам, которые он применяет,
+но официальные правила обработки пробелов для Dart - *это то, что выдаёт dartfmt*.
 
-The remaining formatting guidelines are for the few things dartfmt cannot fix
-for you.
+Остальные руководства по форматированию предназначены для тех немногих вещей,
+которые dartfmt не может иправить за вас.
 
 [dartfmt]: https://github.com/dart-lang/dart_style
 [dartfmt docs]: https://github.com/dart-lang/dart_style/wiki/Formatting-Rules
 
-### CONSIDER changing your code to make it more formatter-friendly.
+### РАССМОТРЕТЬ изменить ваш код, чтобы сделать его более дружилюбным для форматировщика.
 
-The formatter does the best it can with whatever code you throw at it, but it
-can't work miracles. If your code has particularly long identifiers, deeply
-nested expressions, a mixture of different kinds of operators, etc. the
-formatted output may still be hard to read.
+Форматировщик делает все возможное с любым кодом, который вы даёте ему,
+он не может творить чудеса. Если в вашем коде есть длинные идентификаторы,
+глубоко вложенные выражения, смесь различных видов операторов и т.п.,
+форматированный на выходе код может остаться сложным для чтения.
 
-When that happens, reorganize or simplify your code. Consider shortening a local
-variable name or hoisting out an expression into a new local variable. In other
-words, make the same kinds of modifications that you'd make if you were
-formatting the code by hand and trying to make it more readable. Think of
-dartfmt as a partnership where you work together, sometimes iteratively, to
-produce beautiful code.
-
-
-### AVOID lines longer than 80 characters.
-
-Readability studies show that long lines of text are harder to read because your
-eye has to travel farther when moving to the beginning of the next line. This is
-why newspapers and magazines use multiple columns of text.
-
-If you really find yourself wanting lines longer than 80 characters, our
-experience is that your code is likely too verbose and could be a little more
-compact. The main offender is usually `VeryLongCamelCaseClassNames`. Ask
-yourself, "Does each word in that type name tell me something critical or
-prevent a name collision?" If not, consider omitting it.
-
-Note that dartfmt does 99% of this for you, but the last 1% is you. It does not
-split long string literals to fit in 80 columns, so you have to do that
-manually.
-
-We make an exception for URIs and file paths. When those occur in comments or
-strings (usually in imports and exports), they may remain on a single line even
-if they go over the line limit. This makes it easier to search source files for
-a given path.
+Когда такое случается, реорганизуйте или упростите ваш код.
+Рассмотирте возможность сокращения имён ваших переменных или
+вынести выражение в новую локальную переменную.
+Другими словами, сделайте такие виды модификации, которые вы сделали бы, если
+вы форматировали код вручную и пытались сделать его более читабельным
+Думайте о dartfmt как о партнёре, когда вы работаете для создания красивого кода вместе или иногда итеративно.
 
 
-### DO use curly braces for all flow control structures.
+### ИЗБЕГАТЬ строк длинее, чем 80 символов.
 
-Doing so avoids the [dangling else][] problem.
+Исследования читабельности показывают, что длинные строки текста труднее читать,
+потому что ваш глаз должен двигаться дальше при переходе к началу следующей строки.
+Вот почему газеты и журналы используют несколько столбцов текста.
 
-[dangling else]: http://en.wikipedia.org/wiki/Dangling_else
+Если вам действительно нужны строки длиной более 80 символов,
+наш опыт показывает, что ваш код, вероятно, слишком многословен и может быть немного более компактным.
+Основным нарушителем обычно является `VeryLongCamelCaseClassNames`.
+Спросите себя: «Каждое слово в этом имени типа говорит мне что-то важное или предотвращает конфликт имен?»
+Если нет, рассмотрите возможность опустить его.
+
+Заметьте, что dartfmt делает 99% этого за вас, но последний 1% за вами.
+Он не разбивает длинные строковые литералы так, чтобы они помещались в 80 столбцах,
+поэтому вы должны сделать это вручную.
+
+Мы делаем исключение для URI адресов и имён файлов.
+Когда это происходит в комментариях или строках (обычно в импортах и экспортах),
+они могут оставаться оставаться на одной строке, даже если она выходит за пределы строки.
+Это облегчает поиск исходных файлов по заданному пути.
+
+
+### ДЕЛАТЬ использовать фигурные скобки для всех структур управления потоком.
+
+Делайте так воизбежание проблем [свисающего else][].
+
+[свисающего else]: http://en.wikipedia.org/wiki/Dangling_else
 
 {:.good-style}
 <?code-excerpt "misc/lib/effective_dart/style_good.dart (curly-braces)"?>
@@ -409,9 +413,9 @@ if (isWeekDay) {
 }
 {% endprettify %}
 
-There is one exception to this: an `if` statement with no `else` clause where
-the entire `if` statement and the then body all fit in one line. In that case,
-you may leave off the braces if you prefer:
+К этому есть одно исключение: инструкция `if` без предложения `else`,
+где вся инструкция `if` и её тело помещается в одну строку.
+В этом случае, вы можете опустить скобки, если вы сочтёте это нужным:
 
 {:.good-style}
 <?code-excerpt "misc/lib/effective_dart/style_good.dart (one-line-if)"?>
@@ -419,7 +423,7 @@ you may leave off the braces if you prefer:
 if (arg == null) return defaultValue;
 {% endprettify %}
 
-If the body wraps to the next line, though, use braces:
+Если тело переносится на следующую строку, используйте скобки:
 
 {:.good-style}
 <?code-excerpt "misc/lib/effective_dart/style_good.dart (one-line-if-wrap)"?>
