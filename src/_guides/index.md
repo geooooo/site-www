@@ -1,11 +1,11 @@
 ---
-title: Dart documentation
-description: Learn to use the Dart language and libraries.
+title: Документация по Dart
+description: Изучите как использовать язык Dart и библиотеки.
 toc: false
 ---
 
-Welcome to the Dart documentation!
-Here are some of the most visited pages:
+Добро пожаловать в документацию по Dart!
+Здесь некоторые из наиболее посещаемых страниц:
 
 {% comment %}
 To update these cards, edit src/_data/docs_cards.yml.
