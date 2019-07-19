@@ -289,11 +289,10 @@ String name = 'Bob';
 </div>
 
 
-### Default value
+### Значения поумолчанию
 
-Uninitialized variables have an initial value of `null`. Even variables
-with numeric types are initially null, because numbers—like everything
-else in Dart—are objects.
+Не инициализированные переменные имеют исходное значение `null`. Каждая переменная
+числового типа изначально равна `null`, потому что числа, как и всё остальное в Dart - объекты.
 
 <?code-excerpt "misc/test/language_tour/variables_test.dart (var-null-init)"?>
 {% prettify dart %}
@@ -302,136 +301,129 @@ assert(lineCount == null);
 {% endprettify %}
 
 <div class="alert alert-info" markdown="1">
-**Note:**
-Production code ignores the `assert()` call.
-During development, on the other hand,
-<code>assert(<em>condition</em>)</code> throws an exception if
-_condition_ is false.
-For details, see [Assert](#assert).
+**Замечание:**
+Вызов `assert()` игнорируется в продакшн коде.
+Во время разработки, <code>assert(<em>условие</em>)</code>
+бросает исключение, если _условие_ ложно. Подробности, смотрите [Assert](#assert).
 </div>
 
 
-### Final and const
+### Final и const
 
-If you never intend to change a variable, use `final` or `const`, either
-instead of `var` or in addition to a type. A final variable can be set
-only once; a const variable is a compile-time constant. (Const variables
-are implicitly final.) A final top-level or class variable is initialized
-the first time it's used.
+Если вы никогда не хотите изменять переменную, используйте `final` или `const`,
+либо вместо `var` ли в дополнение к типу. Финальные переменные могут быть заданы только один раз;
+константные переменные - это константы времени компиляции. (Константные переменные неявно финальные).
+Финальные глобальные переменные или переменные класса инициализируются при первом использовании.
 
 <div class="alert alert-info" markdown="1">
-**Note:**
-Instance variables can be `final` but not `const`.
-Final instance variables must be initialized before
-the constructor body starts —
-at the variable declaration, by a constructor parameter,
-or in the constructor's [initializer list](#initializer-list).
+**Замечание:**
+Переменные экземпляра могут быть `final`, но не `const`.
+Финальные переменные экземпляра должны быть инициализированы перед началом тела конструктора -
+при объявлении переменной, параметром конструктора или в [списке инициализаторе](#initializer-list) конструктора.
 </div>
 
-Here's an example of creating and setting a final variable:
+Пример создания и инициализации финальных переменных:
 
 <?code-excerpt "misc/lib/language_tour/variables.dart (final)"?>
 {% prettify dart %}
-final name = 'Bob'; // Without a type annotation
+final name = 'Bob'; // Без аннотации типа
 final String nickname = 'Bobby';
 {% endprettify %}
 
-You can't change the value of a final variable:
+Вы не можете изменить значение финальной переменной:
 
 {:.fails-sa}
 <?code-excerpt "misc/lib/language_tour/variables.dart (cant-assign-to-final)"?>
 {% prettify dart %}
-name = 'Alice'; // Error: a final variable can only be set once.
+name = 'Alice'; // Ошибка: финальная переменная может быть задана только один раз
 {% endprettify %}
 
-Use `const` for variables that you want to be **compile-time constants**. If
-the const variable is at the class level, mark it `static const`.
-Where you declare the variable, set the value to a compile-time constant
-such as a number or string literal, a const
-variable, or the result of an arithmetic operation on constant numbers:
+Используйте `const` для переменных, которые вы хотите сделать **константами времени компиляции**.
+Если константная переменная задаётся в классе, пометьте её `static const`.
+Там, где вы объявляете переменную, задайте значение константы времени компиляции, такое как
+числовой или строковый литерал, константная переменная или результат арифметической операции над
+константными числами:
 
 <?code-excerpt "misc/lib/language_tour/variables.dart (const)"?>
 {% prettify dart %}
-const bar = 1000000; // Unit of pressure (dynes/cm2)
-const double atm = 1.01325 * bar; // Standard atmosphere
+const bar = 1000000; // Единица измерения давления (dynes/cm2)
+const double atm = 1.01325 * bar; // Стандартное атмосферное
 {% endprettify %}
 
-The `const` keyword isn't just for declaring constant variables.
-You can also use it to create constant _values_,
-as well as to declare constructors that _create_ constant values.
-Any variable can have a constant value.
+Ключевое слово `const` предназначено не только для объявления константных переменных.
+Вы также можете использовать её для создания константных _значений_,
+а также объявить конструктор, который _создает_ константные значения.
+Любая переменная может иметь константное значение.
 
 <?code-excerpt "misc/lib/language_tour/variables.dart (const-vs-final)"?>
 {% prettify dart %}
 var foo = const [];
 final bar = const [];
-const baz = []; // Equivalent to `const []`
+const baz = []; // Эквивалентно `const []`
 {% endprettify %}
 
-You can omit `const` from the initializing expression of a `const` declaration,
-like for `baz` above. For details, see [DON’T use const redundantly][].
+Вы можете опустить `const` в выражении инициализации при объявлении `const`,
+как выше для `baz`, за подробностями, смотрите [Не используйте const избыточно][].
 
-You can change the value of a non-final, non-const variable,
-even if it used to have a const value:
+Вы можете изменить значение не финальной, не константной переменной,
+даже если раннее оно имело константное значение:
 
 <?code-excerpt "misc/lib/language_tour/variables.dart (reassign-to-non-final)"?>
 {% prettify dart %}
-foo = [1, 2, 3]; // Was const []
+foo = [1, 2, 3]; // Было const []
 {% endprettify %}
 
-You can't change the value of a const variable:
+Вы не можете изменить значение константной переменной:
 
 {:.fails-sa}
 <?code-excerpt "misc/lib/language_tour/variables.dart (cant-assign-to-const)"?>
 {% prettify dart %}
-baz = [42]; // Error: Constant variables can't be assigned a value.
+baz = [42]; // Ошибка: Константным переменным нельзя присвоить значение.
 {% endprettify %}
 
-For more information on using `const` to create constant values, see
-[Lists](#lists), [Maps](#maps), and [Classes](#classes).
+Больше информации об использовании `const` для создания константных значений, смотрите
+[Списки](#lists), [Мапы](#maps), и [Классы](#classes).
 
 
-## Built-in types
+## Встроенные типы
 
-The Dart language has special support for the following types:
+Язык Dart имеет специальную поддержку для следующих типов:
 
-- numbers
-- strings
-- booleans
-- lists (also known as *arrays*)
-- sets
-- maps
-- runes (for expressing Unicode characters in a string)
-- symbols
+- числа
+- строки
+- логические значения
+- списки (также известные как *массивы*)
+- множества
+- мапы (также известные как *хеши* и *словари*)
+- руны (для выражения символов Unicode в строки)
+- символы
 
-You can initialize an object of any of these special types using a
-literal. For example, `'this is a string'` is a string literal,
-and `true` is a boolean literal.
+Вы можете инициализировать объект любым из этих специальных типов, используя литерал.
+Например, `'this is a string'` - строковый литерал и `true` - логический литерал.
 
 {% comment %}
 PENDING: add info about support for Iterable, Future, Stream?
 Those can't be initialized using literals, but they do have special support.
 {% endcomment %}
 
-Because every variable in Dart refers to an object—an instance of a
-*class*—you can usually use *constructors* to initialize variables. Some
-of the built-in types have their own constructors. For example, you can
-use the `Map()` constructor to create a map.
+Так как каждая переменная в Dart ссылается на объект-экземпляр *класса*, вы можете
+обычно использовать *конструкторы* для инициализации переменных. Некоторые из встроенных
+типов имеют свои собственные конструкторы. Например, вы можете использовать
+конструктор `Map()`  для создания мапы.
 
 
-### Numbers
+### Числа
 
-Dart numbers come in two flavors:
+Числа в Dart бывают двух видов:
 
 [int][]
 
-:   Integer values no larger than 64 bits,
-    depending on the platform.
-    On the Dart VM, values can be from
-    -2<sup>63</sup> to 2<sup>63</sup> - 1.
-    Dart that's compiled to JavaScript uses
-    [JavaScript numbers,][js numbers]
-    allowing values from -2<sup>53</sup> to 2<sup>53</sup> - 1.
+:   Целоечисленные значения не больше 64 бит, зависящие от платформы.
+    На Dart VM, значения могут быть от
+    -2<sup>63</sup> до 2<sup>63</sup> - 1.
+    Dart, который компилируется в JavaScript использует
+    [JavaScript числа,][js numbers]
+    допустимые значения от -2<sup>53</sup> до 2<sup>53</sup> - 1.
 
 {% comment %}
 [PENDING: What about values on Android & iOS?
@@ -441,19 +433,16 @@ https://github.com/dart-lang/sdk/blob/master/docs/language/informal/int64.md.
 
 [double][]
 
-:   64-bit (double-precision) floating-point numbers, as specified by
-    the IEEE 754 standard.
+:   64 битные (двойной точности) числа с плавающей точкой,
+    специфицированные стандартом IEEE 754.
 
-Both `int` and `double` are subtypes of [`num`.][num]
-The num type includes basic operators such as +, -, /, and \*,
-and is also where you’ll find `abs()`,` ceil()`,
-and `floor()`, among other methods.
-(Bitwise operators, such as \>\>, are defined in the `int` class.)
-If num and its subtypes don’t have what you’re looking for, the
-[dart:math][] library might.
+`int` и `double` - подтипы [`num`.][num]
+Тип num включает базовые операторы, такие как +, -, / и \*,
+а также вы найдёте `abs()`, `ceil()` и `floor()` среди других методов.
+(Побитовые операторы, такие как \>\>, определены в классе `int`)
+Если num и его типы не имеют того, что вы ищите, вам может помочь библиотека [dart:math][].
 
-Integers are numbers without a decimal point. Here are some examples of
-defining integer literals:
+Целые - это числа без десятичной точки, далее несколько примеров определения целых литералов:
 
 <?code-excerpt "misc/lib/language_tour/built_in_types.dart (integer-literals)"?>
 {% prettify dart %}
@@ -461,8 +450,8 @@ var x = 1;
 var hex = 0xDEADBEEF;
 {% endprettify %}
 
-If a number includes a decimal, it is a double. Here are some examples
-of defining double literals:
+Если число включает десятичную точку - это вещественное число (с плавающей точкой) типа `double`.
+Далее несколько примеров определения вещественных литералов:
 
 <?code-excerpt "misc/lib/language_tour/built_in_types.dart (double-literals)"?>
 {% prettify dart %}
@@ -470,21 +459,20 @@ var y = 1.1;
 var exponents = 1.42e5;
 {% endprettify %}
 
-As of Dart 2.1, integer literals are automatically converted to doubles
-when necessary:
+Начиная с Dart 2.1, целые литералы автоматически конвертируются в вещественные когда это необходимо:
 
 <?code-excerpt "misc/lib/language_tour/built_in_types.dart (int-to-double)"?>
 {% prettify dart %}
-double z = 1; // Equivalent to double z = 1.0.
+double z = 1; // Эквивалентно double z = 1.0.
 {% endprettify %}
 
 <aside class="alert alert-info" markdown="1">
-  **Version note:**
-  Before Dart 2.1, it was an error to use an integer literal
-  in a double context.
+  **Замечание по версии:**
+  До Dart 2.1, было ошибкой использовать
+  целый литерал в вещественном контексте.
 </aside>
 
-Here’s how you turn a string into a number, or vice versa:
+Далее показано, как преобразовать строку в число или наоборот:
 
 <?code-excerpt "misc/test/language_tour/built_in_types_test.dart (number-conversion)"?>
 {% prettify dart %}
@@ -505,8 +493,9 @@ String piAsString = 3.14159.toStringAsFixed(2);
 assert(piAsString == '3.14');
 {% endprettify %}
 
-The int type specifies the traditional bitwise shift (\<\<, \>\>), AND
-(&), and OR (|) operators. For example:
+Тип int поддерживает традиционные побитовые операторы сдвига (\<\<, \>\>),
+побитовые логические операторы: И (&), ИЛИ (|).
+Например:
 
 <?code-excerpt "misc/test/language_tour/built_in_types_test.dart (bit-shifting)"?>
 {% prettify dart %}
@@ -515,10 +504,9 @@ assert((3 >> 1) == 1); // 0011 >> 1 == 0001
 assert((3 | 4) == 7); // 0011 | 0100 == 0111
 {% endprettify %}
 
-Literal numbers are compile-time constants.
-Many arithmetic expressions are also compile-time constants,
-as long as their operands are
-compile-time constants that evaluate to numbers.
+Литералы чисел - константы времени компиляции.
+Многие арифметические выражения также константы времени компиляции,
+до тех пор, пока их операнды константы времени компиляции, которые вычисляются в числа.
 
 <?code-excerpt "misc/lib/language_tour/built_in_types.dart (const-num)"?>
 {% prettify dart %}
@@ -528,148 +516,143 @@ const msUntilRetry = secondsUntilRetry * msPerSecond;
 {% endprettify %}
 
 
-### Strings
+### Строки
 
-A Dart string is a sequence of UTF-16 code units. You can use either
-single or double quotes to create a string:
+В Dart строки - это последовательность кодовых единиц UTF-16.
+Вы можете использовать либо одиночные, либо двойные кавычки для создания строки:
 
 <?code-excerpt "misc/lib/language_tour/built_in_types.dart (quoting)"?>
 {% prettify dart %}
-var s1 = 'Single quotes work well for string literals.';
-var s2 = "Double quotes work just as well.";
-var s3 = 'It\'s easy to escape the string delimiter.';
-var s4 = "It's even easier to use the other delimiter.";
+var s1 = 'Одиночные ковычки отлично работают для строковых литералов.';
+var s2 = "Двойные кавычки работают просто отлично.";
+var s3 = 'Легко экранировать \'разделитель\' строки.';
+var s4 = "Ещё проще использовать другой 'разделитель'.";
 {% endprettify %}
 
-You can put the value of an expression inside a string by using
-`${`*`expression`*`}`. If the expression is an identifier, you can skip
-the {}. To get the string corresponding to an object, Dart calls the
-object’s `toString()` method.
+Вы можете поместить значение выражения внутрь строки, используя
+`${`*`выражение`*`}`. Если выражение - идентификатор, вы можете опустить {}.
+Чтобы получить строковое представление объекта, Dart вызывает метод `toString()` у этого объекта.
 
 <?code-excerpt "misc/test/language_tour/built_in_types_test.dart (string-interpolation)"?>
 {% prettify dart %}
-var s = 'string interpolation';
+var s = 'интерполяция строки';
 
-assert('Dart has $s, which is very handy.' ==
-    'Dart has string interpolation, ' +
-        'which is very handy.');
-assert('That deserves all caps. ' +
-        '${s.toUpperCase()} is very handy!' ==
-    'That deserves all caps. ' +
-        'STRING INTERPOLATION is very handy!');
+assert('У Dart есть $s, которая очень проста.' ==
+    'У Dart есть интерполяция строки, которая очень проста.');
+assert('Это заслуживает больших букв. ' +
+        '${s.toUpperCase()} очень проста!' ==
+    'Это заслуживает больших букв. ИНТЕРПОЛЯЦИЯ СТРОКИ очень проста!');
 {% endprettify %}
 
 <div class="alert alert-info" markdown="1">
-**Note:**
-The `==` operator tests whether two objects are equivalent. Two
-strings are equivalent if they contain the same sequence of code
-units.
+**Замечание:**
+Оператор `==` проверяет два объекта на эквивалентность. Две строки
+эквивалентны, если они содержат одинаковую последовательность кодовых единиц.
 </div>
 
-You can concatenate strings using adjacent string literals or the `+`
-operator:
+Вы можете конкатенировать строки, используя смежный литерал строки или
+оператор `+`:
 
 <?code-excerpt "misc/test/language_tour/built_in_types_test.dart (adjacent-string-literals)"?>
 {% prettify dart %}
-var s1 = 'String '
-    'concatenation'
-    " works even over line breaks.";
+var s1 = 'Конкатенация '
+    'строк'
+    " работает даже с разрывами строк.";
 assert(s1 ==
-    'String concatenation works even over '
-        'line breaks.');
+    'Конкатенация строк'
+    ' работает даже с разрывами строк.');
 
-var s2 = 'The + operator ' + 'works, as well.';
-assert(s2 == 'The + operator works, as well.');
+var s2 = 'Оператор + ' + 'работает отлично.';
+assert(s2 == 'Оператор + работает отлично.');
 {% endprettify %}
 
-Another way to create a multi-line string: use a triple quote with
-either single or double quotation marks:
+Другой путь создания многострочных строк:
+использовать тройные кавычки (три одиночные или из три двойные):
 
 <?code-excerpt "misc/lib/language_tour/built_in_types.dart (triple-quotes)"?>
 {% prettify dart %}
 var s1 = '''
-You can create
-multi-line strings like this one.
+Вы можете создать
+многострочную строку как эта.
 ''';
 
-var s2 = """This is also a
-multi-line string.""";
+var s2 = """Это также
+многострочная строка.""";
 {% endprettify %}
 
-You can create a “raw” string by prefixing it with `r`:
+Вы можете создать "сырую" строку с помощью префикса `r`:
 
 <?code-excerpt "misc/lib/language_tour/built_in_types.dart (raw-strings)"?>
 {% prettify dart %}
-var s = r'In a raw string, not even \n gets special treatment.';
+var s = r'В сырой строке не обрабатывается даже \n .';
 {% endprettify %}
 
-See [Runes](#runes) for details on how to express Unicode
-characters in a string.
+Смотрите [Руны](#runes) чтобы узнать как представить символы Unicode в строку.
 
-Literal strings are compile-time constants,
-as long as any interpolated expression is a compile-time constant
-that evaluates to null or a numeric, string, or boolean value.
+Литералы строк являются константами времени компиляции,
+как и любое другое интерполированное выражение является константой времени компиляции,
+кототорое вычисляется в null, число, строку или логическое значение.
 
 <?code-excerpt "misc/lib/language_tour/built_in_types.dart (string-literals)"?>
 {% prettify dart %}
-// These work in a const string.
+// Это работает в константных строках
 const aConstNum = 0;
 const aConstBool = true;
 const aConstString = 'a constant string';
 
-// These do NOT work in a const string.
+// Это не работает в константных строках
 var aNum = 0;
 var aBool = true;
-var aString = 'a string';
+var aString = 'строка';
 const aConstList = [1, 2, 3];
 
 const validConstString = '$aConstNum $aConstBool $aConstString';
 // const invalidConstString = '$aNum $aBool $aString $aConstList';
 {% endprettify %}
 
-For more information on using strings, see
-[Strings and regular expressions](/guides/libraries/library-tour#strings-and-regular-expressions).
+Более подробную информацию об использовании строк, смотрите
+[Строки и регулярные выражения](/guides/libraries/library-tour#strings-and-regular-expressions).
 
 
-### Booleans
+### Логические значения
 
-To represent boolean values, Dart has a type named `bool`. Only two
-objects have type bool: the boolean literals `true` and `false`,
-which are both compile-time constants.
+Для представления логических значений, у Dart сть тип, называемый `bool`.
+Только два объекта имеют тип bool: логические литералы `true` и `false`,
+которые оба константы времени компиляции.
 
-Dart's type safety means that you can't use code like
-<code>if (<em>nonbooleanValue</em>)</code> or
-<code>assert (<em>nonbooleanValue</em>)</code>.
-Instead, explicitly check for values, like this:
+Безопасность типов в Dart не даёт использовать такой код, как
+<code>if (<em>неЛогическоеЗначение</em>)</code> или
+<code>assert (<em>неЛогическоеЗначение</em>)</code>.
+Вместо этого, следует использовать явную проверку значений, как тут:
 
 <?code-excerpt "misc/test/language_tour/built_in_types_test.dart (no-truthy)"?>
 {% prettify dart %}
-// Check for an empty string.
+// Проверка строки на пустоту.
 var fullName = '';
 assert(fullName.isEmpty);
 
-// Check for zero.
+// Проверка на ноль.
 var hitPoints = 0;
 assert(hitPoints <= 0);
 
-// Check for null.
+// Проверка на null.
 var unicorn;
 assert(unicorn == null);
 
-// Check for NaN.
+// Проверка на NaN.
 var iMeantToDoThis = 0 / 0;
 assert(iMeantToDoThis.isNaN);
 {% endprettify %}
 
 
-### Lists
+### Списки
 
-Perhaps the most common collection in nearly every programming language
-is the *array*, or ordered group of objects. In Dart, arrays are
-[List][] objects, so most people just call them *lists*.
+Наиболее распространёная коллекция почти в каждом языке программирования - *массив* или
+упорядоченная группа объектов. В Dart массив - это [Список][] объектов, так что большинство людей
+называют их просто *списки*.
 
-Dart list literals look like JavaScript array literals. Here’s a simple
-Dart list:
+В Dart литерал списка выглядит также, как в JavaScript литерал массива.
+Ниже пример списка в Dart:
 
 <?code-excerpt "misc/lib/language_tour/built_in_types.dart (list-literal)"?>
 {% prettify dart %}
@@ -677,18 +660,16 @@ var list = [1, 2, 3];
 {% endprettify %}
 
 <aside class="alert alert-info" markdown="1">
-  **Note:**
-  Dart infers that `list` has type `List<int>`.
-  If you try to add non-integer objects to this list,
-  the analyzer or runtime raises an error.
-  For more information, read about
-  [type inference.](/guides/language/sound-dart#type-inference)
+  **Замечание:**
+  Анализатор выведет, что `list` имеет тип `List<ing>`.
+  Если вы попробуете добавить не целочисленный объект в этот список,
+  анализатор сообщит об ошибке или ошибка будет выдана во время исполнения.
+  Для большей информацией, читайте о [выводе типов]](/guides/language/sound-dart#type-inference)
 </aside>
 
-Lists use zero-based indexing, where 0 is the index of the first element
-and `list.length - 1` is the index of the last element. You can get a
-list’s length and refer to list elements just as you would in
-JavaScript:
+Списки используют индексацию с нуля, когда 0 - индекс первого элемента и
+`list.length - 1` - индекс последнего. Вы можете получить длинну списка и сослаться
+на элемент списка также просто, как в JavaScript:
 
 <?code-excerpt "misc/test/language_tour/built_in_types_test.dart (list-indexing)"?>
 {% prettify dart %}
@@ -700,22 +681,22 @@ list[1] = 1;
 assert(list[1] == 1);
 {% endprettify %}
 
-To create a list that's a compile-time constant,
-add `const` before the list literal:
+Для создания списка, который будет константой времени компиляции,
+добавте `const` перед литералом списка:
 
 <?code-excerpt "misc/lib/language_tour/built_in_types.dart (const-list)"?>
 {% prettify dart %}
 var constantList = const [1, 2, 3];
-// constantList[1] = 1; // Uncommenting this causes an error.
+// constantList[1] = 1; // Раскомментировав это, получите ошибку.
 {% endprettify %}
 
 <a id="spread-operator"> </a>
-Dart 2.3 introduced the **spread operator** (`...`) and the
-**null-aware spread operator** (`...?`),
-which provide a concise way to insert multiple elements into a collection.
+В Dart 2.3 был добавлен the **оператор spread** (`...`) and the
+**null-aware spread оператор** (`...?`), который предоставляет короткий способ
+вставить множество элементов в коллекцию.
 
-For example, you can use the spread operator (`...`) to insert
-all the elements of a list into another list:
+Например, вы можете использовать оператор spread (`...`), чтобы вставить
+все элементы из одного списка в другой список:
 
 <?code-excerpt "misc/test/language_tour/built_in_types_test.dart (list-spread)"?>
 {% prettify dart %}
@@ -724,8 +705,8 @@ var list2 = [0, ...list];
 assert(list2.length == 4);
 {% endprettify %}
 
-If the expression to the right of the spread operator might be null,
-you can avoid exceptions by using a null-aware spread operator (`...?`):
+Если выражение справа от spread оператора может быть null,
+вы можете избежать исключений с помощью null-aware spread оператора (`...?`):
 
 <?code-excerpt "misc/test/language_tour/built_in_types_test.dart (list-null-spread)"?>
 {% prettify dart %}
@@ -734,16 +715,16 @@ var list2 = [0, ...?list];
 assert(list2.length == 1);
 {% endprettify %}
 
-For more details and examples of using the spread operator, see the 
-[spread operator proposal.][spread proposal]
+За подробностями и примерами использования оператора spread, смотрите 
+[предложение по оператору spread][spread proposal].
 
 <a id="collection-operators"> </a>
-Dart 2.3 also introduced **collection if** and **collection for**,
-which you can use to build collections using conditionals (`if`)
-and repetition (`for`).
+В Dart 2.3 также добавлен **if для коллекций** и **for для коллекций**,
+который вы можете использовать для создания коллекций, 
+используя условия (`if`) и циклы (`for`).
 
-Here's an example of using **collection if**
-to create a list with three or four items in it:
+Ниже пример использования **if для коллекций**,
+чтобы создать список с 3 или 4 элементами:
 
 <?code-excerpt "misc/test/language_tour/built_in_types_test.dart (list-if)"?>
 {% prettify dart %}
@@ -755,9 +736,8 @@ var nav = [
 ];
 {% endprettify %}
 
-Here's an example of using **collection for**
-to manipulate the items of a list before
-adding them to another list:
+Далее пример использования **for для коллекций**,
+чтобы обработать элементы списка перед добавлением их в другой список:
 
 <?code-excerpt "misc/test/language_tour/built_in_types_test.dart (list-for)"?>
 {% prettify dart %}
@@ -769,29 +749,30 @@ var listOfStrings = [
 assert(listOfStrings[1] == '#1');
 {% endprettify %}
 
-For more details and examples of using collection if and for, see the 
-[control flow collections proposal.][collections proposal]
+Подробности и примеры использования if и for для коллекций смотрите 
+[предложение по управляющим инструкциям в коллекциях][collections proposal].
 
 [collections proposal]: https://github.com/dart-lang/language/blob/master/accepted/2.3/control-flow-collections/feature-specification.md
 
 [spread proposal]: https://github.com/dart-lang/language/blob/master/accepted/2.3/spread-collections/feature-specification.md
 
-The List type has many handy methods for manipulating lists. For more
-information about lists, see [Generics](#generics) and
-[Collections](/guides/libraries/library-tour#collections).
+Тип List имеет много простых методов для обработки списков. Более подробную
+информацию о списках смотрите [Обобщения](#generics) и
+[Коллекции](/guides/libraries/library-tour#collections).
 
 
-### Sets
+### Множества
 
-A set in Dart is an unordered collection of unique items.
-Dart support for sets is provided by set literals and the [Set][] type.
+Множества в Dart - это неупорядоченная коллекция уникальных элементов.
+Для множеств Dart поддерживает литерал множества и тип [Set][].
 
 <aside class="alert alert-info" markdown="1">
-  **Version note:** Although the Set _type_ has always been a core part of Dart,
-  set _literals_ were introduced in Dart 2.2.
+  **Замечание по версии:**
+  Несмотря на то, что _тип_ Set всегда был частью языка Dart,
+  _литералы_ множеств были введены в Dart 2.2.
 </aside>
 
-Here is a simple Dart set, created using a set literal:
+Ниже пример множества на Dart, созданного с использованием литерала множеств: 
 
 <?code-excerpt "misc/lib/language_tour/built_in_types.dart (set-literal)"?>
 {% prettify dart %}
