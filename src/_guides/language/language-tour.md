@@ -780,33 +780,33 @@ var halogens = {'fluorine', 'chlorine', 'bromine', 'iodine', 'astatine'};
 {% endprettify %}
 
 <aside class="alert alert-info" markdown="1">
-  **Note:**
-  Dart infers that `halogens` has the type
-  `Set<String>`. If you try to add the wrong type of value
-  to the set, the analyzer or runtime raises an error.
-  For more information, read about
-  [type inference.](/guides/language/sound-dart#type-inference)
+  **Замечание:**
+  Для `halogens` Dart выведет тип `Set<String>`. 
+  Если вы попробуете добавить значение неправильного типа в множество,
+  анализатор или во время исполнения будет поднята ошибка.
+  Более подробную читайте о 
+  [выводе типа](/guides/language/sound-dart#type-inference).
 </aside>
 
-To create an empty set, use `{}` preceded by a type argument,
-or assign `{}` to a variable of type `Set`:
+Чтобы создать пустое множество, используйте `{}` с предшествующим типом
+или присвойте `{}`:
 
 <?code-excerpt "misc/lib/language_tour/built_in_types.dart (set-vs-map)"?>
 {% prettify dart %}
 var names = <String>{};
-// Set<String> names = {}; // This works, too.
-// var names = {}; // Creates a map, not a set.
+// Set<String> names = {}; // Это тоже работает
+// var names = {}; // Создает мапу, не множество
 {% endprettify %}
 
 <aside class="alert alert-info" markdown="1">
-  **Set or map?**
-  The syntax for map literals is similar to that for set literals.
-  Because map literals came first, `{}` defaults to the `Map` type.
-  If you forget the type annotation on `{}` or the variable it's assigned to,
-  then Dart creates an object of type `Map<dynamic, dynamic>`.
+  **Множество или мапа?**
+  Синтаксис для литералов мап похож на литералы множества.
+  Так как литералы мап появились раньше, `{}` имеет тип `Map`.
+  Если вы забыли добавить аннотацию типа в `{}`,
+  Dart создаст объект типа `Map<dynamic, dynamic>`.
 </aside>
 
-Add items to an existing set using the `add()` or `addAll()` methods:
+Добавить элементы в существующее множество, используя методы `add()` или `addAll()`:
 
 <?code-excerpt "misc/lib/language_tour/built_in_types.dart (set-add-items)"?>
 {% prettify dart %}
@@ -815,7 +815,7 @@ elements.add('fluorine');
 elements.addAll(halogens);
 {% endprettify %}
 
-Use `.length` to get the number of items in the set:
+Воспользуйтесь `.length` чтобы получить количество элементов в множестве:
 
 <?code-excerpt "misc/test/language_tour/built_in_types_test.dart (set-length)"?>
 {% prettify dart %}
@@ -825,8 +825,8 @@ elements.addAll(halogens);
 assert(elements.length == 5);
 {% endprettify %}
 
-To create a set that's a compile-time constant,
-add `const` before the set literal:
+Чтобы создать множество, которое будет константой времени компиляции,
+добавте `const` перед литералом множества:
 
 <?code-excerpt "misc/lib/language_tour/built_in_types.dart (const-set)"?>
 {% prettify dart %}
@@ -837,33 +837,34 @@ final constantSet = const {
   'iodine',
   'astatine',
 };
-// constantSet.add('helium'); // Uncommenting this causes an error.
+// constantSet.add('helium'); // Раскоментировав это, получите ошибку.
 {% endprettify %}
 
-As of Dart 2.3, sets support spread operators (`...` and `...?`)
-and collection ifs and fors,
-just like lists do.
-For more information, see the
-[list spread operator](#spread-operator) and
-[list collection operator](#collection-operators) discussions.
 
-For more information about sets, see
-[Generics](#generics) and
-[Sets](/guides/libraries/library-tour#sets).
+Для множеств Dart 2.3 поддерживает оператор spread (`...` и `...?`) и
+if, for для коллекций, также просто как и для списков.
+Подробнее читайте обсуждения
+[оператор spread](#spread-operator) и
+[оператор обработки списков](#collection-operators).
 
-### Maps
+Более подробную информацию о множествах, смотрите
+[Обобщения](#generics) и
+[Множества](/guides/libraries/library-tour#sets).
 
-In general, a map is an object that associates keys and values. Both
-keys and values can be any type of object. Each *key* occurs only once,
-but you can use the same *value* multiple times. Dart support for maps
-is provided by map literals and the [Map][] type.
 
-Here are a couple of simple Dart maps, created using map literals:
+### Мапы
+
+В общем, мапа - это объект, в котором ключи, ассоциированы со значением.
+Ключи и значения могут быть объектами любого типа. Каждый *ключ* встречается только один раз,
+но вы можете использовать некоторые *значения* множество раз. Dart поддерживает
+литерал мап и тип [Map][].
+
+Здесь пара простых мап на Dart, созданных, используя литерал мап:
 
 <?code-excerpt "misc/lib/language_tour/built_in_types.dart (map-literal)"?>
 {% prettify dart %}
 var gifts = {
-  // Key:    Value
+  // Ключ:    Значение
   'first': 'partridge',
   'second': 'turtledoves',
   'fifth': 'golden rings'
@@ -877,16 +878,15 @@ var nobleGases = {
 {% endprettify %}
 
 <aside class="alert alert-info" markdown="1">
-  **Note:**
-  Dart infers that `gifts` has the type
-  `Map<String, String>` and `nobleGases` has the type
-  `Map<int, String>`. If you try to add the wrong type of value
-  to either map, the analyzer or runtime raises an error.
-  For more information, read about
-  [type inference.](/guides/language/sound-dart#type-inference)
+  **Замечание:**
+  Анализатор выведет, что `gifts` имеет тип `Map<String, String>` и
+  `nobleGases` имеет тип `Map<int, String>`. Если вы попробуете добавить
+  значение неправильного типа в эту мапу,
+  анализатор сообщит об ошибке или ошибка будет выдана во время исполнения.
+  За большей информацией, читайте о [выводе типов](/guides/language/sound-dart#type-inference).
 </aside>
 
-You can create the same objects using a Map constructor:
+Вы можете создать некоторые объекты, используя конструктор мап:
 
 <?code-excerpt "misc/lib/language_tour/built_in_types.dart (map-constructor)"?>
 {% prettify dart %}
@@ -902,22 +902,21 @@ nobleGases[18] = 'argon';
 {% endprettify %}
 
 <aside class="alert alert-info" markdown="1">
-**Note:**
-You might expect to see `new Map()` instead of just `Map()`.
-As of Dart 2, the `new` keyword is optional.
-For details, see [Using constructors](#using-constructors).
+**Замечание:**
+Возможно вы заметили вместо `new Map()` просто `Map()`.
+Начиная с Dart 2, ключевое слово `new` опционально.
+За деталями, смотрите [Использование конструкторов](#using-constructors).
 </aside>
 
-Add a new key-value pair to an existing map just as you would in
-JavaScript:
+Добавить новую пару ключ-значение в существующую мапу просто как и в JavaScript:
 
 <?code-excerpt "misc/lib/language_tour/built_in_types.dart (map-add-item)"?>
 {% prettify dart %}
 var gifts = {'first': 'partridge'};
-gifts['fourth'] = 'calling birds'; // Add a key-value pair
+gifts['fourth'] = 'calling birds'; // Добавление новой пары ключ-значение
 {% endprettify %}
 
-Retrieve a value from a map the same way you would in JavaScript:
+Получение значения из мапы выглядит похоже, как в JavaScript:
 
 <?code-excerpt "misc/test/language_tour/built_in_types_test.dart (map-retrieve-item)"?>
 {% prettify dart %}
@@ -925,7 +924,7 @@ var gifts = {'first': 'partridge'};
 assert(gifts['first'] == 'partridge');
 {% endprettify %}
 
-If you look for a key that isn’t in a map, you get a null in return:
+Если ключа нет в мапе, вы получите null:
 
 <?code-excerpt "misc/test/language_tour/built_in_types_test.dart (map-missing-key)"?>
 {% prettify dart %}
@@ -933,7 +932,7 @@ var gifts = {'first': 'partridge'};
 assert(gifts['fifth'] == null);
 {% endprettify %}
 
-Use `.length` to get the number of key-value pairs in the map:
+Используйте `.length` для получения количества пар ключ-значение в мапе:
 
 <?code-excerpt "misc/test/language_tour/built_in_types_test.dart (map-length)"?>
 {% prettify dart %}
@@ -942,8 +941,8 @@ gifts['fourth'] = 'calling birds';
 assert(gifts.length == 2);
 {% endprettify %}
 
-To create a map that's a compile-time constant,
-add `const` before the map literal:
+Чтобы создать мапу, которая будет константой времени компиляции,
+добавте перед литералом мапы `const` :
 
 <?code-excerpt "misc/lib/language_tour/built_in_types.dart (const-map)"?>
 {% prettify dart %}
@@ -953,45 +952,44 @@ final constantMap = const {
   18: 'argon',
 };
 
-// constantMap[2] = 'Helium'; // Uncommenting this causes an error.
+// constantMap[2] = 'Helium'; // Раскомментировав это, получите ошибку
 {% endprettify %}
 
-As of Dart 2.3, maps support spread operators (`...` and `...?`)
-and collection if and for, just like lists do.
-For details and examples, see the
-[spread operator proposal][spread proposal] and the
-[control flow collections proposal.][collections proposal]
+В Dart 2.3, мапы поддерживают оператор spread (`...` и `...?`)
+и if, for для коллекций, также просто как и для списков.
+Подробности и примеры смотрите
+[предложение по оператору spread][spread proposal] и
+[предложение по управляющим инструкциям в коллекциях][collections proposal].
 
-For more information about maps, see
-[Generics](#generics) and
-[Maps](/guides/libraries/library-tour#maps).
+Больше информации о мапах, смотрите
+[Обобщения](#generics) и
+[Мапы](/guides/libraries/library-tour#maps).
 
-### Runes
 
-In Dart, runes are the UTF-32 code points of a string.
+### Руны
 
-Unicode defines a unique numeric value for each letter, digit,
-and symbol used in all of the world's writing systems.
-Because a Dart string is a sequence of UTF-16 code units,
-expressing 32-bit Unicode values within a string requires
-special syntax.
+В Dart руны - это строки из кодовых точек UTF-32.
 
-The usual way to express a Unicode code point is
-`\uXXXX`, where XXXX is a 4-digit hexadecimal value.
-For example, the heart character (♥) is `\u2665`.
-To specify more or less than 4 hex digits,
-place the value in curly brackets.
-For example, the laughing emoji (😆) is `\u{1f600}`.
+Unicode определяет уникальное числовое значение для каждой буквы,
+цифры и символа, используемых во всех мировых системах письма.
+Так как в Dart строки - последовательность кодовых единиц UTF-16,
+вычисление 32 битных Unicode значений в строках требует специального синтаксиса.
 
-The [String][]
-class has several properties you can use to extract rune information.
-The `codeUnitAt` and `codeUnit` properties return 16-bit code
-units. Use the `runes` property to get the runes of a string.
+Обычный способ для вычисления кодовых точек Unicode - `\uXXXX`,
+где XXXX - шестнадцатеричное значение из 4 цифр.
+Например, символ сердца (♥) - `\u2665`.
+Чтобы указать больше или меньше, чем 4 шестнадцатеричные цифры,
+поместите значение в фигурные скобки.
+Например, смеющийся смайлик (😆) - `\u{1f600}`.
 
-The following example illustrates the relationship between runes,
-16-bit code units, and 32-bit code points.
-Click the run button {% asset red-run.png alt="" %}
-to see runes in action.
+У Класса [String][]
+несколько свойств могут извлекать информацию о рунах.
+Свойства `codeUnitAt` и `codeUnit` возвращают 16 битные кодовые единицы.
+Используйте свойство `runes`, чтобы получить руны из строки.
+
+Следующий пример иллюстрирует взаимосвязь между рунами 16 битных кодовых единиц и
+32 битных кодовых единиц.
+Нажмите на кнопку запуска {% asset red-run.png alt="" %}, чтобы увидеть руны в действии.
 
 {% comment %}
 https://gist.github.com/589bc5c95318696cefe5
@@ -1021,24 +1019,23 @@ src="{{site.custom.dartpad.embed-inline-prefix}}?id=589bc5c95318696cefe5&vertica
 </iframe>
 
 <div class="alert alert-warning" markdown="1">
-**Note:**
-Be careful when manipulating runes using list operations.
-This approach can easily break down,
-depending on the particular language, character set, and operation.
-For more information, see
-[How do I reverse a String in Dart?](http://stackoverflow.com/questions/21521729/how-do-i-reverse-a-string-in-dart) on Stack Overflow.
+**Замечание:**
+Будьте осторожны, когда обрабатываете руны, используя операции списков.
+Этот подход может легко сломаться, в зависимости от конкретного языка, набора символов и операций.
+Больше информации смотрите в [Как мне перевернуть строку в Dart?](http://stackoverflow.com/questions/21521729/how-do-i-reverse-a-string-in-dart) на Stack Overflow.
 </div>
 
-### Symbols
+### Символы
 
-A [Symbol][] object
-represents an operator or identifier declared in a Dart program. You
-might never need to use symbols, but they're invaluable for APIs that
-refer to identifiers by name, because minification changes identifier
-names but not identifier symbols.
+Объекты [Symbol][]
+представляют оператор или идентификатор в программе на Dart.
+Возможно вам никогда не нужно будет использовать символы, но они бесцены
+для API, чтобы ссылаться на идентификаторы по именам, так как минификация
+изменяет имена идентификаторов, но не изменяет имена идентификаторов символов.
 
-To get the symbol for an identifier, use a symbol literal, which is just
-`#` followed by the identifier:
+Чтобы получить символ для идентификатора,
+используйте символьный литерал, который является просто #,
+за которым следует идентификатор:
 
 ```nocode
 #radix
@@ -1066,7 +1063,7 @@ int handleError(String source) {
 {% endprettify %}
 {% endcomment %}
 
-Symbol literals are compile-time constants.
+Литералы символов - константы времени компиляции.
 
 
 ## Functions
